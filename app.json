@@ -1,0 +1,40 @@
+{
+  "name": "posicionamento",
+  "displayName": "posicionamento",
+  "expo": {
+    "name": "posicionamento",
+    "scheme": "posicionamento",
+    "slug": "posicionamento",
+    "version": "2021.10.02",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#00923f"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#00923f"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#00923f",
+      "barStyle": "light-content",
+      "translucent": false
+    }
+  }
+}
