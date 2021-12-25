@@ -4,27 +4,38 @@ import {
   TextInput,
   Title,
   Button,
-  useTheme
+  useTheme,
+  HelperText
 } from 'react-native-paper'
 
 import { useAppSelector, useAppDispatch } from '../../hooks'
-import { singInDataType, singInAsync, isSigned as isSignedRedux } from '../../redux/reducers/access'
+import {
+  singInDataType,
+  singInAsync,
+  errorSingIn as errorSingInRedux
+} from '../../redux/reducers/access'
 
 const SignInUp: React.FC = () => {
-  const signed = useAppSelector(isSignedRedux)
+  const errorSingIn = useAppSelector(errorSingInRedux)
   const dispatch = useAppDispatch()
 
   const { colors } = useTheme()
 
+  const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const [userLogin, setUserLogin] = useState<string>('')
   const [userPass, setUserPass] = useState<string>('')
 
   async function handleSubmit() {
+    setIsSubmit(true)
+
     const singInAsyncData: singInDataType = {
       login: userLogin,
       pass: userPass
     }
     dispatch(singInAsync(singInAsyncData))
+
+    setUserPass('')
+    setIsSubmit(false)
   }
 
   return (
@@ -32,10 +43,10 @@ const SignInUp: React.FC = () => {
       <View
         style={[
           styles.container,
-          { backgroundColor: colors.background, marginTop: 16 }
+          { backgroundColor: colors.background }
         ]}
       >
-        <View style={styles.row}>
+        <View style={[styles.row, { marginTop: 32 }]}>
           <Title style={[styles.text, { textAlign: 'center' }]}>
             Digite o seu e-mail ou usuário
           </Title>
@@ -52,11 +63,16 @@ const SignInUp: React.FC = () => {
             onChangeText={text => setUserPass(text)}
             secureTextEntry={true}
           />
+          { !!errorSingIn &&
+          <HelperText type="error">
+            {errorSingIn.message}
+          </HelperText>
+          }
           <Button
             mode="contained"
             style={styles.button}
             onPress={handleSubmit}
-            disabled={!userLogin || !userPass}
+            disabled={isSubmit || (!userLogin || !userPass)}
           >
             Entrar
           </Button>

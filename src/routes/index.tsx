@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
-import { Text } from 'react-native'
 import AppLoading from 'expo-app-loading'
 
 import AppRoutes from './App/index.routes'
 import AuthRoutes from './Auth/index.routes'
-import { useAppSelector } from '../hooks'
-
-import { useAppDispatch } from '../hooks'
+import { useAppSelector, useAppDispatch } from '../hooks'
 import { loadStorageDataAsync, isSigned as isSignedRedux } from '../redux/reducers/access'
 
 export function Routes() {

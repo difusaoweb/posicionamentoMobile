@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper'
+import { Provider as PaperProvider, DarkTheme } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider as ReduxProvider } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native'
@@ -8,10 +8,10 @@ import { Routes } from './src/routes'
 import store from './src/redux'
 
 const theme = {
-  ...DefaultTheme,
+  ...DarkTheme,
   colors: {
-    ...DefaultTheme.colors,
-    primary: 'tomato',
+    ...DarkTheme.colors,
+    primary: '#857dcc',
     accent: 'yellow'
   }
 }
