@@ -20,12 +20,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-8947654147770289~8271642656"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#121212"
+      },
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-8947654147770289~7091736003"
       }
     },
     "web": {
@@ -35,6 +41,14 @@
       "backgroundColor": "#121212",
       "barStyle": "light-content",
       "translucent": false
-    }
+    },
+    "plugins": [
+      [
+        "expo-ads-admob",
+        {
+          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+        }
+      ]
+    ]
   }
 }

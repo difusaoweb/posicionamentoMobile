@@ -12,16 +12,29 @@ import {
   useTheme,
   HelperText
 } from 'react-native-paper'
+import {
+  AdMobBanner,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob'
+
 import ListAfirmationsHome from '../components/ecosystems/ListAfirmationsHome'
-import { useAppSelector } from '../hooks'
-import { currnetUser as currnetUserRedux } from '../redux/reducers/access'
+
 
 export function HomePage() {
-  const user = useAppSelector(currnetUserRedux)
   const { colors } = useTheme()
+
+  async () => {
+    await setTestDeviceIDAsync('EMULATOR')
+  }
 
   return (
     <>
+      <AdMobBanner
+        bannerSize="fullBanner"
+        adUnitID="ca-app-pub-8947654147770289/2160324592"
+        servePersonalizedAds={true}
+        onDidFailToReceiveAdWithError={(error)=> { console.log(error) }}
+      />
       <View
         style={[
           styles.container,
@@ -32,9 +45,7 @@ export function HomePage() {
           <Title style={[styles.text, { textAlign: 'center' }]}>
             Home
           </Title>
-          <Title style={styles.text}>
-            {user.display_name}
-          </Title>
+          <ListAfirmationsHome />
         </View>
       </View>
     </>
