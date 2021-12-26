@@ -16,21 +16,27 @@ const ListAfirmationsHome = () => {
   } = useTheme()
 
   return (
-    // <ScrollView
-    //   style={[styles.container, { backgroundColor: background }]}
-    //   contentContainerStyle={styles.content}
-    // >
+    <>
+    {/* <ScrollView
+      style={[styles.container, { backgroundColor: background }]}
+      contentContainerStyle={styles.content}
+    > */}
       <Card style={styles.card}>
         <Card.Content>
           <Paragraph>
-            The Abandoned Ship is a wrecked ship located on Route 108 in Hoenn,
-            originally being a ship named the S.S. Cactus. The second part of
-            the ship can only be accessed by using Dive and contains the
-            Scanner.
+            A terra é plana.
           </Paragraph>
         </Card.Content>
       </Card>
-    // </ScrollView>
+      <Card style={styles.card}>
+        <Card.Content>
+          <Paragraph>
+            Tiktok é coisa de viado.
+          </Paragraph>
+        </Card.Content>
+      </Card>
+    {/* </ScrollView> */}
+    </>
   )
 }
 
