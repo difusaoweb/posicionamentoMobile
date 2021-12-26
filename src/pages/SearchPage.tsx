@@ -26,12 +26,7 @@ const SearchPage = ({ navigation }: Props) => {
   const [secondQuery, setSecondQuery] = React.useState<string>('')
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: colors.background }
-      ]}
-    >
+    <View style={[ styles.container, { backgroundColor: colors.background } ]}>
       <BannerHeader />
       <Searchbar
         placeholder="Search"

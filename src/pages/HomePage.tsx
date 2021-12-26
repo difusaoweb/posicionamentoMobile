@@ -21,12 +21,7 @@ export function HomePage() {
   const { colors } = useTheme()
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: colors.background }
-      ]}
-    >
+    <View style={[ styles.container, { backgroundColor: colors.background } ]}>
       <BannerHeader />
       <View style={[styles.row, { marginTop: 32 }]}>
         <ListAfirmationsHome />
