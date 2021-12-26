@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import {
+  StyleSheet,
+  View
+} from 'react-native'
 import {
   TextInput,
   Title,
@@ -7,6 +10,7 @@ import {
   useTheme,
   HelperText
 } from 'react-native-paper'
+import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 
 import { useAppSelector, useAppDispatch } from '../../hooks'
 import {
@@ -25,6 +29,8 @@ const SignInUp: React.FC = () => {
   const [userLogin, setUserLogin] = useState<string>('')
   const [userPass, setUserPass] = useState<string>('')
 
+  const [flatTextSecureEntry, setFlatTextSecureEntry] = useState<boolean>(true)
+
   async function handleSubmit() {
     setIsSubmit(true)
 
@@ -39,57 +45,60 @@ const SignInUp: React.FC = () => {
   }
 
   return (
-    <>
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: colors.background }
-        ]}
-      >
-        <View style={[styles.row, { marginTop: 32 }]}>
-          <Title style={[styles.text, { textAlign: 'center' }]}>
-            Digite o seu e-mail ou usuário
-          </Title>
-          <TextInput
-            style={styles.inputContainerStyle}
-            label="E-mail ou nome de usúario"
-            value={userLogin}
-            onChangeText={text => setUserLogin(text)}
-          />
-          <TextInput
-            style={styles.inputContainerStyle}
-            label="Senha"
-            value={userPass}
-            onChangeText={text => setUserPass(text)}
-            secureTextEntry={true}
-          />
-          { !!errorSingIn &&
-          <HelperText type="error">
-            {errorSingIn.message}
-          </HelperText>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: colors.background }
+      ]}
+    >
+      <View style={[styles.row, { marginTop: 32 }]}>
+        <Title>
+          Olá! Digite o seu e-mail ou usuário
+        </Title>
+        <TextInput
+          style={styles.inputContainerStyle}
+          label="E-mail ou nome de usúario"
+          value={userLogin}
+          onChangeText={text => setUserLogin(text)}
+        />
+        <TextInput
+          style={styles.inputContainerStyle}
+          label="Senha"
+          value={userPass}
+          onChangeText={text => setUserPass(text)}
+          secureTextEntry={flatTextSecureEntry}
+          right={
+            <TextInput.Icon
+              name={flatTextSecureEntry ? 'eye' : 'eye-off'}
+              onPress={() => setFlatTextSecureEntry(!flatTextSecureEntry)}
+              forceTextInputFocus={false}
+            />
           }
-          <Button
-            mode="contained"
-            style={styles.button}
-            onPress={handleSubmit}
-            disabled={isSubmit || (!userLogin || !userPass)}
-          >
-            Entrar
-          </Button>
-        </View>
+        />
+        { !!errorSingIn &&
+        <HelperText type="error">
+          {errorSingIn.message}
+        </HelperText>
+        }
+        <Button
+          mode="contained"
+          style={styles.button}
+          onPress={handleSubmit}
+          disabled={isSubmit || (!userLogin || !userPass)}
+        >
+          Entrar
+        </Button>
       </View>
-    </>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    paddingTop: getStatusBarHeight()
   },
   row: {
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // flexWrap: 'wrap',
     paddingHorizontal: 12
   },
   inputContainerStyle: {

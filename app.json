@@ -1,6 +1,4 @@
 {
-  "name": "posicionamento",
-  "displayName": "posicionamento",
   "expo": {
     "name": "posicionamento",
     "scheme": "posicionamento",
@@ -40,7 +38,7 @@
     "androidStatusBar": {
       "backgroundColor": "#121212",
       "barStyle": "light-content",
-      "translucent": false
+      "translucent": true
     },
     "plugins": [
       [

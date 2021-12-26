@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Provider as PaperProvider, DarkTheme } from 'react-native-paper'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider as ReduxProvider } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native'
 
@@ -16,17 +15,19 @@ const theme = {
   }
 }
 
+import { StatusBar } from 'expo-status-bar'
 
 export default function App() {
   return (
-    <ReduxProvider store={store}>
+    <>
+      <StatusBar style='light' />
       <PaperProvider theme={theme}>
-        <SafeAreaProvider>
+        <ReduxProvider store={store}>
           <NavigationContainer>
             <Routes />
           </NavigationContainer>
-        </SafeAreaProvider>
+        </ReduxProvider>
       </PaperProvider>
-    </ReduxProvider>
+    </>
   )
 }
