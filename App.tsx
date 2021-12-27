@@ -1,9 +1,10 @@
 import * as React from 'react'
+import { AppRegistry } from 'react-native'
 import { Provider as PaperProvider, DarkTheme } from 'react-native-paper'
 import { Provider as ReduxProvider } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native'
 
-import { Routes } from './src/routes'
+import Routes from './src/routes'
 import store from './src/redux'
 
 const theme = {
@@ -31,3 +32,5 @@ export default function App() {
     </>
   )
 }
+
+AppRegistry.registerComponent('my-app', () => App)
