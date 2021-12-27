@@ -104,9 +104,6 @@ const styles = StyleSheet.create({
   inputContainerStyle: {
     margin: 8
   },
-  text: {
-    marginVertical: 4
-  },
   button: {
     margin: 4
   }
