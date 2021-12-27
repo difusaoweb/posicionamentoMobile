@@ -11,6 +11,8 @@ import {
 } from 'react-native-paper'
 import { FontAwesome5 } from '@expo/vector-icons'
 
+import { numberOpinionFormated } from '../../../utils'
+
 interface Affirmation {
   message: string
   stronglyAgree: number | null
@@ -38,11 +40,11 @@ const HomeAffirmationListItem = ({
 }: Affirmation) => {
   const { colors } = useTheme()
 
-  stronglyAgree = 999,
-  agree = 999,
-  neutral = 999,
-  disagree = 999,
-  stronglyDisagree = 999
+  stronglyAgree = stronglyAgree ?? 0,
+  agree = agree ?? 0,
+  neutral = neutral ?? 0,
+  disagree = disagree ?? 0,
+  stronglyDisagree = stronglyDisagree ?? 0
 
   return (
     <Card
@@ -59,23 +61,43 @@ const HomeAffirmationListItem = ({
       <Card.Actions>
         <View style={styles.avaliationColumn}>
           <FontAwesome5 name="thumbs-up" size={12} style={[styles.icon, { color: colorOpinion.stronglyAgree }]} />
-          <Caption style={styles.text}>{stronglyAgree} K</Caption>
+          <Caption
+            style={styles.text}
+          >
+            {numberOpinionFormated(stronglyAgree)}
+          </Caption>
         </View>
         <View style={styles.avaliationColumn}>
           <FontAwesome5 name="thumbs-up" size={12} style={[styles.icon, { color: colorOpinion.agree, transform: [{ rotate: '45deg' }] }]} />
-          <Caption style={styles.text}>{agree} K</Caption>
+          <Caption
+            style={styles.text}
+          >
+            {numberOpinionFormated(agree)}
+          </Caption>
         </View>
         <View style={styles.avaliationColumn}>
           <FontAwesome5 name="thumbs-up" size={12} style={[styles.icon, { color: colorOpinion.neutral, transform: [{ rotate: '90deg' }] }]} />
-          <Caption style={styles.text}>{neutral} K</Caption>
+          <Caption
+            style={styles.text}
+          >
+            {numberOpinionFormated(neutral)}
+          </Caption>
         </View>
         <View style={styles.avaliationColumn}>
           <FontAwesome5 name="thumbs-up" size={12} style={[styles.icon, { color: colorOpinion.disagree, transform: [{ rotate: '135deg' }] }]} />
-          <Caption style={styles.text}>{disagree} K</Caption>
+          <Caption
+            style={styles.text}
+          >
+            {numberOpinionFormated(disagree)}
+          </Caption>
         </View>
         <View style={styles.avaliationColumn}>
           <FontAwesome5 name="thumbs-up" size={12} style={[styles.icon, { color: colorOpinion.stronglyDisagree, transform: [{ rotate: '180deg' }] }]} />
-          <Caption style={styles.text}>{stronglyDisagree} K</Caption>
+          <Caption
+            style={styles.text}
+          >
+            {numberOpinionFormated(stronglyDisagree)}
+          </Caption>
         </View>
       </Card.Actions>
     </Card>
