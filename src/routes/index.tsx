@@ -1,33 +1,23 @@
-import React, { useState } from 'react'
-import AppLoading from 'expo-app-loading'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React from 'react'
+import  { createStackNavigator } from '@react-navigation/stack'
 
 import AppRoutes from './App/index.routes'
 import AuthRoutes from './Auth/index.routes'
-import { useAppSelector, useAppDispatch } from '../hooks'
-import { loadStorageDataAsync, isSigned as isSignedRedux } from '../redux/reducers/access'
 
-import { StyleSheet, View } from 'react-native'
+const Stack = createStackNavigator()
 
-export function Routes() {
-  // const [isReady, setIsReady] = useState(true)
 
-  // const signed = useAppSelector(isSignedRedux)
-  // const dispatch = useAppDispatch()
-
-  // React.useEffect(() => {
-  //   function loadStorageData() {
-  //     dispatch(loadStorageDataAsync())
-  //     setIsReady(false)
-  //   }
-  //   loadStorageData()
-  // }, [])
-
-  // if(isReady)
-  //   return <AppLoading />
-
-  // return signed ? <AppRoutes /> : <AuthRoutes />
+const Routes = () => {
   return(
-    <AppRoutes />
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen
+        name="AppRoutes"
+        component={AppRoutes}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="AuthRoutes" component={AuthRoutes} />
+    </Stack.Navigator>
   )
 }
+
+export default Routes

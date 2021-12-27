@@ -1,13 +1,12 @@
 import * as React from 'react'
-import { BottomNavigation } from 'react-native-paper'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { useTheme } from 'react-native-paper'
 
-import { HomePage } from '../../pages/HomePage'
-import SearchPage from '../../pages/SearchPage'
-import { AddPage } from '../../pages/AddPage'
-import { ProfilePage } from '../../pages/ProfilePage'
+import HomePage from '../../pages/Home'
+import SearchPage from '../../pages/Search'
+import AddPage from '../../pages/Add'
+import ProfilePage from '../../pages/Profile'
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -44,7 +43,7 @@ const AppRoutes: React.FC = () => {
         name="AddPage"
         component={AddPage}
         options={{
-          tabBarLabel: 'Procurar',
+          tabBarLabel: 'Adicionar',
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="plus" color={color} size={20} />
           )
