@@ -64,8 +64,8 @@ export const accessSlice = createSlice({
 
 export const { saveSingIn, saveErrorSingIn, saveNullSingIn } = accessSlice.actions
 
-export const currnetUser = (state: RootState) => state.access.user
-export const currnetUserID = (state: RootState) => state.access.user.id
+export const currentUser = (state: RootState) => state.access.user
+export const currentUserID = (state: RootState) => state.access.user?.id
 export const isSigned = (state: RootState) => state.access.user ? true : false
 export const errorSingIn = (state: RootState) => state.access.errorSingIn
 
