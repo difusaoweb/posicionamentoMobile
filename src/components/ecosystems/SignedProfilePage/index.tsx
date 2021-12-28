@@ -28,19 +28,10 @@ const SignedProfilePage = () => {
 
   return (
     <>
-      <TextInput
-        mode="outlined"
-        label="Escreva sua afirmação"
-        multiline
-        style={styles.fixedHeight}
-      />
-      <Button
-        mode="contained"
-        style={styles.button}
-        onPress={handleGoLogin}
-      >
-        Entrar
-      </Button>
+      <Text>{curnentUser?.id}</Text>
+      <Text>{curnentUser?.user_login}</Text>
+      <Text>{curnentUser?.display_name}</Text>
+      <Text>{curnentUser?.user_email}</Text>
     </>
   )
 }

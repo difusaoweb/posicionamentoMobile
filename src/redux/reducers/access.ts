@@ -48,21 +48,25 @@ export const accessSlice = createSlice({
     saveSingIn: (state, action: PayloadAction<saveSingInActionProps>) => {
       state.token = action.payload.token
       state.user = action.payload.user
+      state.errorSingIn = null
     },
     saveErrorSingIn: (state, action: PayloadAction<saveErrorSingInActionProps>) => {
+      state.token = null
+      state.user = null
       state.errorSingIn = {
         status: action.payload.status,
         message: action.payload.message
       }
     },
-    saveNullSingIn: (state) => {
+    saveSingOut: (state) => {
       state.token = null
       state.user = null
+      state.errorSingIn = null
     }
   }
 })
 
-export const { saveSingIn, saveErrorSingIn, saveNullSingIn } = accessSlice.actions
+export const { saveSingIn, saveErrorSingIn, saveSingOut } = accessSlice.actions
 
 export const currentUser = (state: RootState) => state.access.user
 export const currentUserID = (state: RootState) => state.access.user?.id
@@ -102,12 +106,12 @@ export const singInAsync = ({login, pass}: singInDataType) => async dispatch => 
 
     api.defaults.headers.Authorization = `Bearer ${token}`
 
-    dispatch(saveSingIn(dataResponse))
-
     await AsyncStorage.multiSet([
       ['@PosicionamentoAuth:token', token],
       ['@PosicionamentoAuth:user', JSON.stringify(user)]
     ])
+
+    dispatch(saveSingIn(dataResponse))
 
   } catch (error) {
     dispatch(saveErrorSingIn({ status: error.request.status, message: error.message }))
@@ -116,7 +120,7 @@ export const singInAsync = ({login, pass}: singInDataType) => async dispatch => 
 
 export const singOutAsync = () => async dispatch => {
   await AsyncStorage.clear()
-  dispatch(saveNullSingIn())
+  dispatch(saveSingOut())
 }
 
 export default accessSlice.reducer

@@ -11,16 +11,23 @@ import {
   HelperText
 } from 'react-native-paper'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import type { StackNavigationProp } from '@react-navigation/stack'
 
 import { useAppSelector, useAppDispatch } from '../../hooks'
 import {
   singInDataType,
   singInAsync,
-  errorSingIn as errorSingInRedux
+  errorSingIn as errorSingInRedux,
+  currentUser as currentUserRedux
 } from '../../redux/reducers/access'
 
-const SignInUp: React.FC = () => {
+type SignInUpProps = {
+  navigation: StackNavigationProp<{}>
+}
+
+const SignInUp = ({ navigation }: SignInUpProps) => {
   const errorSingIn = useAppSelector(errorSingInRedux)
+  const currentUser = useAppSelector(currentUserRedux)
   const dispatch = useAppDispatch()
 
   const { colors } = useTheme()
@@ -43,6 +50,9 @@ const SignInUp: React.FC = () => {
     setUserPass('')
     setIsSubmit(false)
   }
+
+  if(currentUser)
+    navigation.goBack()
 
   return (
     <View
