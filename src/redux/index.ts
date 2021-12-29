@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import AccessReducer from './reducers/access'
+import AffirmationReducer from './reducers/affirmation'
 
 const store = configureStore({
   reducer: {
-    access: AccessReducer
+    access: AccessReducer,
+    affirmation: AffirmationReducer
   }
 })
 
