@@ -33,7 +33,7 @@ const AppRoutes: React.FC = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="AddPage"
+      initialRouteName="SearchPage"
       // initialRouteName="HomePage"
       activeColor={colors.text}
       inactiveColor={colors.disabled}
