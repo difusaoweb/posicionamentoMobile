@@ -6,11 +6,6 @@ import api from '../../services/api'
 export interface Affirmation {
   id: number,
   message: string
-  strongly_agree: number | null
-  agree: number | null
-  neutral: number | null
-  disagree: number | null
-  strongly_disagree: number | null
 }
 
 export interface SaveSearchInActionProps {
@@ -77,11 +72,7 @@ export const searchInAsync = ({ search }: SearchInDataType) => async dispatch =>
       search: search
     })
 
-    console.log(data)
-
-    const { affirmations } = data
-
-    dispatch(saveSearchIn({ affirmations: affirmations }))
+    dispatch(saveSearchIn({ affirmations: data }))
 
   } catch (error) {
     dispatch(saveErrorSearchIn({ status: error.request.status, message: error.message }))
