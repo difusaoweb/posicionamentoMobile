@@ -2,10 +2,7 @@ import * as React from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { useTheme } from 'react-native-paper'
-import AppLoading from 'expo-app-loading'
 
-import { useAppDispatch } from '../../hooks'
-import { loadStorageDataAsync } from '../../redux/reducers/access'
 import HomePage from '../../pages/Home'
 import SearchPage from '../../pages/Search'
 import AddPage from '../../pages/Add'
@@ -14,21 +11,7 @@ import ProfilePage from '../../pages/Profile'
 const TabStack = createMaterialBottomTabNavigator()
 
 const TabRoutes: React.FC = () => {
-  const [isReady, setIsReady] = React.useState(true)
-  const dispatch = useAppDispatch()
-
   const { colors } = useTheme()
-
-  React.useEffect(() => {
-    function loadStorageData() {
-      dispatch(loadStorageDataAsync())
-      setIsReady(false)
-    }
-    loadStorageData()
-  }, [])
-
-  if(isReady)
-    return <AppLoading />
 
   return (
     <TabStack.Navigator
