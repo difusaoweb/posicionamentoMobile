@@ -1,14 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import AccessReducer from './reducers/access'
-import AffirmationReducer from './reducers/affirmation'
-import SearchReducer from './reducers/search'
+import SignInUpReducer from './reducers/signInUpPage'
+import HomeReducer from './reducers/homePage'
+import AddReducer from './reducers/addPage'
+import SearchReducer from './reducers/searchPage'
+// import ProfileReducer from './reducers/profilePage'
+// import AffirmationReducer from './reducers/affirmationPage'
 
 const store = configureStore({
   reducer: {
-    access: AccessReducer,
-    affirmation: AffirmationReducer,
-    search: SearchReducer
+    signInUp: SignInUpReducer,
+    home: HomeReducer,
+    add: AddReducer,
+    search: SearchReducer,
+    // profile: ProfileReducer,
+    // affirmation: AffirmationReducer
   }
 })
 
