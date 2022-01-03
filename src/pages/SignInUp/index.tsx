@@ -8,7 +8,8 @@ import {
   Title,
   Button,
   useTheme,
-  HelperText
+  HelperText,
+  Snackbar
 } from 'react-native-paper'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import type { StackNavigationProp } from '@react-navigation/stack'
@@ -35,8 +36,8 @@ const SignInUp = ({ navigation }: SignInUpProps) => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const [userLogin, setUserLogin] = useState<string>('')
   const [userPass, setUserPass] = useState<string>('')
-
   const [flatTextSecureEntry, setFlatTextSecureEntry] = useState<boolean>(true)
+  const [alertNotification, setAlertNotification] = useState<boolean>(!!errorSingIn)
 
   async function handleSubmit() {
     setIsSubmit(true)
@@ -55,51 +56,55 @@ const SignInUp = ({ navigation }: SignInUpProps) => {
     navigation.goBack()
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: colors.background }
-      ]}
-    >
-      <View style={[styles.row, { marginTop: 32 }]}>
-        <Title>
-          Olá! Digite o seu e-mail ou usuário
-        </Title>
-        <TextInput
-          style={styles.inputContainerStyle}
-          label="E-mail ou nome de usúario"
-          value={userLogin}
-          onChangeText={text => setUserLogin(text)}
-        />
-        <TextInput
-          style={styles.inputContainerStyle}
-          label="Senha"
-          value={userPass}
-          onChangeText={text => setUserPass(text)}
-          secureTextEntry={flatTextSecureEntry}
-          right={
-            <TextInput.Icon
-              name={flatTextSecureEntry ? 'eye' : 'eye-off'}
-              onPress={() => setFlatTextSecureEntry(!flatTextSecureEntry)}
-              forceTextInputFocus={false}
-            />
-          }
-        />
-        { !!errorSingIn &&
-        <HelperText type="error">
-          {errorSingIn.message}
-        </HelperText>
-        }
-        <Button
-          mode="contained"
-          style={styles.button}
-          onPress={handleSubmit}
-          disabled={isSubmit || (!userLogin || !userPass)}
-        >
-          Entrar
-        </Button>
+    <>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: colors.background }
+        ]}
+      >
+        <View style={[styles.row, { marginTop: 32 }]}>
+          <Title>
+            Olá! Digite o seu e-mail ou usuário
+          </Title>
+          <TextInput
+            style={styles.inputContainerStyle}
+            label="E-mail ou nome de usúario"
+            value={userLogin}
+            onChangeText={text => setUserLogin(text)}
+          />
+          <TextInput
+            style={styles.inputContainerStyle}
+            label="Senha"
+            value={userPass}
+            onChangeText={text => setUserPass(text)}
+            secureTextEntry={flatTextSecureEntry}
+            right={
+              <TextInput.Icon
+                name={flatTextSecureEntry ? 'eye' : 'eye-off'}
+                onPress={() => setFlatTextSecureEntry(!flatTextSecureEntry)}
+                forceTextInputFocus={false}
+              />
+            }
+          />
+          <Button
+            mode="contained"
+            style={styles.button}
+            onPress={handleSubmit}
+            disabled={isSubmit || (!userLogin || !userPass)}
+          >
+            Entrar
+          </Button>
+        </View>
       </View>
-    </View>
+      <Snackbar
+        visible={alertNotification}
+        onDismiss={() => setAlertNotification(false)}
+        duration={Snackbar.DURATION_MEDIUM / 3}
+      >
+        {errorSingIn?.message}
+      </Snackbar>
+    </>
   )
 }
 
