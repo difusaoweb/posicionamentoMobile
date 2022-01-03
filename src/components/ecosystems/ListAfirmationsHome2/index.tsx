@@ -11,10 +11,17 @@ import {
   useTheme,
   ActivityIndicator
 } from 'react-native-paper'
+import type { StackNavigationProp } from '@react-navigation/stack'
 
 import HomeAffirmationListItem from '../../organims/HomeAffirmationListItem'
 import ErrorHome from '../../organims/ErrorHome'
 import api from '../../../services/api'
+import { useAppSelector, useAppDispatch } from '../../../hooks'
+import {
+  setAffirmations,
+  affirmations as affirmationsRedux,
+  errorAffirmations as errorAffirmationsRedux
+} from '../../../redux/reducers/homePage'
 
 interface Affirmation {
   id: number,
@@ -26,53 +33,51 @@ interface Affirmation {
   strongly_disagree: number | null
 }
 
-const ListAfirmationsHome2 = () => {
-  const { colors } = useTheme()
+type ListAfirmationsHome2Props = {
+  navigation: StackNavigationProp<{}>
+}
 
-  const [loading, setLoading] = React.useState(true)
-  const [error, setError] = React.useState(false)
-  const [affirmations, setAffirmations] = React.useState<Affirmation[]>([])
+
+const ListAfirmationsHome2 = ({ navigation }: ListAfirmationsHome2Props) => {
+  const affirmations = useAppSelector(affirmationsRedux)
+  const errorAffirmations = useAppSelector(errorAffirmationsRedux)
+  const dispatch = useAppDispatch()
+
+  const [isSubmit, setIsSubmit] = React.useState(false)
 
   React.useEffect(() => {
     async function getAffirmations() {
-      try {
-        const { data } = await api
-        .get('affirmations/home')
-        setAffirmations(data)
-      } catch (error) {
-        console.log(error)
-        setError(true)
-      }
+      setIsSubmit(true)
+
+      dispatch(setAffirmations())
+
+      setIsSubmit(false)
     }
-
     getAffirmations()
-    setLoading(false)
-  },[])
+  },[]);
 
-  if(loading)
+  const { colors } = useTheme()
+
+  if(isSubmit)
     return (
       <View style={styles.row}>
         <ActivityIndicator />
       </View>
     )
 
-  if(error)
-    return <ErrorHome />
+  if(errorAffirmations)
+    return <ErrorHome message={errorAffirmations.message}/>
 
   return (
     <FlatList
       style={{ backgroundColor: colors.background }}
       renderItem={({ item }) => (
         <HomeAffirmationListItem
-          message={item.message}
-          stronglyAgree={item.strongly_agree}
-          agree={item.agree}
-          neutral={item.neutral}
-          disagree={item.disagree}
-          stronglyDisagree={item.strongly_disagree}
+          navigation={navigation}
+          affirmation={item}
         />
       )}
-      keyExtractor={item => item.id}
+      keyExtractor={item => `${item.id}`}
       data={affirmations}
     />
   )

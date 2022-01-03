@@ -4,11 +4,15 @@ import { useTheme } from 'react-native-paper'
 
 import ErrorBox from '../../molecules/ErrorBox'
 
-const ErrorHome = () => {
+interface ErrorHomeProps {
+  message: string
+}
+
+const ErrorHome = ({ message }: ErrorHomeProps) => {
   return (
     <>
       <View style={styles.container}>
-        <ErrorBox message="Erro ao conectar no servidor" />
+        <ErrorBox message={message} />
       </View>
     </>
   )

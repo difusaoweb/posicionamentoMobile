@@ -10,16 +10,17 @@ import {
   Caption
 } from 'react-native-paper'
 import { FontAwesome5 } from '@expo/vector-icons'
+import type { StackNavigationProp } from '@react-navigation/stack'
 
 import { numberOpinionFormated } from '../../../utils'
+import { useAppSelector } from '../../../hooks'
+import {
+  singleAffirmationInterface
+} from '../../../redux/reducers/affirmationPage'
 
-interface Affirmation {
-  message: string
-  stronglyAgree: number | null
-  agree: number | null
-  neutral: number | null
-  disagree: number | null
-  stronglyDisagree: number | null
+interface HomeAffirmationListItemProps {
+  navigation: StackNavigationProp<{}>
+  affirmation: singleAffirmationInterface
 }
 
 const colorOpinion = {
@@ -30,32 +31,19 @@ const colorOpinion = {
   stronglyDisagree: '#c77171'
 }
 
-const HomeAffirmationListItem = ({
-  message,
-  stronglyAgree,
-  agree,
-  neutral,
-  disagree,
-  stronglyDisagree
-}: Affirmation) => {
+const HomeAffirmationListItem = ({ navigation, affirmation }: HomeAffirmationListItemProps) => {
   const { colors } = useTheme()
-
-  stronglyAgree = stronglyAgree ?? 0,
-  agree = agree ?? 0,
-  neutral = neutral ?? 0,
-  disagree = disagree ?? 0,
-  stronglyDisagree = stronglyDisagree ?? 0
 
   return (
     <Card
       style={styles.card}
-      // onPress={() => {
-      //   Alert.alert('The Chameleon is Pressed');
-      // }}
+      onPress={() => {
+        navigation.navigate('AffirmationPage', { affirmation: affirmation })
+      }}
     >
       <Card.Content>
         <Paragraph>
-          {message}.
+          {affirmation.message}.
         </Paragraph>
       </Card.Content>
       <Card.Actions>
@@ -64,7 +52,7 @@ const HomeAffirmationListItem = ({
           <Caption
             style={styles.text}
           >
-            {numberOpinionFormated(stronglyAgree)}
+            {numberOpinionFormated(affirmation.stronglyAgree)}
           </Caption>
         </View>
         <View style={styles.avaliationColumn}>
@@ -72,7 +60,7 @@ const HomeAffirmationListItem = ({
           <Caption
             style={styles.text}
           >
-            {numberOpinionFormated(agree)}
+            {numberOpinionFormated(affirmation.agree)}
           </Caption>
         </View>
         <View style={styles.avaliationColumn}>
@@ -80,7 +68,7 @@ const HomeAffirmationListItem = ({
           <Caption
             style={styles.text}
           >
-            {numberOpinionFormated(neutral)}
+            {numberOpinionFormated(affirmation.neutral)}
           </Caption>
         </View>
         <View style={styles.avaliationColumn}>
@@ -88,7 +76,7 @@ const HomeAffirmationListItem = ({
           <Caption
             style={styles.text}
           >
-            {numberOpinionFormated(disagree)}
+            {numberOpinionFormated(affirmation.disagree)}
           </Caption>
         </View>
         <View style={styles.avaliationColumn}>
@@ -96,7 +84,7 @@ const HomeAffirmationListItem = ({
           <Caption
             style={styles.text}
           >
-            {numberOpinionFormated(stronglyDisagree)}
+            {numberOpinionFormated(affirmation.stronglyDisagree)}
           </Caption>
         </View>
       </Card.Actions>
