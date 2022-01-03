@@ -7,7 +7,7 @@ import { Dimensions } from 'react-native'
 
 import BannerHeader from '../../components/atoms/BannerHeader'
 import { useAppSelector } from '../../hooks'
-import { currentUser as currentUserRedux } from '../../redux/reducers/access'
+import { currentUser as currentUserRedux } from '../../redux/reducers/signInUpPage'
 import SignedAddPage from '../../components/ecosystems/SignedAddPage'
 import NotSigned from '../../components/ecosystems/NotSigned'
 

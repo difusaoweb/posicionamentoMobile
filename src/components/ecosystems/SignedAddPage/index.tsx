@@ -18,7 +18,7 @@ import {
   AddAffirmationDataType,
   addAffirmationAsync,
   errorAddAffirmation as errorAddAffirmationRedux
-} from '../../../redux/reducers/affirmation'
+} from '../../../redux/reducers/addPage'
 
 
 const SignedAddPage = () => {
@@ -44,23 +44,25 @@ const SignedAddPage = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        mode="outlined"
-        label="Escreva sua afirmação"
-        multiline
-        style={styles.inputContainerStyle}
-        onChangeText={text => setAffirmationMessage(text)}
-        value={affirmationMessage}
-      />
-      <Button
-        mode="contained"
-        style={styles.button}
-        onPress={handleAddAffirmation}
-        disabled={isSubmit || !affirmationMessage}
-      >
-        Adicionar
-      </Button>
+    <>
+      <View style={styles.container}>
+        <TextInput
+          mode="outlined"
+          label="Escreva sua afirmação"
+          multiline
+          style={styles.inputContainerStyle}
+          onChangeText={text => setAffirmationMessage(text)}
+          value={affirmationMessage}
+        />
+        <Button
+          mode="contained"
+          style={styles.button}
+          onPress={handleAddAffirmation}
+          disabled={isSubmit || !affirmationMessage}
+        >
+          Adicionar
+        </Button>
+      </View>
       <Snackbar
         visible={alertNotification}
         onDismiss={() => setAlertNotification(false)}
@@ -69,7 +71,7 @@ const SignedAddPage = () => {
       >
         { errorAddAffirmation ? errorAddAffirmation.message : 'Salvo!'}
       </Snackbar>
-    </View>
+    </>
   )
 }
 
