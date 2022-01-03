@@ -15,7 +15,7 @@ import {
 import { useAppSelector, useAppDispatch } from '../../../hooks'
 import {
   currentUser as currentUserRedux
-} from '../../../redux/reducers/access'
+} from '../../../redux/reducers/signInUpPage'
 
 
 const SignedProfilePage = () => {

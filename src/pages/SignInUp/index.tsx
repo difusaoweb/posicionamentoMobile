@@ -19,7 +19,7 @@ import {
   singInAsync,
   errorSingIn as errorSingInRedux,
   currentUser as currentUserRedux
-} from '../../redux/reducers/access'
+} from '../../redux/reducers/signInUpPage'
 
 type SignInUpProps = {
   navigation: StackNavigationProp<{}>
