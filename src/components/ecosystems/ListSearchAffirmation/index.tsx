@@ -8,19 +8,23 @@ import {
   useTheme,
   ActivityIndicator
 } from 'react-native-paper'
+import type { StackNavigationProp } from '@react-navigation/stack'
 
 import HomeAffirmationListItem from '../../organims/HomeAffirmationListItem'
 import ErrorBox from '../../molecules/ErrorBox'
-
 import { useAppSelector } from '../../../hooks'
 import {
   isSubmit as isSubmitRedux,
   errorSearchIn as errorSearchInRedux,
   affirmations as affirmationsRedux
-} from '../../../redux/reducers/search'
+} from '../../../redux/reducers/searchPage'
+
+type ListSearchAffirmationProps = {
+  navigation: StackNavigationProp<{}>
+}
 
 
-const ListSearchAffirmation = () => {
+const ListSearchAffirmation = ({ navigation }: ListSearchAffirmationProps) => {
   const affirmations = useAppSelector(affirmationsRedux)
   const errorSearchIn = useAppSelector(errorSearchInRedux)
   const isSubmit = useAppSelector(isSubmitRedux)
@@ -42,15 +46,19 @@ const ListSearchAffirmation = () => {
       style={{ backgroundColor: colors.background }}
       renderItem={({ item }) => (
         <HomeAffirmationListItem
-          message={item.message}
-          stronglyAgree={item.strongly_agree}
-          agree={item.agree}
-          neutral={item.neutral}
-          disagree={item.disagree}
-          stronglyDisagree={item.strongly_disagree}
+        navigation={navigation}
+        affirmation={{
+          id: item.id,
+          message: item.message,
+          stronglyAgree: item.strongly_agree ?? 0,
+          agree: item.agree ?? 0,
+          neutral: item.neutral ?? 0,
+          disagree: item.disagree ?? 0,
+          stronglyDisagree: item.strongly_disagree ?? 0
+        }}
         />
       )}
-      keyExtractor={item => item.id}
+      keyExtractor={item => `${item.id}`}
       data={affirmations}
     />
   )

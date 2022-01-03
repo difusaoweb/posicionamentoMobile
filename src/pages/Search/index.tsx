@@ -12,17 +12,17 @@ import type { StackNavigationProp } from '@react-navigation/stack'
 
 import BannerHeader from '../../components/atoms/BannerHeader'
 import ListSearchAffirmation from '../../components/ecosystems/ListSearchAffirmation'
-
 import { useAppDispatch } from '../../hooks'
 import {
   setIsSubmit,
   SearchInDataType,
   searchInAsync,
-} from '../../redux/reducers/search'
+} from '../../redux/reducers/searchPage'
 
 type SearchPageProps = {
   navigation: StackNavigationProp<{}>
 }
+
 
 const SearchPage = ({ navigation }: SearchPageProps) => {
   const dispatch = useAppDispatch()
@@ -53,7 +53,7 @@ const SearchPage = ({ navigation }: SearchPageProps) => {
         style={styles.searchbar}
         onSubmitEditing={() => handleSubmit()}
       />
-      <ListSearchAffirmation />
+      <ListSearchAffirmation navigation={navigation} />
     </View>
   )
 }
