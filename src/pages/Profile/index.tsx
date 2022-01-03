@@ -1,15 +1,13 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { useTheme } from 'react-native-paper'
+import { useTheme, Button } from 'react-native-paper'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { Dimensions } from 'react-native'
 
 import BannerHeader from '../../components/atoms/BannerHeader'
-// import { useAppDispatch } from '../../hooks'
-// import { singOutAsync } from '../../redux/reducers/access'
-import { useAppSelector } from '../../hooks'
-import { currentUser as currentUserRedux } from '../../redux/reducers/access'
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { singOutAsync, currentUser as currentUserRedux } from '../../redux/reducers/signInUpPage'
 import SignedProfilePage from '../../components/ecosystems/SignedProfilePage'
 import NotSigned from '../../components/ecosystems/NotSigned'
 
@@ -21,6 +19,8 @@ type ProfilePageProps = {
 
 const ProfilePage = ({ navigation }: ProfilePageProps) => {
   const currentUser = useAppSelector(currentUserRedux)
+  const dispatch = useAppDispatch()
+
   const { colors } = useTheme()
 
   return (
@@ -30,8 +30,6 @@ const ProfilePage = ({ navigation }: ProfilePageProps) => {
       {
         currentUser ? <SignedProfilePage /> : <NotSigned navigation={navigation} />
       }
-      </View>
-      {/* <View style={[styles.row, { marginTop: 32 }]}>
         <Button
           mode="contained"
           onPress={() => dispatch(singOutAsync())}
@@ -39,7 +37,7 @@ const ProfilePage = ({ navigation }: ProfilePageProps) => {
         >
           Sair
         </Button>
-      </View> */}
+      </View>
     </View>
   )
 }
@@ -62,6 +60,9 @@ const styles = StyleSheet.create({
   },
   row: {
     paddingHorizontal: 12
+  },
+  button: {
+    margin: 4
   }
 })
 
