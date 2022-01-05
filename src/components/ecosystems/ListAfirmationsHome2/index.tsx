@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   View,
   Text,
@@ -12,61 +12,44 @@ import {
   ActivityIndicator
 } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { RootState } from '../../../redux/reducers'
+import { updateHome } from '../../../redux/'
 
 import HomeAffirmationListItem from '../../organims/HomeAffirmationListItem'
 import ErrorHome from '../../organims/ErrorHome'
-import api from '../../../services/api'
-import { useAppSelector, useAppDispatch } from '../../../hooks'
-import {
-  setAffirmations,
-  affirmations as affirmationsRedux,
-  errorAffirmations as errorAffirmationsRedux
-} from '../../../redux/reducers/homePage'
 
-interface Affirmation {
-  id: number,
-  message: string
-  strongly_agree: number | null
-  agree: number | null
-  neutral: number | null
-  disagree: number | null
-  strongly_disagree: number | null
-}
-
-type ListAfirmationsHome2Props = {
+interface ListAfirmationsHome2Props {
   navigation: StackNavigationProp<{}>
 }
 
 
 const ListAfirmationsHome2 = ({ navigation }: ListAfirmationsHome2Props) => {
-  const affirmations = useAppSelector(affirmationsRedux)
-  const errorAffirmations = useAppSelector(errorAffirmationsRedux)
-  const dispatch = useAppDispatch()
-
-  const [isSubmit, setIsSubmit] = React.useState(false)
-
-  React.useEffect(() => {
-    async function getAffirmations() {
-      setIsSubmit(true)
-
-      dispatch(setAffirmations())
-
-      setIsSubmit(false)
-    }
-    getAffirmations()
-  },[]);
-
+  const dispatch = useDispatch()
+  const { affirmations } = useSelector((state: RootState) => state.home)
+  const [isLoading, setIsLoading] = useState(true)
   const { colors } = useTheme()
 
-  if(isSubmit)
+  function refreshHome() {
+    dispatch(updateHome())
+  }
+
+  useEffect(() => {
+    refreshHome()
+
+    setIsLoading(false)
+  }, [])
+
+  if(isLoading)
     return (
       <View style={styles.row}>
         <ActivityIndicator />
       </View>
     )
 
-  if(errorAffirmations)
-    return <ErrorHome message={errorAffirmations.message}/>
+  if(!(!!affirmations))
+    return <ErrorHome message="Nada encontrado"/>
 
   return (
     <FlatList

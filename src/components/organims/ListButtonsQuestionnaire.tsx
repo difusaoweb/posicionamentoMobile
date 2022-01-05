@@ -8,13 +8,13 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { RootStore } from '../../redux/index';
+import { RootStore } from '../../redux2/index';
 import {
   QuizActions,
   NextQuiz,
   PrevQuiz,
   InitQuiz,
-} from '../../redux/actions/quiz';
+} from '../../redux2/actions/quiz';
 
 
 export function ListButtonsQuestionnaire() {

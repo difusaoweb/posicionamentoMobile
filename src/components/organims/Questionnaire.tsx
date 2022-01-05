@@ -7,7 +7,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { RootStore } from '../../redux/index';
+import { RootStore } from '../../redux2/index';
 
 import Questions from '../../questions';
 import GetQuestionBasedOnLanguage from '../../questionsLocaleFunc';

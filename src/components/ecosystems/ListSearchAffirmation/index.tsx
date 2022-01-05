@@ -17,7 +17,7 @@ import {
   isSubmit as isSubmitRedux,
   errorSearchIn as errorSearchInRedux,
   affirmations as affirmationsRedux
-} from '../../../redux/reducers/searchPage'
+} from '../../../redux2/reducers/searchPage'
 
 type ListSearchAffirmationProps = {
   navigation: StackNavigationProp<{}>

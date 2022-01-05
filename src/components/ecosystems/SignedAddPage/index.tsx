@@ -18,7 +18,7 @@ import {
   AddAffirmationDataType,
   addAffirmationAsync,
   errorAddAffirmation as errorAddAffirmationRedux
-} from '../../../redux/reducers/addPage'
+} from '../../../redux2/reducers/addPage'
 
 
 const SignedAddPage = () => {

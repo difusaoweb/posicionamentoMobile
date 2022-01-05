@@ -16,7 +16,7 @@ import { numberOpinionFormated } from '../../../utils'
 import { useAppSelector } from '../../../hooks'
 import {
   singleAffirmationInterface
-} from '../../../redux/reducers/affirmationPage'
+} from '../../../redux2/reducers/affirmationPage'
 
 interface HomeAffirmationListItemProps {
   navigation: StackNavigationProp<{}>
