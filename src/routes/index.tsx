@@ -1,34 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import  { createStackNavigator } from '@react-navigation/stack'
 import AppLoading from 'expo-app-loading'
+import { useDispatch } from 'react-redux'
 
-import { useAppDispatch } from '../hooks'
-import { getStorageData as getStorageDataRedux } from '../redux/reducers/signInUpPage'
+import { getLocalStorage } from '../redux'
 import AppRoutes from './App/index.routes'
-import AuthRoutes from './Auth/index.routes'
+// import AuthRoutes from './Auth/index.routes'
 
 const Stack = createStackNavigator()
 
-
 const Routes: React.FC = () => {
-  const [isReady, setIsReady] = React.useState(true)
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(true)
 
-  React.useEffect(() => {
-    function loadStorageData() {
-      dispatch(getStorageDataRedux())
-      setIsReady(false)
-    }
-    loadStorageData()
+  function refreshLocalStorage() {
+    dispatch(getLocalStorage())
+  }
+
+  useEffect(() => {
+    refreshLocalStorage()
+
+    setIsLoading(false)
   }, [])
 
-  if(isReady)
+  if(isLoading)
     return <AppLoading />
 
   return(
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="AppRoutes" component={AppRoutes} />
-      <Stack.Screen name="AuthRoutes" component={AuthRoutes} />
+      {/* <Stack.Screen name="AuthRoutes" component={AuthRoutes} /> */}
     </Stack.Navigator>
   )
 }

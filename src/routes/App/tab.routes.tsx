@@ -15,7 +15,7 @@ const TabRoutes: React.FC = () => {
 
   return (
     <TabStack.Navigator
-      initialRouteName="SearchPage"
+      initialRouteName="HomePage"
       activeColor={colors.text}
       inactiveColor={colors.disabled}
       barStyle={{ backgroundColor: colors.primary }}
