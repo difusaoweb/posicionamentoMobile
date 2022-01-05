@@ -5,7 +5,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native'
 
 import Routes from './src/routes'
-import store from './src/redux'
+import { store } from './src/redux'
 
 const theme = {
   ...DarkTheme,
@@ -18,7 +18,7 @@ const theme = {
 
 import { StatusBar } from 'expo-status-bar'
 
-export default function App() {
+const App: React.FC = () => {
   return (
     <>
       <StatusBar style='light' />
@@ -34,3 +34,4 @@ export default function App() {
 }
 
 AppRegistry.registerComponent('my-app', () => App)
+export default App
