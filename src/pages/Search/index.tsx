@@ -17,7 +17,7 @@ import {
   setIsSubmit,
   SearchInDataType,
   searchInAsync,
-} from '../../redux/reducers/searchPage'
+} from '../../redux2/reducers/searchPage'
 
 type SearchPageProps = {
   navigation: StackNavigationProp<{}>

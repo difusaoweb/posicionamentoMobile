@@ -6,7 +6,7 @@ import type { StackNavigationProp } from '@react-navigation/stack'
 import { Dimensions } from 'react-native'
 
 import BannerHeader from '../../components/atoms/BannerHeader'
-import { singleAffirmationInterface } from '../../redux/reducers/affirmationPage'
+import { singleAffirmationInterface } from '../../redux2/reducers/affirmationPage'
 import HomeAffirmationListItem from '../../components/organims/HomeAffirmationListItem'
 
 const height = Dimensions.get('window').height - 108
