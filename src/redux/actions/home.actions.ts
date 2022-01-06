@@ -4,7 +4,7 @@ import { UPDATE_HOME, HomeActionTypes, AffirmationHomeInterface } from '../types
 import { homeService } from '../../services'
 import { request, failure } from './common.actions'
 
-const updateHomeSuccess: ActionCreator<HomeActionTypes> = (affirmations: AffirmationHomeInterface[]) => {
+const updateHomeSuccess: ActionCreator<HomeActionTypes> = (affirmations: AffirmationHomeInterface[] | null) => {
   return { type: UPDATE_HOME, payload: affirmations }
 }
 

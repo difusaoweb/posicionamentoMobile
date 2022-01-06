@@ -22,7 +22,7 @@ export const UPDATE_HOME = 'UPDATE_HOME'
 
 interface UpdateHomeAction {
   type: typeof UPDATE_HOME
-  payload: AffirmationHomeInterface[]
+  payload: AffirmationHomeInterface[] |null
 }
 
 export type HomeActionTypes = UpdateHomeAction

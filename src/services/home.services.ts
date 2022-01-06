@@ -19,5 +19,5 @@ async function updateHome(): Promise<AffirmationHomeInterface[]> {
     }
   })
 
-  return affirmations
+  return affirmations ?? null
 }

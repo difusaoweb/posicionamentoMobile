@@ -1,11 +1,11 @@
 import { AffirmationHomeInterface, UPDATE_HOME, HomeActionTypes } from '../types'
 
 interface HomeState {
-  affirmations: AffirmationHomeInterface[]
+  affirmations: AffirmationHomeInterface[] | null
 }
 
 const initialState: HomeState = {
-  affirmations: []
+  affirmations: null
 }
 
 export function homeReducer(state: HomeState = initialState, action: HomeActionTypes): HomeState {

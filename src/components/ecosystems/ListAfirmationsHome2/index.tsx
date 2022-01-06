@@ -48,7 +48,7 @@ const ListAfirmationsHome2 = ({ navigation }: ListAfirmationsHome2Props) => {
       </View>
     )
 
-  if(!!affirmations)
+  if(!(!!affirmations))
     return <ErrorHome message="Nada encontrado"/>
 
   return (
