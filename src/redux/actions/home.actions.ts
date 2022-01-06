@@ -1,11 +1,11 @@
 import { ActionCreator } from 'redux'
 
-import { UPDATE_HOME, HomeActionTypes, HomeInterface } from '../types'
+import { UPDATE_HOME, HomeActionTypes, AffirmationHomeInterface } from '../types'
 import { homeService } from '../../services'
 import { request, failure } from './common.actions'
 
-const updateHomeSuccess: ActionCreator<HomeActionTypes> = ({ affirmations }: HomeInterface) => {
-  return { type: UPDATE_HOME, payload: { affirmations } }
+const updateHomeSuccess: ActionCreator<HomeActionTypes> = (affirmations: AffirmationHomeInterface[]) => {
+  return { type: UPDATE_HOME, payload: affirmations }
 }
 
 export function updateHome() {
