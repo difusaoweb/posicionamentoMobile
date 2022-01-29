@@ -9,5 +9,5 @@ npm-debug.*
 *.orig.*
 web-build/
 .DS_Store
-temp.txt
 .env
+yarn.lock
