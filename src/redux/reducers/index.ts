@@ -1,14 +1,17 @@
 import { combineReducers } from 'redux'
 
-import { localStorageReducer } from './localStorage.reducer'
-import { homeReducer } from './home.reducer'
-// import { storiesReducer } from './stories.reducer'
+import { notificationsReducer } from './notifications.reducer'
+import { affirmationsReducer } from './affirmations.reducer'
+import { opinionsReducer } from './opinions.reducer'
+import { accessReducer } from './access.reducer'
+import { usersReducer } from './users.reducer'
 
 export const rootReducer = combineReducers({
-  localStorage: localStorageReducer,
-  home: homeReducer
-  // feed: feedReducer,
-  // stories: storiesReducer
+  notifications: notificationsReducer,
+  affirmations: affirmationsReducer,
+  opinions: opinionsReducer,
+  access: accessReducer,
+  users: usersReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

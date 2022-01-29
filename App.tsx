@@ -7,12 +7,30 @@ import { NavigationContainer } from '@react-navigation/native'
 import Routes from './src/routes'
 import { store } from './src/redux'
 
+declare global {
+  namespace ReactNativePaper {
+    interface ThemeColors {
+      stronglyAgree: string
+      agree: string
+      neutral: string
+      disagree: string
+      stronglyDisagree: string
+    }
+  }
+}
+
 const theme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
     primary: '#857dcc',
-    accent: 'yellow'
+    accent: DarkTheme.colors.disabled,
+
+    stronglyAgree: '#519668',
+    agree: '#5299e0',
+    neutral: '#a7a7a7',
+    disagree: '#d5a439',
+    stronglyDisagree: '#c77171'
   }
 }
 

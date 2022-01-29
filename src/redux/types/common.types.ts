@@ -1,5 +1,14 @@
 import { ImageSourcePropType } from 'react-native'
 
+export interface ReturnErrorInterface {
+  status: number
+  message: string
+}
+
+export interface ReturnOnlyErrorInterface {
+  failure: ReturnErrorInterface | null
+}
+
 export interface ImgInterface {
   source: ImageSourcePropType
   aspect: 'square' | 'portrait' | 'landscape'

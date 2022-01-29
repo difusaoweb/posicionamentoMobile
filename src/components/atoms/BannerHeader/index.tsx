@@ -24,7 +24,7 @@ const BannerHeader = () => {
           style={styles.banner}
         />
         :
-        null
+        <View style={styles.bannerWeb}></View>
       }
     </View>
   )
@@ -45,6 +45,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     maxHeight: 54,
     maxWidth: '100%'
+  },
+  bannerWeb: {
+    width: '100%',
+    maxWidth: '100%',
+    height: 54,
+    maxHeight: 54
   }
 })
 

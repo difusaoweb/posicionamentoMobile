@@ -1,54 +1,55 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { useTheme } from 'react-native-paper'
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import { View, StyleSheet, ScrollView } from 'react-native'
+import { useTheme, Appbar, Divider } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
-import { Dimensions } from 'react-native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import BannerHeader from '../../components/atoms/BannerHeader'
-import { singleAffirmationInterface } from '../../redux2/reducers/affirmationPage'
-import HomeAffirmationListItem from '../../components/organims/HomeAffirmationListItem'
+import ScreenWrapper from '../../ScreenWrapper'
+import ListOpinionsAffirmation from '../../components/ecosystems/ListOpinionsAffirmation'
+import AffirmationAffirmation from '../../components/ecosystems/AffirmationAffirmation'
+import { AffirmationInterface } from '../../redux/types'
 
-const height = Dimensions.get('window').height - 108
-
-type AffirmationProps = {
-  navigation: StackNavigationProp<{}>,
-  affirmation: singleAffirmationInterface
+type RootStackParamList = {
+  AffirmationPage: {
+    affirmation: AffirmationInterface
+  }
+}
+type RouteProps = NativeStackScreenProps<RootStackParamList, 'AffirmationPage'>
+interface AffirmationProps {
+  navigation: StackNavigationProp<{}>
+  route: RouteProps['route']
 }
 
-const AffirmationPage = ({ navigation, affirmation }: AffirmationProps) => {
-  const currentAffirmation = affirmation
-
+const AffirmationPage = ({ navigation, route }: AffirmationProps) => {
+  const { affirmation } = route.params
   const { colors } = useTheme()
 
   return (
-    <View style={[ styles.container, { backgroundColor: colors.background } ]}>
-      <BannerHeader />
-      <View style={styles.containerContent}>
-        <HomeAffirmationListItem
-          navigation={navigation}
-          affirmation={affirmation}
-        />
-      </View>
-    </View>
+    <ScreenWrapper contentContainerStyle={{ flex: 1 }}>
+      <Appbar style={{ backgroundColor: colors.background }}>
+        <Appbar.Action icon="arrow-left" onPress={() => navigation.goBack()} />
+        <Appbar.Content title="Afirmação" />
+      </Appbar>
+      <ScrollView>
+        <View style={styles.affirmationBox}>
+          <AffirmationAffirmation affirmation={affirmation} />
+        </View>
+        <Divider style={{ marginBottom: 12 }}/>
+        <View style={styles.opinionsBox}>
+          <ListOpinionsAffirmation affirmation={affirmation} />
+        </View>
+      </ScrollView>
+    </ScreenWrapper>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 2,
-    flexDirection: 'column',
-    paddingTop: getStatusBarHeight()
-  },
-  containerContent: {
-    flex: 1,
-    height: height,
-    minHeight: height,
-    maxHeight: height,
+  affirmationBox: {
     width: '100%',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start'
+    marginBottom: 12
+  },
+  opinionsBox: {
+    width: '100%',
   }
 })
 

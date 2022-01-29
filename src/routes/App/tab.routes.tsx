@@ -4,8 +4,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { useTheme } from 'react-native-paper'
 
 import HomePage from '../../pages/Home'
-import SearchPage from '../../pages/Search'
-import AddPage from '../../pages/Add'
+// import SearchPage from '../../pages/Search'
+// import AddPage from '../../pages/Add'
 import ProfilePage from '../../pages/Profile'
 
 const TabStack = createMaterialBottomTabNavigator()
@@ -30,7 +30,7 @@ const TabRoutes: React.FC = () => {
           )
         }}
       />
-      <TabStack.Screen
+      {/* <TabStack.Screen
         name="SearchPage"
         component={SearchPage}
         options={{
@@ -49,7 +49,7 @@ const TabRoutes: React.FC = () => {
             <FontAwesome5 name="plus" color={color} size={20} />
           )
         }}
-      />
+      /> */}
       <TabStack.Screen
         name="ProfilePage"
         component={ProfilePage}

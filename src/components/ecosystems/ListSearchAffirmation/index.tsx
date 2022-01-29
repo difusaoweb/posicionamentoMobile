@@ -18,12 +18,11 @@ import {
   errorSearchIn as errorSearchInRedux,
   affirmations as affirmationsRedux
 } from '../../../redux2/reducers/searchPage'
+import Loading from '../../atoms/Loading'
 
 type ListSearchAffirmationProps = {
   navigation: StackNavigationProp<{}>
 }
-
-
 const ListSearchAffirmation = ({ navigation }: ListSearchAffirmationProps) => {
   const affirmations = useAppSelector(affirmationsRedux)
   const errorSearchIn = useAppSelector(errorSearchInRedux)
@@ -31,12 +30,7 @@ const ListSearchAffirmation = ({ navigation }: ListSearchAffirmationProps) => {
 
   const { colors } = useTheme()
 
-  if(isSubmit)
-    return (
-      <View style={styles.row}>
-        <ActivityIndicator />
-      </View>
-    )
+  if(isSubmit) return <Loading />
 
   if(errorSearchIn)
     return <ErrorBox message={errorSearchIn.message} />

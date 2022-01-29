@@ -1,69 +1,34 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { useTheme, Button } from 'react-native-paper'
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import type { StackNavigationProp } from '@react-navigation/stack'
-import { Dimensions } from 'react-native'
+import { useSelector } from 'react-redux'
 
-import BannerHeader from '../../components/atoms/BannerHeader'
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { singOutAsync, currentUser as currentUserRedux } from '../../redux2/reducers/signInUpPage'
+import ScreenWrapper from '../../ScreenWrapper'
+import { RootState } from '../../redux'
 import SignedProfilePage from '../../components/ecosystems/SignedProfilePage'
 import NotSigned from '../../components/ecosystems/NotSigned'
 
-const height = Dimensions.get('window').height - 108
 
-type ProfilePageProps = {
+interface ProfilePageProps {
   navigation: StackNavigationProp<{}>
+  userId: number | null
 }
+const ProfilePage = ({ navigation, userId }: ProfilePageProps) => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.access)
+  const { currentUser } = useSelector((state: RootState) => state.users)
 
-const ProfilePage = ({ navigation }: ProfilePageProps) => {
-  const currentUser = useAppSelector(currentUserRedux)
-  const dispatch = useAppDispatch()
-
-  const { colors } = useTheme()
+  const theUserId = userId ?? (!!isAuthenticated) ? currentUser?.id ?? 0 : 0
 
   return (
-    <View style={[ styles.container, { backgroundColor: colors.background } ]}>
-      <BannerHeader />
-      <View style={styles.containerContent}>
-      {
-        currentUser ? <SignedProfilePage /> : <NotSigned navigation={navigation} />
-      }
-        <Button
-          mode="contained"
-          onPress={() => dispatch(singOutAsync())}
-          style={styles.button}
-        >
-          Sair
-        </Button>
-      </View>
-    </View>
+    <ScreenWrapper contentContainerStyle={{ flex: 1 }}>
+    {
+      !!isAuthenticated ? (
+        <SignedProfilePage navigation={navigation} userId={theUserId} />
+      ) : (
+        <NotSigned navigation={navigation} />
+      )
+    }
+    </ScreenWrapper>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 2,
-    flexDirection: 'column',
-    paddingTop: getStatusBarHeight()
-  },
-  containerContent: {
-    flex: 1,
-    height: height,
-    minHeight: height,
-    maxHeight: height,
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start'
-  },
-  row: {
-    paddingHorizontal: 12
-  },
-  button: {
-    margin: 4
-  }
-})
 
 export default ProfilePage

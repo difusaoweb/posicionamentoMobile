@@ -1,17 +1,17 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import LogIn from '../../pages/LogIn'
-import SignUp from '../../pages/SignUp'
-import RecoveryPass from '../../pages/RecoveryPass'
+import LogInPage from '../../pages/LogIn'
+import SignUpPage from '../../pages/SignUp'
+import RecoveryPassPage from '../../pages/RecoveryPass'
 
 const AccessStack = createStackNavigator()
 
 const AccessRoutes: React.FC = () => (
-  <AccessStack.Navigator headerMode="none" >
-    <AccessStack.Screen name="LogIn" component={LogIn} />
-    <AccessStack.Screen name="SignUp" component={SignUp} />
-    <AccessStack.Screen name="RecoveryPass" component={RecoveryPass} />
+  <AccessStack.Navigator headerMode="none">
+    <AccessStack.Screen name="LogInPage" component={LogInPage} />
+    <AccessStack.Screen name="SignUpPage" component={SignUpPage} />
+    <AccessStack.Screen name="RecoveryPassPage" component={RecoveryPassPage} />
   </AccessStack.Navigator>
 )
 

@@ -1,56 +1,74 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import {
   View,
   StyleSheet,
-  Text
+  ScrollView
+  // Text
 } from 'react-native'
 import {
-  TextInput,
-  Title,
-  Button,
+  // TextInput,
+  // Title,
+  // Button,
   useTheme,
-  HelperText
+  // HelperText,
+  // Avatar,
+  // Headline,
+  // Paragraph,
+  // Caption,
+  // Subheading,
+  Divider
 } from 'react-native-paper'
+import { useSelector, useDispatch } from 'react-redux'
+import type { StackNavigationProp } from '@react-navigation/stack'
+import HeroProfile from '../../organims/HeroProfile'
+import AffirmationsProfile from '../../organims/AffirmationsProfile'
 
-import { useAppSelector, useAppDispatch } from '../../../hooks'
-import {
-  currentUser as currentUserRedux
-} from '../../../redux2/reducers/signInUpPage'
+import { logOutAccess, RootState } from '../../../redux'
 
+interface SignedProfilePageProps {
+  navigation: StackNavigationProp<{}>
+  userId: number
+}
 
-const SignedProfilePage = () => {
-  const curnentUser = useAppSelector(currentUserRedux)
+const SignedProfilePage = ({ navigation, userId }: SignedProfilePageProps) => {
+  // const dispatch = useDispatch()
   const { colors } = useTheme()
 
-  function handleGoLogin() {
-    console.log('Ir para tela de login')
-  }
+  // const [isLoading, setIsLoading] = useState(false)
+
+  // async function onLogOut() {
+  //   setIsLoading(true)
+  //   await dispatch(logOutAccess())
+  //   setIsLoading(false)
+  // }
+
+  // if(!!user) {
+  //   navigation.navigate('AccessRoutes', { screen: 'LogIn' })
+  // }
 
   return (
-    <>
-      <Text>{curnentUser?.id}</Text>
-      <Text>{curnentUser?.user_login}</Text>
-      <Text>{curnentUser?.display_name}</Text>
-      <Text>{curnentUser?.user_email}</Text>
-    </>
+    <View style={styles.container}>
+      <ScrollView>
+        <HeroProfile userId={userId} />
+        <AffirmationsProfile navigation={navigation} userId={userId} />
+        {/* <Button
+          onPress={onLogOut}
+          disabled={isLoading}
+          loading={isLoading}
+          mode="contained"
+          style={styles.button}
+        >
+          Sair
+        </Button> */}
+      </ScrollView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  row: {
-    paddingHorizontal: 12
-  },
-  text: {
-    marginVertical: 4
-  },
-  inputContainerStyle: {
-    margin: 8
-  },
-  fixedHeight: {
-    height: 350
-  },
-  button: {
-    margin: 4
+  container: {
+    width: '100%',
+    height: '100%'
   }
 })
 
