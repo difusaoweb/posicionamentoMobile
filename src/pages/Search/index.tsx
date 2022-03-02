@@ -1,71 +1,81 @@
-import React from 'react'
-import {
-  View,
-  StyleSheet,
-} from 'react-native'
-import {
-  useTheme,
-  Searchbar
-} from 'react-native-paper'
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import * as React from 'react'
+import { FlatList } from 'react-native'
+import { useTheme, Text, List, Searchbar } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
+import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
-import BannerHeader from '../../components/atoms/BannerHeader'
-import ListSearchAffirmation from '../../components/ecosystems/ListSearchAffirmation'
-import { useAppDispatch } from '../../hooks'
-import {
-  setIsSubmit,
-  SearchInDataType,
-  searchInAsync,
-} from '../../redux2/reducers/searchPage'
+import { styles } from './index.style'
+import ScreenWrapper from '../../ScreenWrapper'
+import { getAffirmationsSearch, RootState } from '../../redux'
+import Loading from '../../components/atoms/Loading'
 
-type SearchPageProps = {
+interface SearchPageProps {
   navigation: StackNavigationProp<{}>
 }
-
-
 const SearchPage = ({ navigation }: SearchPageProps) => {
-  const dispatch = useAppDispatch()
-  const [search, setSearch] = React.useState<string>('')
-
-  async function handleSubmit() {
-    dispatch(setIsSubmit(true))
-
-    const singInAsyncData: SearchInDataType = {
-      search: search
-    }
-    dispatch(searchInAsync(singInAsyncData))
-
-    dispatch(setIsSubmit(false))
-  }
-
+  const dispatch = useDispatch()
+  const { searchAffirmations, getAffirmationsSearchError } = useSelector(
+    (state: RootState) => state.affirmations
+  )
+  const [t] = useTranslation('search')
   const { colors } = useTheme()
 
+  const [search, setSearch] = React.useState<string>('')
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [isOnSearch, setIsOnSearch] = React.useState(false)
+
+  async function onSearch() {
+    setIsLoading(true)
+    await dispatch(getAffirmationsSearch({ search }))
+    setIsLoading(false)
+    setIsOnSearch(false)
+  }
+
+  React.useEffect(() => {
+    if (isOnSearch) {
+      onSearch()
+    }
+  }, [isOnSearch])
+
+  if (isLoading) return <Loading />
+
   return (
-    <View style={[ styles.container, { backgroundColor: colors.background } ]}>
-      <BannerHeader />
+    <ScreenWrapper contentContainerStyle={{ flex: 1 }}>
       <Searchbar
-        placeholder="Search"
+        icon={{ source: 'arrow-left', direction: 'auto' }}
+        onIconPress={() => navigation.goBack()}
+        placeholder={t('searchbar.placeholder')}
         onChangeText={(text: string) => setSearch(text)}
         value={search}
-        onIconPress={() => navigation.goBack()}
-        icon={{ source: 'arrow-left', direction: 'auto' }}
         style={styles.searchbar}
-        onSubmitEditing={() => handleSubmit()}
+        onSubmitEditing={() => setIsOnSearch(true)}
       />
-      <ListSearchAffirmation navigation={navigation} />
-    </View>
+      {!!searchAffirmations && (
+        <List.Section>
+          <FlatList
+            style={{ backgroundColor: colors.background }}
+            renderItem={item => (
+              <List.Item
+                title={item.item.message}
+                onPress={() => {
+                  navigation.navigate('AppRoutes', {
+                    screen: 'AffirmationPage',
+                    params: { affirmationId: item.item.id }
+                  })
+                }}
+              />
+            )}
+            keyExtractor={item => `${item.id}`}
+            data={searchAffirmations}
+          />
+        </List.Section>
+      )}
+      {getAffirmationsSearchError?.status === 404 && (
+        <Text style={styles.caption}>{t('noResultsFound')}</Text>
+      )}
+    </ScreenWrapper>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: getStatusBarHeight()
-  },
-  searchbar: {
-    margin: 4
-  }
-})
 
 export default SearchPage

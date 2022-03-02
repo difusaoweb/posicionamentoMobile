@@ -1,43 +1,27 @@
 import {
-  LOG_IN_ACCESS,
-  SIGN_UP_ACCESS,
-  LOG_OUT_ACCESS,
-  AccessActionTypes,
   AccessState,
+  AccessActionTypes,
   GET_CURRENT_TOKEN,
-  GET_IS_AUTHENTICATED
+  GET_IS_AUTHENTICATED,
+  GET_SIGN_IN,
+  POST_SIGN_UP,
+  DELETE_LOG_OUT
 } from '../types'
 
 const initialState: AccessState = {
   currentToken: null,
   isAuthenticated: null,
-  logInError: null,
-  signUpError: null,
-  logOutError: null,
   getCurrentTokenError: null,
+  getSignInError: null,
+  postSignUpError: null,
+  deleteLogOutError: null
 }
 
-export function accessReducer(state: AccessState = initialState, action: AccessActionTypes): AccessState {
+export function accessReducer(
+  state: AccessState = initialState,
+  action: AccessActionTypes
+): AccessState {
   switch (action.type) {
-    case LOG_IN_ACCESS: {
-      return {
-        ...state,
-        currentToken: action.payload.success?.token ?? null,
-        logInError: action.payload.failure
-      }
-    }
-    case SIGN_UP_ACCESS: {
-      return {
-        ...state,
-        signUpError: action.payload.failure
-      }
-    }
-    case LOG_OUT_ACCESS: {
-      return {
-        ...state,
-        logOutError: action.payload.failure
-      }
-    }
     case GET_CURRENT_TOKEN: {
       return {
         ...state,
@@ -48,7 +32,26 @@ export function accessReducer(state: AccessState = initialState, action: AccessA
     case GET_IS_AUTHENTICATED: {
       return {
         ...state,
-        isAuthenticated: action.payload.success?.isAuthenticated ?? null,
+        isAuthenticated: action.payload.success?.isAuthenticated ?? null
+      }
+    }
+    case GET_SIGN_IN: {
+      return {
+        ...state,
+        currentToken: action.payload.success?.token ?? null,
+        getSignInError: action.payload.failure
+      }
+    }
+    case POST_SIGN_UP: {
+      return {
+        ...state,
+        postSignUpError: action.payload.failure
+      }
+    }
+    case DELETE_LOG_OUT: {
+      return {
+        ...state,
+        deleteLogOutError: action.payload.failure
       }
     }
     default:

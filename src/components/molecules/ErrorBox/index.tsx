@@ -12,7 +12,11 @@ const ErrorBox = ({ message }: ErrorBoxProps) => {
 
   return (
     <View style={styles.row}>
-      <FontAwesome5 name="exclamation-triangle" size={48} style={[styles.icon, { color: colors.error }]} />
+      <FontAwesome5
+        name="exclamation-triangle"
+        size={48}
+        style={[styles.icon, { color: colors.error }]}
+      />
       <Title>{message}</Title>
     </View>
   )

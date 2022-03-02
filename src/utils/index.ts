@@ -1,48 +1,42 @@
 type ReducerAction = {
-  payload: string;
-  type: string;
-};
+  payload: string
+  type: string
+}
 
 export function inputReducer(state: any, action: ReducerAction) {
   switch (action.type) {
     case action.type:
-      state[action.type] = action.payload;
-      return { ...state };
+      state[action.type] = action.payload
+      return { ...state }
     default:
-      return { ...state };
+      return { ...state }
   }
 }
 
 export function numberOpinionFormated(number: number) {
-  var SI_SYMBOL = ['', 'k', 'M', 'G', 'T', 'P', 'E']
-  var tier = Math.log10(Math.abs(number)) / 3 | 0
-  if(tier == 0) return number
-  var suffix = SI_SYMBOL[tier]
-  var scale = Math.pow(10, tier * 3)
-  var scaled = number / scale
-  var numberTmp = scaled.toFixed(2).substring(0,4) + suffix
-  return numberTmp.replace('.'+ suffix, suffix)
+  const SI_SYMBOL = ['', 'k', 'M', 'G', 'T', 'P', 'E']
+  const tier = (Math.log10(Math.abs(number)) / 3) | 0
+  if (tier == 0) return number
+  const suffix = SI_SYMBOL[tier]
+  const scale = Math.pow(10, tier * 3)
+  const scaled = number / scale
+  const numberTmp = scaled.toFixed(2).substring(0, 4) + suffix
+  return numberTmp.replace('.' + suffix, suffix)
 }
 
 export function avaliationMessage(opinionAvaliation: number): string {
-  let opinionMessage = ''
-  switch(opinionAvaliation) {
+  switch (opinionAvaliation) {
     case 1:
-      opinionMessage = 'Concordo fortemente'
-      break
+      return 'Concordo fortemente'
     case 0.5:
-      opinionMessage = 'Concordo'
-      break
+      return 'Concordo'
     case 0:
-      opinionMessage = 'Sou indiferente'
-      break
+      return 'Sou indiferente'
     case -0.5:
-      opinionMessage = 'Discordo'
-      break
+      return 'Discordo'
     case -1:
-      opinionMessage = 'Discordo fortemente'
-      break
+      return 'Discordo fortemente'
+    default:
+      return ''
   }
-
-  return opinionMessage
 }

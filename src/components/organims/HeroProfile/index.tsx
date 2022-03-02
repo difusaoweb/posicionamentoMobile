@@ -19,9 +19,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import avatarDefault from '../../../assets/images/avatar.png'
 import { numberOpinionFormated } from '../../../utils'
 import { getUserProfile, RootState } from '../../../redux'
-import { ProfileUserInterface, CurrentUserInterface } from '../../../redux/types'
+import {
+  ProfileUserInterface,
+  CurrentUserInterface
+} from '../../../redux/types'
 import Loading from '../../atoms/Loading'
-
 
 interface HeroProfileProps {
   userId: number
@@ -31,9 +33,8 @@ const HeroProfile = ({ userId }: HeroProfileProps) => {
   const { currentUser } = useSelector((state: RootState) => state.users)
   const [isLoading, setIsLoading] = useState(true)
 
-
   let profile: ProfileUserInterface | CurrentUserInterface | null = currentUser
-  if(userId != currentUser?.id) {
+  if (userId != currentUser?.id) {
     profile = useSelector((state: RootState) => state.users).profile
 
     async function refreshProfileUser() {
@@ -46,34 +47,31 @@ const HeroProfile = ({ userId }: HeroProfileProps) => {
     }, [])
   }
 
-  const avatarSource = (profile?.meta.avatar) ? { uri: profile.meta.avatar } : avatarDefault
+  const avatarSource = profile?.meta.avatar
+    ? { uri: profile.meta.avatar }
+    : avatarDefault
 
-  if(isLoading) return <Loading />
+  if (isLoading) return <Loading />
 
   return (
     <>
       <View style={styles.hero}>
         <View style={styles.column}>
-          <Avatar.Image
-            style={styles.avatar}
-            source={avatarSource}
-            size={80}
-          />
+          <Avatar.Image style={styles.avatar} source={avatarSource} size={80} />
         </View>
         <View style={[styles.column, { flexShrink: 1 }]}>
-          <Headline style={[ styles.textLimit, { margin: 0 }]}>
+          <Headline style={[styles.textLimit, { margin: 0 }]}>
             {profile?.userLogin}
           </Headline>
-          <Subheading style={[ styles.textLimit, { margin: 0 }]}>
+          <Subheading style={[styles.textLimit, { margin: 0 }]}>
             {profile?.displayName}
           </Subheading>
           <Caption style={[styles.textLimit, { margin: 0 }]}>
             {profile?.meta.title}
           </Caption>
-          <Text
-            style={{ color: '#fff', margin: 0, fontWeight: '600' }}
-          >
-            {numberOpinionFormated(profile?.meta.followers ?? 0)}<Caption> Seguidores</Caption>
+          <Text style={{ color: '#fff', margin: 0, fontWeight: '600' }}>
+            {numberOpinionFormated(profile?.meta.followers ?? 0)}
+            <Caption> Seguidores</Caption>
           </Text>
         </View>
       </View>
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    paddingTop: 24,
+    paddingTop: 24
   },
   hero: {
     flexDirection: 'row',
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
     margin: 8
   },
   textLimit: {
-    overflow: 'hidden',
+    overflow: 'hidden'
     // textOverflow: 'ellipsis',
     // whiteSpace: 'nowrap'
   }

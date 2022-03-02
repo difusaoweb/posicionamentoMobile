@@ -1,12 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import {
-  Paragraph,
-  Card,
-  useTheme,
-  Avatar,
-  Caption
-} from 'react-native-paper'
+import { Paragraph, Card, useTheme, Avatar, Caption } from 'react-native-paper'
 
 import avatarDefault from '../../../assets/images/avatar.png'
 import { OpinionAffirmationInterface } from '../../../redux/types'
@@ -17,23 +11,17 @@ interface AffirmationOpinionItemProps {
 }
 const AffirmationOpinionItem = ({ opinion }: AffirmationOpinionItemProps) => {
   const { colors } = useTheme()
-  const avatarSource = (opinion?.avatar) ? { uri: opinion.avatar } : avatarDefault
+  const avatarSource = opinion?.avatar ? { uri: opinion.avatar } : avatarDefault
 
   return (
-    <Card style={styles.card} >
+    <Card style={styles.card}>
       <Card.Content style={styles.container}>
         <View style={styles.column}>
-          <Avatar.Image
-            style={styles.avatar}
-            source={avatarSource}
-            size={28}
-          />
+          <Avatar.Image style={styles.avatar} source={avatarSource} size={28} />
         </View>
-        <View style={[styles.column, { flexShrink: 1 }]} >
-          <Caption style={styles.textLimit}>
-            {opinion?.userLogin}
-          </Caption>
-          <Paragraph style={[ styles.textLimit, { margin: 0 }]}>
+        <View style={[styles.column, { flexShrink: 1 }]}>
+          <Caption style={styles.textLimit}>{opinion?.userLogin}</Caption>
+          <Paragraph style={[styles.textLimit, { margin: 0 }]}>
             {avaliationMessage(opinion.opinionAvaliation)}.
           </Paragraph>
         </View>
@@ -64,7 +52,7 @@ const styles = StyleSheet.create({
     margin: 0
   },
   textLimit: {
-    overflow: 'hidden',
+    overflow: 'hidden'
     // textOverflow: 'ellipsis',
     // whiteSpace: 'nowrap'
   }

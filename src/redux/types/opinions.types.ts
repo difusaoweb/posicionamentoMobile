@@ -54,9 +54,8 @@ export interface GetOpinionsUserSuccessReturnActionInterface {
   opinions: OpinionUserInterface[]
 }
 
-
 export interface SetOpinionAffirmationParametersServiceInterface {
-  affirmationId: number,
+  affirmationId: number
   avaliation: number
 }
 export interface SetOpinionAffirmationSuccessReturnActionInterface {
@@ -70,7 +69,7 @@ export const SET_OPINION_AFFIRMATION = 'SET_OPINION_AFFIRMATION'
 interface GetOpinionsAffirmationAction {
   type: typeof GET_OPINIONS_AFFIRMATION
   payload: {
-    success: GetOpinionsAffirmationSuccessReturnActionInterface | null,
+    success: GetOpinionsAffirmationSuccessReturnActionInterface | null
     failure: ReturnErrorInterface | null
   }
 }
@@ -78,7 +77,7 @@ interface GetOpinionsAffirmationAction {
 interface GetOpinionsUserAction {
   type: typeof GET_OPINIONS_USER
   payload: {
-    success: GetOpinionsUserSuccessReturnActionInterface | null,
+    success: GetOpinionsUserSuccessReturnActionInterface | null
     failure: ReturnErrorInterface | null
   }
 }
@@ -86,17 +85,20 @@ interface GetOpinionsUserAction {
 interface SetOpinionAffirmationAction {
   type: typeof SET_OPINION_AFFIRMATION
   payload: {
-    success: SetOpinionAffirmationSuccessReturnActionInterface | null,
+    success: SetOpinionAffirmationSuccessReturnActionInterface | null
     failure: ReturnErrorInterface | null
   }
 }
 
 export interface OpinionState {
-  opinionsAffirmation: OpinionAffirmationInterface[] | null
-  opinionsUser: OpinionUserInterface[] | null
+  affirmationOpinions: OpinionAffirmationInterface[] | null
+  userOpinions: OpinionUserInterface[] | null
   getOpinionsUserError: ReturnErrorInterface | null
   getOpinionsAffirmationError: ReturnErrorInterface | null
   setOpinionAffirmationError: ReturnErrorInterface | null
 }
 
-export type OpinionActionTypes = GetOpinionsAffirmationAction | GetOpinionsUserAction | SetOpinionAffirmationAction
+export type OpinionActionTypes =
+  | GetOpinionsAffirmationAction
+  | GetOpinionsUserAction
+  | SetOpinionAffirmationAction

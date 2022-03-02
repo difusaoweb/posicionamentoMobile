@@ -43,7 +43,7 @@ export const GET_USER_PROFILE = 'GET_USER_PROFILE'
 interface GetCurrentUserAction {
   type: typeof GET_CURRENT_USER
   payload: {
-    success: GetCurrentUserSuccessReturnActionInterface | null,
+    success: GetCurrentUserSuccessReturnActionInterface | null
     failure: ReturnErrorInterface | null
   }
 }
@@ -51,7 +51,7 @@ interface GetCurrentUserAction {
 interface GetUserProfileAction {
   type: typeof GET_USER_PROFILE
   payload: {
-    success: GetUserProfileSuccessReturnActionInterface | null,
+    success: GetUserProfileSuccessReturnActionInterface | null
     failure: ReturnErrorInterface | null
   }
 }

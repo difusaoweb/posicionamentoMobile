@@ -1,63 +1,76 @@
-import React from 'react'
-import {
-  StyleSheet,
-  View,
-  Dimensions
-} from 'react-native'
-import { useTheme } from 'react-native-paper'
-import { useSelector } from 'react-redux'
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'
-import type { StackNavigationProp } from '@react-navigation/stack'
+import * as React from 'react'
+import { View } from 'react-native'
+import { TextInput, Title, Button } from 'react-native-paper'
+import { useDispatch } from 'react-redux'
 
-import BannerHeader from '../../components/atoms/BannerHeader'
-import SignUpAccess from '../../components/ecosystems/SignUpAccess'
-import { RootState } from '../../redux'
+import { styles } from './index.style'
+import { postSignUp } from '../../redux'
+import Loading from '../../components/atoms/Loading'
 
-const height = Dimensions.get('window').height - 54
+const SignUpPage = () => {
+  const dispatch = useDispatch()
 
-interface SignUpProps {
-  navigation: StackNavigationProp<{}>
-}
-const SignUp = ({ navigation }: SignUpProps) => {
-  const { currentToken } = useSelector((state: RootState) => state.access)
-  const { colors } = useTheme()
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [userEmail, setUserEmail] = React.useState('')
+  const [displayName, setDisplayName] = React.useState('')
+  const [userLogin, setUserLogin] = React.useState('')
+  const [userPass, setUserPass] = React.useState('')
+  const [flatTextSecureEntry, setFlatTextSecureEntry] = React.useState(true)
 
-  if(!!currentToken) {
-    navigation.goBack()
+  async function onSignUp() {
+    setIsLoading(true)
+    await dispatch(postSignUp({ userLogin, userPass, userEmail, displayName }))
+
+    setIsLoading(false)
   }
 
+  if (isLoading) return <Loading />
+
   return (
-    <View style={[ styles.container, { backgroundColor: colors.background } ]}>
-      <BannerHeader />
-      <View style={styles.containerContent}>
-        <View style={styles.content}>
-          <SignUpAccess navigation={navigation} />
-        </View>
-      </View>
+    <View style={styles.container}>
+      <Title>Register</Title>
+      <TextInput
+        style={styles.inputContainerStyle}
+        label="E-mail"
+        value={userEmail}
+        onChangeText={text => setUserEmail(text)}
+      />
+      <TextInput
+        style={styles.inputContainerStyle}
+        label="Nome completo"
+        value={displayName}
+        onChangeText={text => setDisplayName(text)}
+      />
+      <TextInput
+        style={styles.inputContainerStyle}
+        label="E-mail ou nome de usúario"
+        value={userLogin}
+        onChangeText={text => setUserLogin(text)}
+      />
+      <TextInput
+        style={styles.inputContainerStyle}
+        label="Senha"
+        value={userPass}
+        onChangeText={text => setUserPass(text)}
+        secureTextEntry={flatTextSecureEntry}
+        right={
+          <TextInput.Icon
+            name={flatTextSecureEntry ? 'eye' : 'eye-off'}
+            onPress={() => setFlatTextSecureEntry(!flatTextSecureEntry)}
+            forceTextInputFocus={false}
+          />
+        }
+      />
+      <Button
+        mode="contained"
+        style={styles.button}
+        onPress={onSignUp}
+        disabled={isLoading || !userLogin || !userPass}
+      >
+        Entrar
+      </Button>
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    paddingTop: getStatusBarHeight()
-  },
-  containerContent: {
-    flex: 1,
-    flexDirection: 'row',
-    height: height,
-    minHeight: height,
-    maxHeight: height,
-    width: '100%',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start'
-  },
-  content: {
-    height: '100%',
-    width: '100%'
-  }
-})
-
-export default SignUp
+export default SignUpPage

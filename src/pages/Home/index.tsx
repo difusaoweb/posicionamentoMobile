@@ -1,17 +1,25 @@
-import React from 'react'
+import * as React from 'react'
 import type { StackNavigationProp } from '@react-navigation/stack'
+import { useSelector } from 'react-redux'
 
 import ScreenWrapper from '../../ScreenWrapper'
-import ListAffirmationsHome from '../../components/ecosystems/ListAffirmationsHome'
+import { RootState } from '../../redux'
+import HomeSigned from '../../components/ecosystems/HomeSigned'
+import HomeNotSigned from '../../components/ecosystems/HomeNotSigned'
 
-
-type HomePageProps = {
+interface HomePageProps {
   navigation: StackNavigationProp<{}>
 }
 const HomePage = ({ navigation }: HomePageProps) => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.access)
+
   return (
     <ScreenWrapper contentContainerStyle={{ flex: 1 }}>
-      <ListAffirmationsHome navigation={navigation} />
+      {isAuthenticated ? (
+        <HomeSigned navigation={navigation} />
+      ) : (
+        <HomeNotSigned navigation={navigation} />
+      )}
     </ScreenWrapper>
   )
 }

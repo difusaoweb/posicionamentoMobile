@@ -17,11 +17,11 @@ export interface ImgInterface {
 export const FETCH_REQUEST = 'FETCH_REQUEST'
 export const FETCH_FAILURE = 'FETCH_FAILURE'
 
-interface FetchRequestAction  {
+interface FetchRequestAction {
   type: typeof FETCH_REQUEST
 }
 
-interface FetchFailureAction  {
+interface FetchFailureAction {
   type: typeof FETCH_FAILURE
   payload: any
 }

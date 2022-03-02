@@ -12,7 +12,10 @@ const initialState: UserState = {
   getUserProfileError: null
 }
 
-export function usersReducer(state: UserState = initialState, action: UserActionTypes): UserState {
+export function usersReducer(
+  state: UserState = initialState,
+  action: UserActionTypes
+): UserState {
   switch (action.type) {
     case GET_CURRENT_USER: {
       return {

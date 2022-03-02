@@ -6,7 +6,9 @@ import {
   SetNotificationReturnActionInterface
 } from '../types'
 
-const setNotificationSuccess: ActionCreator<NotificationActionTypes> = (set: SetNotificationReturnActionInterface) => {
+const setNotificationSuccess: ActionCreator<NotificationActionTypes> = (
+  set: SetNotificationReturnActionInterface
+) => {
   return { type: SET_NOTIFICATION, payload: set }
 }
 

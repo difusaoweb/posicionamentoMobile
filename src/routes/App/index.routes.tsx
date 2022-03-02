@@ -1,5 +1,5 @@
-import React from 'react'
-import  { createStackNavigator } from '@react-navigation/stack'
+import * as React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
 
 import TabRoutes from './tab.routes'
 import AffirmationPage from '../../pages/Affirmation'

@@ -1,9 +1,10 @@
 import axios from 'axios'
 
+const baseURL = `${process.env.API_URL}:${process.env.API_PORT}/v${process.env.API_VERSION}/`
+
 const api = axios.create({
-  baseURL: 'http://192.168.0.105:3333/v1/',
-  headers: { 'Access-Control-Allow-Origin': '*' },
-  // timeout: 60*60*1000
+  baseURL: baseURL,
+  headers: { 'Access-Control-Allow-Origin': '*' }
 })
 
 export default api

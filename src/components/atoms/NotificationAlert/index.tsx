@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import * as React from 'react'
 import { Text } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTheme, Snackbar } from 'react-native-paper'
+import { useTranslation } from 'react-i18next'
 
 import { setNotification, RootState } from '../../../redux'
+import { styles } from './index.styles'
 
 const NotificationAlert: React.FC = () => {
   const dispatch = useDispatch()
   const { message } = useSelector((state: RootState) => state.notifications)
   const { colors } = useTheme()
+  const [t] = useTranslation('general')
 
-  const [alertNotification, setAlertNotification] = useState(false)
+  const [alertNotification, setAlertNotification] = React.useState(false)
 
   function clearNotification() {
     dispatch(setNotification({ message: null }))
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     setAlertNotification(!!message)
   }, [message])
 
@@ -29,12 +32,12 @@ const NotificationAlert: React.FC = () => {
         setAlertNotification(false)
       }}
       action={{
-        label: 'Fechar',
+        label: t('close'),
         onPress: () => clearNotification()
       }}
-      duration={Snackbar.DURATION_LONG}
+      duration={1000 * 60 * 60}
     >
-      <Text style={{ color: '#fff' }}>{message}</Text>
+      <Text style={styles.text}>{message}</Text>
     </Snackbar>
   )
 }

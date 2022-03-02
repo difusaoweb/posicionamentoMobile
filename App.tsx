@@ -3,9 +3,13 @@ import { AppRegistry } from 'react-native'
 import { Provider as PaperProvider, DarkTheme } from 'react-native-paper'
 import { Provider as ReduxProvider } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native'
+import { I18nextProvider } from 'react-i18next'
 
+import i18n from './src/locales/index'
 import Routes from './src/routes'
 import { store } from './src/redux'
+
+import { StatusBar } from 'expo-status-bar'
 
 declare global {
   namespace ReactNativePaper {
@@ -34,17 +38,17 @@ const theme = {
   }
 }
 
-import { StatusBar } from 'expo-status-bar'
-
 const App: React.FC = () => {
   return (
     <>
-      <StatusBar style='light' />
+      <StatusBar style="light" />
       <PaperProvider theme={theme}>
         <ReduxProvider store={store}>
-          <NavigationContainer>
-            <Routes />
-          </NavigationContainer>
+          <I18nextProvider i18n={i18n}>
+            <NavigationContainer>
+              <Routes />
+            </NavigationContainer>
+          </I18nextProvider>
         </ReduxProvider>
       </PaperProvider>
     </>
