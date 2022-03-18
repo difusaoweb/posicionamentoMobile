@@ -3,8 +3,9 @@ import { FlatList } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
-import { getAffirmationsHome, RootState } from '../../../redux'
+import { getAffirmationsTrending, RootState } from '../../../redux'
 import HomeAffirmationListItem from '../../organims/HomeAffirmationListItem'
 import ErrorHome from '../../organims/ErrorHome'
 import Loading from '../../atoms/Loading'
@@ -14,26 +15,27 @@ interface TrendingProps {
 }
 const Trending = ({ navigation }: TrendingProps) => {
   const dispatch = useDispatch()
-  const { homeAffirmations, getAffirmationsHomeError } = useSelector(
+  const { trendingAffirmations, getAffirmationsTrendingError } = useSelector(
     (state: RootState) => state.affirmations
   )
+  const [t] = useTranslation('trending')
   const { colors } = useTheme()
 
   const [isLoading, setIsLoading] = React.useState(true)
 
-  async function refreshHome() {
-    await dispatch(getAffirmationsHome())
+  async function onGetAffirmationsTrending() {
+    await dispatch(getAffirmationsTrending())
     setIsLoading(false)
   }
 
   React.useEffect(() => {
-    refreshHome()
+    onGetAffirmationsTrending()
   }, [])
 
   if (isLoading) return <Loading />
 
-  if (getAffirmationsHomeError)
-    return <ErrorHome message={getAffirmationsHomeError.message} />
+  if (getAffirmationsTrendingError?.status == 404)
+    return <ErrorHome type="info" message={t('noTredingAffirmationsYet')} />
 
   return (
     <FlatList
@@ -42,7 +44,7 @@ const Trending = ({ navigation }: TrendingProps) => {
         <HomeAffirmationListItem navigation={navigation} affirmation={item} />
       )}
       keyExtractor={item => `${item.id}`}
-      data={homeAffirmations}
+      data={trendingAffirmations}
     />
   )
 }

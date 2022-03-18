@@ -1,26 +1,29 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 
+import { styles } from './index.style'
 import ErrorBox from '../../molecules/ErrorBox'
 
 interface ErrorHomeProps {
+  type: string
   message: string
 }
+const ErrorHome = ({ type, message }: ErrorHomeProps) => {
+  let icon = ''
+  switch (type) {
+    case 'info':
+      icon = 'information'
+      break
+    default:
+      icon = 'alert'
+      break
+  }
 
-const ErrorHome = ({ message }: ErrorHomeProps) => {
   return (
     <View style={styles.container}>
-      <ErrorBox message={message} />
+      <ErrorBox icon={icon} message={message} />
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center'
-  }
-})
 
 export default ErrorHome

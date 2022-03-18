@@ -1,15 +1,36 @@
 import { StyleSheet } from 'react-native'
+
 export const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
-    paddingTop: 24,
-    paddingHorizontal: 12
+    // flex: 1,
+    // alignContent: 'flex-start',
+    // justifyContent: 'center',
+    flexDirection: 'column',
+    // flexWrap: 'wrap',
+    paddingHorizontal: 20,
+    paddingTop: 30
   },
-  inputContainerStyle: {
-    margin: 8
+  row: {
+    flexDirection: 'row'
+    // width: '100%'
+  },
+  rowJustifyEnd: {
+    justifyContent: 'flex-end'
+  },
+  input: {
+    marginBottom: 6
+  },
+  inputPassword: {
+    marginBottom: 6
   },
   button: {
-    margin: 4
+    marginBottom: 8
+  },
+  buttonSignIn: {
+    marginBottom: 16
+  },
+  buttonLeft: {
+    width: '100%',
+    justifyContent: 'flex-end'
   }
 })

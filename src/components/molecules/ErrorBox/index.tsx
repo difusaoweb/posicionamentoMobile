@@ -1,19 +1,21 @@
 import * as React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import { useTheme, Title } from 'react-native-paper'
-import { FontAwesome5 } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+import { styles } from './index.style'
 
 interface ErrorBoxProps {
+  icon: string
   message: string
 }
-
-const ErrorBox = ({ message }: ErrorBoxProps) => {
+const ErrorBox = ({ icon, message }: ErrorBoxProps) => {
   const { colors } = useTheme()
 
   return (
     <View style={styles.row}>
-      <FontAwesome5
-        name="exclamation-triangle"
+      <MaterialCommunityIcons
+        name={icon}
         size={48}
         style={[styles.icon, { color: colors.error }]}
       />
@@ -21,15 +23,5 @@ const ErrorBox = ({ message }: ErrorBoxProps) => {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  row: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  icon: {
-    marginBottom: 3
-  }
-})
 
 export default ErrorBox

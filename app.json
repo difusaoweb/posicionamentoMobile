@@ -32,13 +32,16 @@
         "googleMobileAdsAppId": "ca-app-pub-8947654147770289~7091736003"
       }
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
     "androidStatusBar": {
       "backgroundColor": "#121212",
       "barStyle": "light-content",
       "translucent": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "packagerOpts": {
+      "config": "metro.config.js"
     },
     "plugins": [
       [

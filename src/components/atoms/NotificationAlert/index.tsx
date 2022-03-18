@@ -15,8 +15,13 @@ const NotificationAlert: React.FC = () => {
 
   const [alertNotification, setAlertNotification] = React.useState(false)
 
-  function clearNotification() {
-    dispatch(setNotification({ message: null }))
+  async function clearNotification() {
+    await dispatch(setNotification({ message: null }))
+  }
+
+  function onDismiss() {
+    clearNotification()
+    setAlertNotification(false)
   }
 
   React.useEffect(() => {
@@ -25,15 +30,12 @@ const NotificationAlert: React.FC = () => {
 
   return (
     <Snackbar
-      style={{ backgroundColor: colors.primary }}
+      style={[styles.alert, { backgroundColor: colors.primary }]}
       visible={alertNotification}
-      onDismiss={() => {
-        clearNotification()
-        setAlertNotification(false)
-      }}
+      onDismiss={onDismiss}
       action={{
         label: t('close'),
-        onPress: () => clearNotification()
+        onPress: onDismiss
       }}
       duration={1000 * 60 * 60}
     >

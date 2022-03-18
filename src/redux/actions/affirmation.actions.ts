@@ -149,7 +149,7 @@ export function getAffirmationsTrending() {
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'Error ao pegar as afirmações do Trending.'
+        message: 'error get affirmations from trending'
       }
       if (axios.isAxiosError(err)) {
         err as AxiosError
@@ -157,8 +157,9 @@ export function getAffirmationsTrending() {
         returnError.message =
           err.response?.data?.failure?.message ?? returnError.message
       }
-
-      dispatch(setNotification({ message: returnError.message }))
+      if (returnError.status != 404) {
+        dispatch(setNotification({ message: returnError.message }))
+      }
       dispatch(getAffirmationsTrendingFailure(returnError))
       dispatch(failure(returnError.message))
     }

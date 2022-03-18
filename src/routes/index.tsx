@@ -51,8 +51,8 @@ const Routes: React.FC = () => {
         <Stack.Screen name="AppRoutes" component={AppRoutes} />
         <Stack.Screen name="AccessRoutes" component={AccessRoutes} />
       </Stack.Navigator>
-      <NotificationAlert />
       <BannerHeader />
+      <NotificationAlert />
     </View>
   )
 }
