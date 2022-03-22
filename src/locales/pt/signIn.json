@@ -1,5 +1,6 @@
 {
   "signIn": "Entrar",
+  "description": "Olá! Digite o seu e-mail ou usuário",
   "emailOrUsername": "E-mail ou nome de usúario",
   "password": "Senha",
   "forgotPassword?": "Esqueceu a senha?"

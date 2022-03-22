@@ -6,7 +6,5 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 8
-  },
-  icon: { marginRight: 3 },
-  text: {}
+  }
 })

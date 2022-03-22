@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     marginVertical: 9,
     marginHorizontal: 12
@@ -27,3 +27,5 @@ export const styles = StyleSheet.create({
   icon: { marginRight: 3 },
   text: {}
 })
+
+export default styles

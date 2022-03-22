@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { FlatList } from 'react-native'
-import { useTheme } from 'react-native-paper'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -19,15 +19,21 @@ const HomeSigned = ({ navigation }: HomeSignedProps) => {
   )
   const { colors } = useTheme()
 
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [page, setPage] = React.useState(1)
 
-  async function refreshHome() {
-    await dispatch(getAffirmationsHome())
+  async function refreshAffirmations() {
+    if (isLoading) return
+    setIsLoading(true)
+
+    await dispatch(getAffirmationsHome({ page }))
+    setPage(page + 1)
     setIsLoading(false)
+    console.log(homeAffirmations)
   }
 
   React.useEffect(() => {
-    refreshHome()
+    refreshAffirmations()
   }, [])
 
   if (isLoading) return <Loading />
@@ -37,12 +43,15 @@ const HomeSigned = ({ navigation }: HomeSignedProps) => {
 
   return (
     <FlatList
-      style={{ backgroundColor: colors.background }}
+      // style={{ backgroundColor: colors.background }}
       renderItem={({ item }) => (
         <HomeAffirmationListItem navigation={navigation} affirmation={item} />
       )}
       keyExtractor={item => `${item.id}`}
       data={homeAffirmations}
+      // onEndReached={refreshAffirmations}
+      // onEndReachedThreshold={0.1}
+      // ListFooterComponent={<ActivityIndicator />}
     />
   )
 }

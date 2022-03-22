@@ -5,6 +5,11 @@
     "slug": "posicionamento",
     "version": "2021.10.02",
     "orientation": "portrait",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -17,13 +22,8 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true,
-      "config": {
-        "googleMobileAdsAppId": "ca-app-pub-8947654147770289~8271642656"
-      }
-    },
     "android": {
+      "package": "com.difusaoweb.posicionamento",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#121212"
@@ -37,11 +37,19 @@
       "barStyle": "light-content",
       "translucent": true
     },
+    "ios": {
+      "bundleIdentifier": "com.difusaoweb.posicionamento",
+      "supportsTablet": true,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-8947654147770289~8271642656"
+      }
+    },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "packagerOpts": {
-      "config": "metro.config.js"
+      "config": "metro.config.js",
+      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
     },
     "plugins": [
       [

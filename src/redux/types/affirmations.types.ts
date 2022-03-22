@@ -8,7 +8,7 @@ export interface GetAffirmationsHomeReturnPromiseInterface {
   neutral: number
   disagree: number
   strongly_disagree: number
-  opinion_avaliation: number | null
+  opinion_value: number | null
 }
 
 export interface AffirmationHomeInterface {
@@ -19,7 +19,11 @@ export interface AffirmationHomeInterface {
   neutral: number
   disagree: number
   stronglyDisagree: number
-  opinionAvaliation: number | null
+  opinionValue: number | null
+}
+
+export interface GetAffirmationsHomeParametersServiceInterface {
+  page: number
 }
 
 export interface GetAffirmationsHomeSuccessReturnActionInterface {

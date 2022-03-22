@@ -71,7 +71,7 @@ export function getOpinionsAffirmation({
             return {
               id: opinion.id,
               opinionAuthor: opinion.opinion_author,
-              opinionAvaliation: opinion.opinion_avaliation,
+              currentUserAvaliation: opinion.opinion_avaliation,
               userLogin: opinion.user_login,
               avatar: opinion.avatar
             }
@@ -112,7 +112,7 @@ export function getOpinionsUser({
             id: opinion.id,
             affirmationParent: opinion.affirmation_parent,
             affirmationMessage: opinion.affirmation_message,
-            opinionAvaliation: opinion.opinion_avaliation
+            currentUserAvaliation: opinion.opinion_avaliation
           }
         }
       )
@@ -139,7 +139,7 @@ export function getOpinionsUser({
 
 export function setOpinionAffirmation({
   affirmationId,
-  avaliation
+  opinionValue
 }: SetOpinionAffirmationParametersServiceInterface) {
   return async (dispatch, getState) => {
     try {
@@ -147,25 +147,14 @@ export function setOpinionAffirmation({
 
       const { data } = await opinionService.setOpinionAffirmation({
         affirmationId,
-        avaliation
+        opinionValue
       })
-      const opinionId: number = data?.success?.opinion_id ?? 0
 
-      const { user } = getState().localStorageReducer
-
-      const theOpinion: OpinionAffirmationInterface = {
-        id: opinionId,
-        opinionAuthor: user?.id,
-        opinionAvaliation: avaliation,
-        userLogin: user?.userLogin,
-        avatar: user?.meta?.avatar || null
-      }
-
-      dispatch(setOpinionAffirmationSuccess({ opinion: theOpinion }))
+      dispatch(getOpinionsAffirmation({ affirmationId }))
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'Error ao avalaiar a afirmação.'
+        message: 'Error set opinion affirmation.'
       }
       if (axios.isAxiosError(err)) {
         err as AxiosError
@@ -175,7 +164,6 @@ export function setOpinionAffirmation({
       }
 
       dispatch(setNotification({ message: returnError.message }))
-      dispatch(setOpinionAffirmationFailure(returnError))
       dispatch(failure(returnError.message))
     }
   }

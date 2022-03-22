@@ -15,7 +15,7 @@ export interface GetOpinionsAffirmationReturnPromiseInterface {
 export interface OpinionAffirmationInterface {
   id: number
   opinionAuthor: number
-  opinionAvaliation: number
+  currentUserAvaliation: number
   userLogin: string
   avatar: string | null
 }
@@ -56,7 +56,7 @@ export interface GetOpinionsUserSuccessReturnActionInterface {
 
 export interface SetOpinionAffirmationParametersServiceInterface {
   affirmationId: number
-  avaliation: number
+  opinionValue: number
 }
 export interface SetOpinionAffirmationSuccessReturnActionInterface {
   opinionId: number

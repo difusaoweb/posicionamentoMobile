@@ -4,6 +4,9 @@ import { Provider as PaperProvider, DarkTheme } from 'react-native-paper'
 import { Provider as ReduxProvider } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native'
 import { I18nextProvider } from 'react-i18next'
+import AppLoading from 'expo-app-loading'
+// import * as Font from 'expo-font'
+// import * as SplashScreen from 'expo-splash-screen'
 
 import i18n from './src/locales/index'
 import Routes from './src/routes'
@@ -39,6 +42,14 @@ const theme = {
 }
 
 const App: React.FC = () => {
+  const [isLoading, setIsLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    setIsLoading(false)
+  }, [])
+
+  if (isLoading) return <AppLoading />
+
   return (
     <>
       <StatusBar style="light" />

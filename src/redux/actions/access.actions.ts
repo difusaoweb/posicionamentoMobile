@@ -43,11 +43,6 @@ const getSignInSuccess: ActionCreator<AccessActionTypes> = (
 ) => {
   return { type: GET_SIGN_IN, payload: { success, failure: null } }
 }
-const getSignInFailure: ActionCreator<AccessActionTypes> = (
-  failure: ReturnErrorInterface
-) => {
-  return { type: GET_SIGN_IN, payload: { success: null, failure } }
-}
 
 const postSignUpSuccess: ActionCreator<AccessActionTypes> = () => {
   return { type: POST_SIGN_UP, payload: { failure: null } }
@@ -60,11 +55,6 @@ const postSignUpFailure: ActionCreator<AccessActionTypes> = (
 
 const deleteLogOutSuccess: ActionCreator<AccessActionTypes> = () => {
   return { type: DELETE_LOG_OUT, payload: { failure: null } }
-}
-const deleteLogOutFailure: ActionCreator<AccessActionTypes> = (
-  failure: ReturnErrorInterface
-) => {
-  return { type: DELETE_LOG_OUT, payload: { failure } }
 }
 
 export function getCurrentToken() {
@@ -101,7 +91,7 @@ export function getIsAuthenticated() {
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'error checking if token is authenticated'
+        message: 'Error checking authentication.'
       }
       if (axios.isAxiosError(err)) {
         err as AxiosError
@@ -144,7 +134,7 @@ export function getSignIn({
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'error when sign in'
+        message: 'Error when sign in'
       }
       if (axios.isAxiosError(err)) {
         err as AxiosError
@@ -154,7 +144,6 @@ export function getSignIn({
       }
 
       dispatch(setNotification({ message: returnError.message }))
-      dispatch(getSignInFailure(returnError))
       dispatch(failure(returnError.message))
     }
   }
@@ -221,7 +210,6 @@ export function deleteLogOut() {
       }
 
       dispatch(setNotification({ message: returnError.message }))
-      dispatch(deleteLogOutFailure(returnError))
       dispatch(failure(returnError.message))
     }
   }

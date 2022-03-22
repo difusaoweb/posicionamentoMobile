@@ -26,9 +26,18 @@ export function affirmationsReducer(
 ): AffirmationState {
   switch (action.type) {
     case GET_AFFIRMATIONS_HOME: {
+      let homeAffirmations = state.homeAffirmations
+      if (action.payload.success?.affirmations) {
+        if (homeAffirmations) {
+          homeAffirmations.concat(action.payload.success?.affirmations)
+        } else {
+          homeAffirmations = action.payload.success?.affirmations
+        }
+      }
+
       return {
         ...state,
-        homeAffirmations: action.payload.success?.affirmations ?? null,
+        homeAffirmations: homeAffirmations,
         getAffirmationsHomeError: action.payload.failure
       }
     }

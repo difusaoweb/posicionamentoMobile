@@ -1,20 +1,20 @@
 import * as React from 'react'
-import { View, ScrollView } from 'react-native'
+import { View } from 'react-native'
 import { Appbar, TextInput, Title, Button, useTheme } from 'react-native-paper'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
 import ScreenWrapper from '../../ScreenWrapper'
 import { styles } from './index.style'
-import { getSignIn } from '../../redux'
-import Loading from '../../components/atoms/Loading'
-import Logo from '../../assets/images/sign-in/bower.svg'
+import { getSignIn, RootState } from '../../redux'
+import Logo from '../../assets/images/sign-in/logo.svg'
 
 interface SignInPageProps {
   navigation: StackNavigationProp<{}>
 }
 const SignInPage = ({ navigation }: SignInPageProps) => {
+  const { currentToken } = useSelector((state: RootState) => state.access)
   const dispatch = useDispatch()
   const [t] = useTranslation('signIn')
   const { colors } = useTheme()
@@ -22,13 +22,17 @@ const SignInPage = ({ navigation }: SignInPageProps) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [userLogin, setUserLogin] = React.useState('')
   const [userPass, setUserPass] = React.useState('')
-  const [flatTextSecureEntry, setFlatTextSecureEntry] = React.useState(true)
+  const [displayPasswordText, setDisplayPasswordText] = React.useState(true)
 
   async function onSignIn() {
     setIsLoading(true)
     await dispatch(getSignIn({ userLogin, userPass }))
 
     setIsLoading(false)
+  }
+
+  if (currentToken) {
+    navigation.navigate('AppRoutes', { screen: 'TabRoutes' })
   }
 
   function goSignUp() {
@@ -39,8 +43,6 @@ const SignInPage = ({ navigation }: SignInPageProps) => {
     navigation.navigate('AccessRoutes', { screen: 'ForgotPasswordPage' })
   }
 
-  if (isLoading) return <Loading />
-
   return (
     <>
       <Appbar style={{ backgroundColor: colors.background }}>
@@ -49,48 +51,65 @@ const SignInPage = ({ navigation }: SignInPageProps) => {
       </Appbar>
       <ScreenWrapper>
         <View style={styles.container}>
-          <Logo />
-          <View style={styles.row}>
-            <Title>Olá! Digite o seu e-mail ou usuário</Title>
+          <View style={[styles.row, styles.justifyContentCenter]}>
+            <Logo style={styles.logo} width={120} height={40} />
           </View>
-          <TextInput
-            style={styles.input}
-            label={t('emailOrUsername')}
-            value={userLogin}
-            onChangeText={text => setUserLogin(text)}
-          />
-          <TextInput
-            style={[styles.input, styles.inputPassword]}
-            label={t('password')}
-            value={userPass}
-            onChangeText={text => setUserPass(text)}
-            secureTextEntry={flatTextSecureEntry}
-            right={
-              <TextInput.Icon
-                name={flatTextSecureEntry ? 'eye' : 'eye-off'}
-                onPress={() => setFlatTextSecureEntry(!flatTextSecureEntry)}
-                forceTextInputFocus={false}
-              />
-            }
-          />
-          <Button
-            mode="text"
-            onPress={onForgotPassword}
-            style={styles.buttonLeft}
-          >
-            {t('forgotPassword')}
-          </Button>
-          <Button
-            mode="contained"
-            style={[styles.button, styles.buttonSignIn]}
-            onPress={onSignIn}
-            disabled={isLoading || !userLogin || !userPass}
-          >
-            {t('signIn')}
-          </Button>
-          <Button mode="outlined" style={styles.button} onPress={goSignUp}>
-            {t('signUp')}
-          </Button>
+          <View style={[styles.row, styles.justifyContentCenter]}>
+            <Title style={styles.description}>{t('description')}</Title>
+          </View>
+          <View style={styles.row}>
+            <TextInput
+              style={styles.input}
+              label={t('emailOrUsername')}
+              value={userLogin}
+              onChangeText={text => setUserLogin(text)}
+            />
+          </View>
+          <View style={styles.row}>
+            <TextInput
+              style={styles.input}
+              label={t('password')}
+              value={userPass}
+              onChangeText={text => setUserPass(text)}
+              secureTextEntry={displayPasswordText}
+              right={
+                <TextInput.Icon
+                  name={displayPasswordText ? 'eye' : 'eye-off'}
+                  onPress={() => setDisplayPasswordText(!displayPasswordText)}
+                  forceTextInputFocus={false}
+                />
+              }
+            />
+          </View>
+          <View style={styles.row}>
+            <Button
+              mode="contained"
+              style={[styles.button, styles.buttonWidht100]}
+              onPress={onSignIn}
+              disabled={isLoading || !userLogin || !userPass}
+              loading={isLoading}
+            >
+              {t('signIn')}
+            </Button>
+          </View>
+          <View style={[styles.row, styles.rowJustifyEnd]}>
+            <Button
+              mode="text"
+              onPress={onForgotPassword}
+              style={styles.button}
+            >
+              {t('forgotPassword')}
+            </Button>
+          </View>
+          <View style={styles.row}>
+            <Button
+              mode="outlined"
+              style={[styles.button, styles.buttonWidht100]}
+              onPress={goSignUp}
+            >
+              {t('signUp')}
+            </Button>
+          </View>
         </View>
       </ScreenWrapper>
     </>

@@ -29,12 +29,12 @@ async function getOpinionsUser({
 
 async function setOpinionAffirmation({
   affirmationId,
-  avaliation
+  opinionValue
 }: SetOpinionAffirmationParametersServiceInterface): Promise<AxiosResponse> {
   return await api.get('/opinions/create', {
     params: {
       affirmation_id: affirmationId,
-      avaliation_value: avaliation
+      opinion_value: opinionValue
     }
   })
 }

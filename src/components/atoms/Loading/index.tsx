@@ -1,17 +1,17 @@
-import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
+import * as React from 'react'
+import { View } from 'react-native'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
+
+import styles from './index.style'
 
 const Loading: React.FC = () => {
+  const { colors } = useTheme()
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <ActivityIndicator />
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignContent: 'center' }
-})
 
 export default Loading

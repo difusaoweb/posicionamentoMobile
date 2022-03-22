@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios'
 
 import api from './api'
 import {
+  GetAffirmationsHomeParametersServiceInterface,
   GetAffirmationSingleParametersServiceInterface,
   GetAffirmationsSearchParametersServiceInterface,
   PostAffirmationSingleParametersServiceInterface
@@ -14,8 +15,10 @@ export const affirmationService = {
   postAffirmationSingle
 }
 
-async function getAffirmationsHome(): Promise<AxiosResponse> {
-  return await api.get('affirmations/home')
+async function getAffirmationsHome({
+  page
+}: GetAffirmationsHomeParametersServiceInterface): Promise<AxiosResponse> {
+  return await api.get('affirmations/home', { params: { page, per_page: 10 } })
 }
 
 async function getAffirmationsTrending(): Promise<AxiosResponse> {

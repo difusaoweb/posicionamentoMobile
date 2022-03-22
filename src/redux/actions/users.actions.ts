@@ -21,11 +21,6 @@ const getCurrentUserSuccess: ActionCreator<UserActionTypes> = (
 ) => {
   return { type: GET_CURRENT_USER, payload: { success, failure: null } }
 }
-const getCurrentUserFailure: ActionCreator<UserActionTypes> = (
-  failure: ReturnErrorInterface
-) => {
-  return { type: GET_CURRENT_USER, payload: { success: null, failure } }
-}
 
 const getUserProfileSuccess: ActionCreator<UserActionTypes> = (
   success: GetUserProfileSuccessReturnActionInterface
@@ -51,11 +46,10 @@ export function getCurrentUser() {
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'Error ao pegar o usuário salvo.'
+        message: 'Error get current user.'
       }
 
       dispatch(setNotification({ message: returnError.message }))
-      dispatch(getCurrentUserFailure(returnError))
     }
   }
 }

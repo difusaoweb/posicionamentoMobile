@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Paragraph, Card, useTheme, Caption } from 'react-native-paper'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { View } from 'react-native'
+import { Paragraph, Card } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
+import styles from './index.style'
+import HomeAffirmationListItemFooterOpnion from '../../atoms/HomeAffirmationListItemFooterOpnion'
 import { AffirmationHomeInterface } from '../../../redux/types'
-import { numberOpinionFormated } from '../../../utils'
 
 interface HomeAffirmationListItemProps {
   navigation: StackNavigationProp<{}>
@@ -15,8 +15,6 @@ const HomeAffirmationListItem = ({
   navigation,
   affirmation
 }: HomeAffirmationListItemProps) => {
-  const { colors } = useTheme()
-
   return (
     <Card
       style={styles.card}
@@ -32,112 +30,43 @@ const HomeAffirmationListItem = ({
       </Card.Content>
       <Card.Actions>
         <View style={styles.avaliationColumn}>
-          <MaterialCommunityIcons
-            name={
-              affirmation?.opinionAvaliation == 1
-                ? 'thumb-up'
-                : 'thumb-up-outline'
-            }
-            size={12}
-            style={[styles.icon, { color: colors.stronglyAgree }]}
+          <HomeAffirmationListItemFooterOpnion
+            active={affirmation.opinionValue === 1}
+            opinionValue={1}
+            opinionAmount={affirmation.stronglyAgree ?? 0}
           />
-          <Caption style={styles.text}>
-            {numberOpinionFormated(affirmation.stronglyAgree)}
-          </Caption>
         </View>
         <View style={styles.avaliationColumn}>
-          <MaterialCommunityIcons
-            name={
-              affirmation?.opinionAvaliation == 0.5
-                ? 'thumb-up'
-                : 'thumb-up-outline'
-            }
-            size={12}
-            style={[
-              styles.icon,
-              { color: colors.agree, transform: [{ rotate: '45deg' }] }
-            ]}
+          <HomeAffirmationListItemFooterOpnion
+            active={affirmation.opinionValue === 0.5}
+            opinionValue={0.5}
+            opinionAmount={affirmation.agree ?? 0}
           />
-          <Caption style={styles.text}>
-            {numberOpinionFormated(affirmation.agree)}
-          </Caption>
         </View>
         <View style={styles.avaliationColumn}>
-          <MaterialCommunityIcons
-            name={
-              affirmation?.opinionAvaliation == 0.5
-                ? 'thumb-up'
-                : 'thumb-up-outline'
-            }
-            size={12}
-            style={[
-              styles.icon,
-              { color: colors.neutral, transform: [{ rotate: '90deg' }] }
-            ]}
+          <HomeAffirmationListItemFooterOpnion
+            active={affirmation.opinionValue === 0}
+            opinionValue={0}
+            opinionAmount={affirmation.neutral ?? 0}
           />
-          <Caption style={styles.text}>
-            {numberOpinionFormated(affirmation.neutral)}
-          </Caption>
         </View>
         <View style={styles.avaliationColumn}>
-          <MaterialCommunityIcons
-            name={
-              affirmation?.opinionAvaliation == 0.5
-                ? 'thumb-up'
-                : 'thumb-up-outline'
-            }
-            size={12}
-            style={[
-              styles.icon,
-              { color: colors.disagree, transform: [{ rotate: '135deg' }] }
-            ]}
+          <HomeAffirmationListItemFooterOpnion
+            active={affirmation.opinionValue === -0.5}
+            opinionValue={-0.5}
+            opinionAmount={affirmation.disagree ?? 0}
           />
-          <Caption style={styles.text}>
-            {numberOpinionFormated(affirmation.disagree)}
-          </Caption>
         </View>
         <View style={styles.avaliationColumn}>
-          <MaterialCommunityIcons
-            name={
-              affirmation?.opinionAvaliation == 0.5
-                ? 'thumb-up'
-                : 'thumb-up-outline'
-            }
-            size={12}
-            style={[
-              styles.icon,
-              {
-                color: colors.stronglyDisagree,
-                transform: [{ rotate: '180deg' }]
-              }
-            ]}
+          <HomeAffirmationListItemFooterOpnion
+            active={affirmation.opinionValue === -1}
+            opinionValue={-1}
+            opinionAmount={affirmation.stronglyDisagree ?? 0}
           />
-          <Caption style={styles.text}>
-            {numberOpinionFormated(affirmation.stronglyDisagree)}
-          </Caption>
         </View>
       </Card.Actions>
     </Card>
   )
 }
-
-const styles = StyleSheet.create({
-  card: {
-    margin: 4
-  },
-  avaliationRow: {
-    flex: 5,
-    flexDirection: 'row',
-    flexWrap: 'nowrap'
-  },
-  avaliationColumn: {
-    flexDirection: 'row',
-    flexGrow: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  icon: { marginRight: 3 },
-  text: {}
-})
 
 export default HomeAffirmationListItem

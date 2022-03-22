@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { View } from 'react-native'
-import { useTheme, Headline } from 'react-native-paper'
+import { Headline } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
@@ -8,7 +8,7 @@ import { getAffirmationSingle, RootState } from '../../../redux'
 import Loading from '../../atoms/Loading'
 import AffirmationHeroButtonOpinion from '../../atoms/AffirmationHeroButtonOpinion'
 import ErrorHome from '../../organims/ErrorHome'
-import { styles } from './index.style'
+import styles from './index.style'
 
 interface AffirmationHeroProps {
   navigation: StackNavigationProp<{}>
@@ -22,7 +22,6 @@ const AffirmationHero = ({
   const { affirmationSingle, getAffirmationSingleError } = useSelector(
     (state: RootState) => state.affirmations
   )
-  const { colors } = useTheme()
 
   const [isLoading, setIsLoading] = React.useState(true)
 
@@ -48,8 +47,8 @@ const AffirmationHero = ({
       <View style={[styles.column, styles.avaliationRow]}>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionAvaliation === 1}
-            avaliationValue={1}
+            active={affirmationSingle?.opinionValue === 1}
+            opinionValue={1}
             opinionAmount={affirmationSingle?.stronglyAgree ?? 0}
             navigation={navigation}
             affirmationId={affirmationId}
@@ -57,8 +56,8 @@ const AffirmationHero = ({
         </View>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionAvaliation === 0.5}
-            avaliationValue={0.5}
+            active={affirmationSingle?.opinionValue === 0.5}
+            opinionValue={0.5}
             opinionAmount={affirmationSingle?.agree ?? 0}
             navigation={navigation}
             affirmationId={affirmationId}
@@ -66,8 +65,8 @@ const AffirmationHero = ({
         </View>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionAvaliation === 0}
-            avaliationValue={0}
+            active={affirmationSingle?.opinionValue === 0}
+            opinionValue={0}
             opinionAmount={affirmationSingle?.neutral ?? 0}
             navigation={navigation}
             affirmationId={affirmationId}
@@ -75,18 +74,18 @@ const AffirmationHero = ({
         </View>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionAvaliation === -0.5}
-            avaliationValue={-0.5}
-            opinionAmount={affirmationSingle?.neutral ?? 0}
+            active={affirmationSingle?.opinionValue === -0.5}
+            opinionValue={-0.5}
+            opinionAmount={affirmationSingle?.disagree ?? 0}
             navigation={navigation}
             affirmationId={affirmationId}
           />
         </View>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionAvaliation === -1}
-            avaliationValue={-1}
-            opinionAmount={affirmationSingle?.neutral ?? 0}
+            active={affirmationSingle?.opinionValue === -1}
+            opinionValue={-1}
+            opinionAmount={affirmationSingle?.stronglyDisagree ?? 0}
             navigation={navigation}
             affirmationId={affirmationId}
           />

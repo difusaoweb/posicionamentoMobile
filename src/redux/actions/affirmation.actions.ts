@@ -5,8 +5,9 @@ import { useTranslation } from 'react-i18next'
 import {
   GET_AFFIRMATIONS_HOME,
   AffirmationActionTypes,
-  GetAffirmationsHomeSuccessReturnActionInterface,
   ReturnErrorInterface,
+  GetAffirmationsHomeParametersServiceInterface,
+  GetAffirmationsHomeSuccessReturnActionInterface,
   AffirmationHomeInterface,
   GetAffirmationsHomeReturnPromiseInterface,
   SearchAffirmationsInterface,
@@ -81,12 +82,14 @@ const postAffirmationSingleFailure: ActionCreator<AffirmationActionTypes> = (
   return { type: POST_AFFIRMATION_SINGLE, payload: { success: null, failure } }
 }
 
-export function getAffirmationsHome() {
+export function getAffirmationsHome({
+  page
+}: GetAffirmationsHomeParametersServiceInterface) {
   return async dispatch => {
     try {
       dispatch(request())
 
-      const { data } = await affirmationService.getAffirmationsHome()
+      const { data } = await affirmationService.getAffirmationsHome({ page })
       const affirmations: AffirmationHomeInterface[] =
         data?.success?.affirmations?.map(
           (affirmation: GetAffirmationsHomeReturnPromiseInterface) => {
@@ -98,7 +101,7 @@ export function getAffirmationsHome() {
               neutral: affirmation?.neutral,
               disagree: affirmation?.disagree,
               stronglyDisagree: affirmation?.strongly_disagree,
-              opinionAvaliation: affirmation?.opinion_avaliation
+              opinionValue: affirmation?.opinion_value
             }
           }
         )
@@ -107,7 +110,7 @@ export function getAffirmationsHome() {
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'Error ao pegar as afirmações da Home.'
+        message: 'Error get affirmations from home.'
       }
       if (axios.isAxiosError(err)) {
         err as AxiosError
@@ -140,7 +143,7 @@ export function getAffirmationsTrending() {
               neutral: affirmation?.neutral,
               disagree: affirmation?.disagree,
               stronglyDisagree: affirmation?.strongly_disagree,
-              opinionAvaliation: affirmation?.opinion_avaliation
+              currentUserAvaliation: affirmation?.opinion_avaliation
             }
           }
         )
@@ -218,14 +221,14 @@ export function getAffirmationSingle({
         neutral: data?.success?.affirmation?.neutral,
         disagree: data?.success?.affirmation?.disagree,
         stronglyDisagree: data?.success?.affirmation?.strongly_disagree,
-        opinionAvaliation: data?.success?.affirmation?.opinion_avaliation
+        opinionValue: data?.success?.affirmation?.opinion_value
       }
 
       dispatch(getAffirmationSingleSuccess({ affirmation }))
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'error get single affirmation'
+        message: 'Error get single affirmation.'
       }
       if (axios.isAxiosError(err)) {
         err as AxiosError

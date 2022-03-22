@@ -5,12 +5,12 @@ export interface CurrentUserInterface {
   userLogin: string
   displayName: string
   userEmail: string
-  meta: {
-    title: string
-    avatar: string
-    followers: number
-    description: string
-  }
+  // meta: {
+  //   title: string
+  //   avatar: string
+  //   followers: number
+  //   description: string
+  // }
 }
 
 export interface ProfileUserInterface {
