@@ -10,6 +10,7 @@ import {
 
 const initialState: AffirmationState = {
   homeAffirmations: null,
+  homeAffirmationsLastPage: null,
   trendingAffirmations: null,
   searchAffirmations: null,
   affirmationSingle: null,
@@ -29,15 +30,23 @@ export function affirmationsReducer(
       let homeAffirmations = state.homeAffirmations
       if (action.payload.success?.affirmations) {
         if (homeAffirmations) {
-          homeAffirmations.concat(action.payload.success?.affirmations)
+          homeAffirmations = homeAffirmations.concat(
+            action.payload.success.affirmations
+          )
         } else {
-          homeAffirmations = action.payload.success?.affirmations
+          homeAffirmations = action.payload.success.affirmations
         }
+      }
+
+      let homeAffirmationsLastPage = null
+      if (action.payload.success?.lastPage) {
+        homeAffirmationsLastPage = action.payload.success.lastPage + 1
       }
 
       return {
         ...state,
         homeAffirmations: homeAffirmations,
+        homeAffirmationsLastPage: homeAffirmationsLastPage,
         getAffirmationsHomeError: action.payload.failure
       }
     }

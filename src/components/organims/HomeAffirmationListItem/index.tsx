@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { View } from 'react-native'
-import { Paragraph, Card } from 'react-native-paper'
+import { useTheme, Paragraph, Card } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
 import styles from './index.style'
@@ -15,6 +15,8 @@ const HomeAffirmationListItem = ({
   navigation,
   affirmation
 }: HomeAffirmationListItemProps) => {
+  const { colors } = useTheme()
+
   return (
     <Card
       style={styles.card}
@@ -26,7 +28,9 @@ const HomeAffirmationListItem = ({
       }}
     >
       <Card.Content>
-        <Paragraph>{affirmation.message}.</Paragraph>
+        <Paragraph style={{ color: colors.white }}>
+          {affirmation.message}.
+        </Paragraph>
       </Card.Content>
       <Card.Actions>
         <View style={styles.avaliationColumn}>

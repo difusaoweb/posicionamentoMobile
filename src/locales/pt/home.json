@@ -2,5 +2,8 @@
   "notSigned": {
     "title": "Bem vindo ao Posicionamento",
     "description": "Faça login agora para opinar sobre um tema"
+  },
+  "HomeSigned":{
+    "noHomeAffirmationsYet": "Ainda não há afirmações na Home"
   }
 }

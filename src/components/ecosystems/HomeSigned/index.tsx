@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { FlatList } from 'react-native'
-import { ActivityIndicator, useTheme } from 'react-native-paper'
+import { ActivityIndicator, Title } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
 import { getAffirmationsHome, RootState } from '../../../redux'
 import HomeAffirmationListItem from '../../organims/HomeAffirmationListItem'
@@ -14,44 +15,55 @@ interface HomeSignedProps {
 }
 const HomeSigned = ({ navigation }: HomeSignedProps) => {
   const dispatch = useDispatch()
-  const { homeAffirmations, getAffirmationsHomeError } = useSelector(
-    (state: RootState) => state.affirmations
-  )
-  const { colors } = useTheme()
+  const {
+    homeAffirmations,
+    homeAffirmationsLastPage,
+    getAffirmationsHomeError
+  } = useSelector((state: RootState) => state.affirmations)
+  const [t] = useTranslation('home')
 
   const [isLoading, setIsLoading] = React.useState(false)
   const [page, setPage] = React.useState(1)
 
-  async function refreshAffirmations() {
-    if (isLoading) return
+  async function onGetAffirmationsHome() {
+    if (isLoading) {
+      return
+    }
     setIsLoading(true)
 
     await dispatch(getAffirmationsHome({ page }))
+
     setPage(page + 1)
     setIsLoading(false)
-    console.log(homeAffirmations)
   }
 
   React.useEffect(() => {
-    refreshAffirmations()
+    onGetAffirmationsHome()
   }, [])
 
-  if (isLoading) return <Loading />
+  if (page == 1 && isLoading) return <Loading />
 
-  if (getAffirmationsHomeError)
-    return <ErrorHome message={getAffirmationsHomeError.message} />
+  if (getAffirmationsHomeError?.status == 404)
+    return (
+      <ErrorHome type="info" message={t('HomeSigned.noHomeAffirmationsYet')} />
+    )
 
   return (
     <FlatList
-      // style={{ backgroundColor: colors.background }}
       renderItem={({ item }) => (
         <HomeAffirmationListItem navigation={navigation} affirmation={item} />
       )}
       keyExtractor={item => `${item.id}`}
       data={homeAffirmations}
-      // onEndReached={refreshAffirmations}
-      // onEndReachedThreshold={0.1}
-      // ListFooterComponent={<ActivityIndicator />}
+      onEndReached={() => {
+        if (page != homeAffirmationsLastPage) {
+          onGetAffirmationsHome()
+        }
+      }}
+      onEndReachedThreshold={0.1}
+      ListFooterComponent={
+        page != homeAffirmationsLastPage ? <ActivityIndicator /> : <></>
+      }
     />
   )
 }

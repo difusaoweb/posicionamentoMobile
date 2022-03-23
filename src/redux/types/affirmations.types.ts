@@ -1,16 +1,22 @@
 import { ReturnErrorInterface } from './common.types'
 
-export interface GetAffirmationsHomeReturnPromiseInterface {
-  id: number
-  message: string
-  strongly_agree: number
-  agree: number
-  neutral: number
-  disagree: number
-  strongly_disagree: number
-  opinion_value: number | null
+export interface GetAffirmationsHomeParametersServiceInterface {
+  page: number
 }
-
+// export interface AffirmationHomeReturnPromiseInterface {
+//   id: number
+//   message: string
+//   strongly_agree: number
+//   agree: number
+//   neutral: number
+//   disagree: number
+//   strongly_disagree: number
+//   opinion_value: number | null
+// }
+// export interface GetAffirmationsHomeReturnPromiseInterface {
+//   affirmations: AffirmationHomeReturnPromiseInterface[]
+//   last_page: number
+// }
 export interface AffirmationHomeInterface {
   id: number
   message: string
@@ -21,13 +27,9 @@ export interface AffirmationHomeInterface {
   stronglyDisagree: number
   opinionValue: number | null
 }
-
-export interface GetAffirmationsHomeParametersServiceInterface {
-  page: number
-}
-
 export interface GetAffirmationsHomeSuccessReturnActionInterface {
   affirmations: AffirmationHomeInterface[]
+  lastPage: number
 }
 
 export interface GetAffirmationsTrendingSuccessReturnActionInterface {
@@ -47,6 +49,32 @@ export interface GetAffirmationsSearchSuccessReturnActionInterface {
 
 export interface GetAffirmationSingleParametersServiceInterface {
   affirmationId: number
+}
+export interface GetAffirmationSingleReturnPromiseInterface {
+  id: number
+  message: string
+  strongly_agree: number
+  agree: number
+  neutral: number
+  disagree: number
+  strongly_disagree: number
+  opinion: {
+    id: number
+    value: number
+  } | null
+}
+export interface AffirmationSingleInterface {
+  id: number
+  message: string
+  stronglyAgree: number
+  agree: number
+  neutral: number
+  disagree: number
+  stronglyDisagree: number
+  opinion: {
+    id: number
+    value: number
+  } | null
 }
 export interface GetAffirmationSingleSuccessReturnActionInterface {
   affirmation: AffirmationHomeInterface
@@ -99,9 +127,10 @@ interface PostAffirmationSingleAction {
 
 export interface AffirmationState {
   homeAffirmations: AffirmationHomeInterface[] | null
+  homeAffirmationsLastPage: number | null
   trendingAffirmations: AffirmationHomeInterface[] | null
   searchAffirmations: SearchAffirmationsInterface[] | null
-  affirmationSingle: AffirmationHomeInterface | null
+  affirmationSingle: AffirmationSingleInterface | null
   getAffirmationsHomeError: ReturnErrorInterface | null
   getAffirmationsTrendingError: ReturnErrorInterface | null
   getAffirmationsSearchError: ReturnErrorInterface | null

@@ -24,6 +24,26 @@ export interface GetOpinionsAffirmationSuccessReturnActionInterface {
   opinions: OpinionAffirmationInterface[]
 }
 
+export interface GetOpinionAffirmationSuccessReturnActionInterface {
+  opinionValue: number | null
+}
+
+export interface SetOpinionAffirmationParametersServiceInterface {
+  affirmationId: number
+  opinionValue: number
+}
+
+export interface DeleteOpinionAffirmationParametersServiceInterface {
+  opinionId: number
+}
+export interface DeleteOpinionAffirmationParametersActionInterface {
+  opinionId: number
+  opinionValue: number
+}
+export interface DeleteOpinionAffirmationSuccessReturnActionInterface {
+  opinionValue: number
+}
+
 export interface GetOpinionsUserParametersServiceInterface {
   userId: number
 }
@@ -54,22 +74,40 @@ export interface GetOpinionsUserSuccessReturnActionInterface {
   opinions: OpinionUserInterface[]
 }
 
-export interface SetOpinionAffirmationParametersServiceInterface {
-  affirmationId: number
-  opinionValue: number
-}
-export interface SetOpinionAffirmationSuccessReturnActionInterface {
-  opinionId: number
-}
-
 export const GET_OPINIONS_AFFIRMATION = 'GET_OPINIONS_AFFIRMATION'
-export const GET_OPINIONS_USER = 'GET_OPINIONS_USER'
+export const GET_OPINION_AFFIRMATION = 'GET_OPINION_AFFIRMATION'
 export const SET_OPINION_AFFIRMATION = 'SET_OPINION_AFFIRMATION'
+export const DELETE_OPINION_AFFIRMATION = 'DELETE_OPINION_AFFIRMATION'
+export const GET_OPINIONS_USER = 'GET_OPINIONS_USER'
 
 interface GetOpinionsAffirmationAction {
   type: typeof GET_OPINIONS_AFFIRMATION
   payload: {
     success: GetOpinionsAffirmationSuccessReturnActionInterface | null
+    failure: ReturnErrorInterface | null
+  }
+}
+
+interface GetOpinionAffirmationAction {
+  type: typeof GET_OPINION_AFFIRMATION
+  payload: {
+    success: GetOpinionAffirmationSuccessReturnActionInterface | null
+    failure: ReturnErrorInterface | null
+  }
+}
+
+interface SetOpinionAffirmationAction {
+  type: typeof SET_OPINION_AFFIRMATION
+  payload: {
+    success: GetOpinionAffirmationSuccessReturnActionInterface | null
+    failure: ReturnErrorInterface | null
+  }
+}
+
+interface DeleteOpinionAffirmationAction {
+  type: typeof DELETE_OPINION_AFFIRMATION
+  payload: {
+    success: DeleteOpinionAffirmationSuccessReturnActionInterface | null
     failure: ReturnErrorInterface | null
   }
 }
@@ -82,23 +120,23 @@ interface GetOpinionsUserAction {
   }
 }
 
-interface SetOpinionAffirmationAction {
-  type: typeof SET_OPINION_AFFIRMATION
-  payload: {
-    success: SetOpinionAffirmationSuccessReturnActionInterface | null
-    failure: ReturnErrorInterface | null
-  }
-}
-
 export interface OpinionState {
+  affirmationCurrentOpinionValue: number | null
+  affirmationBeforeCurrentOpinionValue: number | null
+  affirmationDeletedOpinionValue: number | null
+
   affirmationOpinions: OpinionAffirmationInterface[] | null
   userOpinions: OpinionUserInterface[] | null
-  getOpinionsUserError: ReturnErrorInterface | null
+
   getOpinionsAffirmationError: ReturnErrorInterface | null
   setOpinionAffirmationError: ReturnErrorInterface | null
+  deleteOpinionAffirmationError: ReturnErrorInterface | null
+  getOpinionsUserError: ReturnErrorInterface | null
 }
 
 export type OpinionActionTypes =
   | GetOpinionsAffirmationAction
-  | GetOpinionsUserAction
+  | GetOpinionAffirmationAction
   | SetOpinionAffirmationAction
+  | DeleteOpinionAffirmationAction
+  | GetOpinionsUserAction

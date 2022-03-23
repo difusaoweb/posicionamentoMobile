@@ -18,7 +18,9 @@ export const affirmationService = {
 async function getAffirmationsHome({
   page
 }: GetAffirmationsHomeParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('affirmations/home', { params: { page, per_page: 10 } })
+  return await api.get('affirmations/home', {
+    params: { page, per_page: 10 }
+  })
 }
 
 async function getAffirmationsTrending(): Promise<AxiosResponse> {

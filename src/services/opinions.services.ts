@@ -2,15 +2,17 @@ import { AxiosResponse } from 'axios'
 
 import api from './api'
 import {
-  GetOpinionsUserParametersServiceInterface,
   GetOpinionsAffirmationParametersServiceInterface,
-  SetOpinionAffirmationParametersServiceInterface
+  SetOpinionAffirmationParametersServiceInterface,
+  DeleteOpinionAffirmationParametersServiceInterface,
+  GetOpinionsUserParametersServiceInterface
 } from '../redux/types'
 
 export const opinionService = {
   getOpinionsAffirmation,
-  getOpinionsUser,
-  setOpinionAffirmation
+  setOpinionAffirmation,
+  deleteOpinionAffirmation,
+  getOpinionsUser
 }
 
 async function getOpinionsAffirmation({
@@ -21,20 +23,26 @@ async function getOpinionsAffirmation({
   })
 }
 
-async function getOpinionsUser({
-  userId
-}: GetOpinionsUserParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('opinions/user', { params: { user_id: userId } })
-}
-
 async function setOpinionAffirmation({
   affirmationId,
   opinionValue
 }: SetOpinionAffirmationParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('/opinions/create', {
+  return await api.get('/opinions/add-or-update', {
     params: {
       affirmation_id: affirmationId,
       opinion_value: opinionValue
     }
   })
+}
+
+async function deleteOpinionAffirmation({
+  opinionId
+}: DeleteOpinionAffirmationParametersServiceInterface): Promise<AxiosResponse> {
+  return await api.get('opinions/delete', { params: { opinion_id: opinionId } })
+}
+
+async function getOpinionsUser({
+  userId
+}: GetOpinionsUserParametersServiceInterface): Promise<AxiosResponse> {
+  return await api.get('opinions/user', { params: { user_id: userId } })
 }

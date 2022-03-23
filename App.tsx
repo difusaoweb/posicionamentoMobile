@@ -17,6 +17,9 @@ import { StatusBar } from 'expo-status-bar'
 declare global {
   namespace ReactNativePaper {
     interface ThemeColors {
+      white: string
+      white2: string
+
       stronglyAgree: string
       agree: string
       neutral: string
@@ -32,6 +35,9 @@ const theme = {
     ...DarkTheme.colors,
     primary: '#857dcc',
     accent: DarkTheme.colors.disabled,
+
+    white: '#fff',
+    white2: '#aaa',
 
     stronglyAgree: '#519668',
     agree: '#5299e0',

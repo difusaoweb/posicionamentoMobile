@@ -56,7 +56,9 @@ const HomeAffirmationListItemFooterOpnion = ({
           }
         ]}
       />
-      <Caption style={styles.text}>
+      <Caption
+        style={[styles.text, { color: active ? colors.white : colors.white2 }]}
+      >
         {numberOpinionFormated(opinionAmount)}
       </Caption>
     </>

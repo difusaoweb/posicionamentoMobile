@@ -37,7 +37,9 @@ const AffirmationHero = ({
   if (isLoading) return <Loading />
 
   if (getAffirmationSingleError)
-    return <ErrorHome message={getAffirmationSingleError.message} />
+    return (
+      <ErrorHome type="danger" message={getAffirmationSingleError.message} />
+    )
 
   return (
     <View style={styles.container}>
@@ -47,7 +49,7 @@ const AffirmationHero = ({
       <View style={[styles.column, styles.avaliationRow]}>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionValue === 1}
+            active={affirmationSingle?.opinion?.value === 1}
             opinionValue={1}
             opinionAmount={affirmationSingle?.stronglyAgree ?? 0}
             navigation={navigation}
@@ -56,7 +58,7 @@ const AffirmationHero = ({
         </View>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionValue === 0.5}
+            active={affirmationSingle?.opinion?.value === 0.5}
             opinionValue={0.5}
             opinionAmount={affirmationSingle?.agree ?? 0}
             navigation={navigation}
@@ -65,7 +67,7 @@ const AffirmationHero = ({
         </View>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionValue === 0}
+            active={affirmationSingle?.opinion?.value === 0}
             opinionValue={0}
             opinionAmount={affirmationSingle?.neutral ?? 0}
             navigation={navigation}
@@ -74,7 +76,7 @@ const AffirmationHero = ({
         </View>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionValue === -0.5}
+            active={affirmationSingle?.opinion?.value === -0.5}
             opinionValue={-0.5}
             opinionAmount={affirmationSingle?.disagree ?? 0}
             navigation={navigation}
@@ -83,7 +85,7 @@ const AffirmationHero = ({
         </View>
         <View style={styles.avaliationColumn}>
           <AffirmationHeroButtonOpinion
-            active={affirmationSingle?.opinionValue === -1}
+            active={affirmationSingle?.opinion?.value === -1}
             opinionValue={-1}
             opinionAmount={affirmationSingle?.stronglyDisagree ?? 0}
             navigation={navigation}

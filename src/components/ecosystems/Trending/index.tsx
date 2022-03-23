@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { FlatList } from 'react-native'
-import { useTheme } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -19,11 +18,11 @@ const Trending = ({ navigation }: TrendingProps) => {
     (state: RootState) => state.affirmations
   )
   const [t] = useTranslation('trending')
-  const { colors } = useTheme()
 
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   async function onGetAffirmationsTrending() {
+    setIsLoading(true)
     await dispatch(getAffirmationsTrending())
     setIsLoading(false)
   }
@@ -39,7 +38,6 @@ const Trending = ({ navigation }: TrendingProps) => {
 
   return (
     <FlatList
-      style={{ backgroundColor: colors.background }}
       renderItem={({ item }) => (
         <HomeAffirmationListItem navigation={navigation} affirmation={item} />
       )}

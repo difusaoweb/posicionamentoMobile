@@ -7,9 +7,9 @@ import {
   AffirmationActionTypes,
   ReturnErrorInterface,
   GetAffirmationsHomeParametersServiceInterface,
+  // GetAffirmationsHomeReturnPromiseInterface,
   GetAffirmationsHomeSuccessReturnActionInterface,
   AffirmationHomeInterface,
-  GetAffirmationsHomeReturnPromiseInterface,
   SearchAffirmationsInterface,
   GetAffirmationSingleParametersServiceInterface,
   GetAffirmationsTrendingSuccessReturnActionInterface,
@@ -19,12 +19,14 @@ import {
   GetAffirmationsSearchParametersServiceInterface,
   GET_AFFIRMATION_SINGLE,
   GetAffirmationSingleSuccessReturnActionInterface,
+  AffirmationSingleInterface,
   POST_AFFIRMATION_SINGLE,
   PostAffirmationSingleParametersServiceInterface
 } from '../types'
 import { affirmationService } from '../../services'
 import { request, failure } from './common.actions'
 import { setNotification } from './notification.actions'
+import { getOpinionAffirmation } from './opinion.actions'
 
 const getAffirmationsHomeSuccess: ActionCreator<AffirmationActionTypes> = (
   success: GetAffirmationsHomeSuccessReturnActionInterface
@@ -91,22 +93,22 @@ export function getAffirmationsHome({
 
       const { data } = await affirmationService.getAffirmationsHome({ page })
       const affirmations: AffirmationHomeInterface[] =
-        data?.success?.affirmations?.map(
-          (affirmation: GetAffirmationsHomeReturnPromiseInterface) => {
-            return {
-              id: affirmation?.id,
-              message: affirmation?.message,
-              stronglyAgree: affirmation?.strongly_agree,
-              agree: affirmation?.agree,
-              neutral: affirmation?.neutral,
-              disagree: affirmation?.disagree,
-              stronglyDisagree: affirmation?.strongly_disagree,
-              opinionValue: affirmation?.opinion_value
-            }
+        data?.success?.affirmations?.map(affirmation => {
+          return {
+            id: affirmation?.id,
+            message: affirmation?.message,
+            stronglyAgree: affirmation?.strongly_agree,
+            agree: affirmation?.agree,
+            neutral: affirmation?.neutral,
+            disagree: affirmation?.disagree,
+            stronglyDisagree: affirmation?.strongly_disagree,
+            opinionValue: affirmation?.opinion_value
           }
-        )
+        })
 
-      dispatch(getAffirmationsHomeSuccess({ affirmations }))
+      const lastPage: number = data?.success?.last_page
+
+      dispatch(getAffirmationsHomeSuccess({ affirmations, lastPage }))
     } catch (err) {
       const returnError = {
         status: 500,
@@ -118,8 +120,9 @@ export function getAffirmationsHome({
         returnError.message =
           err.response?.data?.failure?.message ?? returnError.message
       }
-
-      dispatch(setNotification({ message: returnError.message }))
+      if (returnError.status != 404) {
+        dispatch(setNotification({ message: returnError.message }))
+      }
       dispatch(getAffirmationsHomeFailure(returnError))
       dispatch(failure(returnError.message))
     }
@@ -133,26 +136,24 @@ export function getAffirmationsTrending() {
 
       const { data } = await affirmationService.getAffirmationsTrending()
       const affirmations: AffirmationHomeInterface[] =
-        data?.success?.affirmations?.map(
-          (affirmation: GetAffirmationsHomeReturnPromiseInterface) => {
-            return {
-              id: affirmation?.id,
-              message: affirmation?.message,
-              stronglyAgree: affirmation?.strongly_agree,
-              agree: affirmation?.agree,
-              neutral: affirmation?.neutral,
-              disagree: affirmation?.disagree,
-              stronglyDisagree: affirmation?.strongly_disagree,
-              currentUserAvaliation: affirmation?.opinion_avaliation
-            }
+        data?.success?.affirmations?.map(affirmation => {
+          return {
+            id: affirmation?.id,
+            message: affirmation?.message,
+            stronglyAgree: affirmation?.strongly_agree,
+            agree: affirmation?.agree,
+            neutral: affirmation?.neutral,
+            disagree: affirmation?.disagree,
+            stronglyDisagree: affirmation?.strongly_disagree,
+            currentUserAvaliation: affirmation?.opinion_avaliation
           }
-        )
+        })
 
       dispatch(getAffirmationsTrendingSuccess({ affirmations }))
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'error get affirmations from trending'
+        message: 'Error get affirmations from trending.'
       }
       if (axios.isAxiosError(err)) {
         err as AxiosError
@@ -213,7 +214,7 @@ export function getAffirmationSingle({
         affirmationId
       })
 
-      const affirmation: AffirmationHomeInterface = {
+      const affirmation: AffirmationSingleInterface = {
         id: data?.success?.affirmation?.id,
         message: data?.success?.affirmation?.message,
         stronglyAgree: data?.success?.affirmation?.strongly_agree,
@@ -221,9 +222,14 @@ export function getAffirmationSingle({
         neutral: data?.success?.affirmation?.neutral,
         disagree: data?.success?.affirmation?.disagree,
         stronglyDisagree: data?.success?.affirmation?.strongly_disagree,
-        opinionValue: data?.success?.affirmation?.opinion_value
+        opinion: data?.success?.affirmation?.opinion
       }
 
+      dispatch(
+        getOpinionAffirmation({
+          opinionValue: affirmation.opinion?.value ?? null
+        })
+      )
       dispatch(getAffirmationSingleSuccess({ affirmation }))
     } catch (err) {
       const returnError = {

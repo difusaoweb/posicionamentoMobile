@@ -2,19 +2,23 @@ import axios, { AxiosError } from 'axios'
 import { ActionCreator } from 'redux'
 
 import {
-  GET_OPINIONS_AFFIRMATION,
-  GET_OPINIONS_USER,
-  SET_OPINION_AFFIRMATION,
   OpinionActionTypes,
-  GetOpinionsUserParametersServiceInterface,
-  GetOpinionsAffirmationParametersServiceInterface,
   ReturnErrorInterface,
-  SetOpinionAffirmationSuccessReturnActionInterface,
-  GetOpinionsAffirmationSuccessReturnActionInterface,
-  SetOpinionAffirmationParametersServiceInterface,
-  GetOpinionsUserSuccessReturnActionInterface,
-  GetOpinionsAffirmationReturnPromiseInterface,
+  GET_OPINIONS_AFFIRMATION,
   OpinionAffirmationInterface,
+  GetOpinionsAffirmationParametersServiceInterface,
+  GetOpinionsAffirmationSuccessReturnActionInterface,
+  GetOpinionsAffirmationReturnPromiseInterface,
+  GET_OPINION_AFFIRMATION,
+  GetOpinionAffirmationSuccessReturnActionInterface,
+  SET_OPINION_AFFIRMATION,
+  SetOpinionAffirmationParametersServiceInterface,
+  DELETE_OPINION_AFFIRMATION,
+  DeleteOpinionAffirmationParametersActionInterface,
+  DeleteOpinionAffirmationSuccessReturnActionInterface,
+  GET_OPINIONS_USER,
+  GetOpinionsUserParametersServiceInterface,
+  GetOpinionsUserSuccessReturnActionInterface,
   GetOpinionsUserReturnPromiseInterface,
   OpinionUserInterface
 } from '../types'
@@ -33,6 +37,32 @@ const getOpinionsAffirmationFailure: ActionCreator<OpinionActionTypes> = (
   return { type: GET_OPINIONS_AFFIRMATION, payload: { success: null, failure } }
 }
 
+const getOpinionAffirmationSuccess: ActionCreator<OpinionActionTypes> = (
+  success: GetOpinionAffirmationSuccessReturnActionInterface
+) => {
+  return { type: GET_OPINION_AFFIRMATION, payload: { success, failure: null } }
+}
+
+const setOpinionAffirmationSuccess: ActionCreator<OpinionActionTypes> = (
+  success: GetOpinionAffirmationSuccessReturnActionInterface
+) => {
+  return { type: SET_OPINION_AFFIRMATION, payload: { success, failure: null } }
+}
+const setOpinionAffirmationFailure: ActionCreator<OpinionActionTypes> = (
+  failure: ReturnErrorInterface
+) => {
+  return { type: SET_OPINION_AFFIRMATION, payload: { success: null, failure } }
+}
+
+const deleteOpinionAffirmationSuccess: ActionCreator<OpinionActionTypes> = (
+  success: DeleteOpinionAffirmationSuccessReturnActionInterface
+) => {
+  return {
+    type: DELETE_OPINION_AFFIRMATION,
+    payload: { success, failure: null }
+  }
+}
+
 const getOpinionsUserSuccess: ActionCreator<OpinionActionTypes> = (
   success: GetOpinionsUserSuccessReturnActionInterface
 ) => {
@@ -42,17 +72,6 @@ const getOpinionsUserFailure: ActionCreator<OpinionActionTypes> = (
   failure: ReturnErrorInterface
 ) => {
   return { type: GET_OPINIONS_USER, payload: { success: null, failure } }
-}
-
-const setOpinionAffirmationSuccess: ActionCreator<OpinionActionTypes> = (
-  success: SetOpinionAffirmationSuccessReturnActionInterface
-) => {
-  return { type: SET_OPINION_AFFIRMATION, payload: { success, failure: null } }
-}
-const setOpinionAffirmationFailure: ActionCreator<OpinionActionTypes> = (
-  failure: ReturnErrorInterface
-) => {
-  return { type: SET_OPINION_AFFIRMATION, payload: { success: null, failure } }
 }
 
 export function getOpinionsAffirmation({
@@ -98,6 +117,77 @@ export function getOpinionsAffirmation({
   }
 }
 
+export function getOpinionAffirmation({
+  opinionValue
+}: GetOpinionAffirmationSuccessReturnActionInterface) {
+  return async dispatch => {
+    dispatch(getOpinionAffirmationSuccess({ opinionValue }))
+  }
+}
+
+export function setOpinionAffirmation({
+  affirmationId,
+  opinionValue
+}: SetOpinionAffirmationParametersServiceInterface) {
+  return async dispatch => {
+    try {
+      dispatch(request())
+
+      const { data } = await opinionService.setOpinionAffirmation({
+        affirmationId,
+        opinionValue
+      })
+      // const opinionId: number = data?.success?.opinion_id ?? 0
+      dispatch(setOpinionAffirmationSuccess({ opinionValue }))
+    } catch (err) {
+      const returnError = {
+        status: 500,
+        message: 'Error set opinion affirmation.'
+      }
+      if (axios.isAxiosError(err)) {
+        err as AxiosError
+        returnError.status = err.response?.status ?? returnError.status
+        returnError.message =
+          err.response?.data?.failure?.message ?? returnError.message
+      }
+
+      dispatch(setNotification({ message: returnError.message }))
+      dispatch(failure(returnError.message))
+    }
+  }
+}
+
+export function deleteOpinionAffirmation({
+  opinionId,
+  opinionValue
+}: DeleteOpinionAffirmationParametersActionInterface) {
+  return async dispatch => {
+    try {
+      dispatch(request())
+
+      await opinionService.deleteOpinionAffirmation({
+        opinionId
+      })
+
+      dispatch(deleteOpinionAffirmationSuccess({ opinionValue }))
+    } catch (err) {
+      const returnError = {
+        status: 500,
+        message: 'Error delete opinion from affirmation.'
+      }
+      if (axios.isAxiosError(err)) {
+        err as AxiosError
+        returnError.status = err.response?.status ?? returnError.status
+        returnError.message =
+          err.response?.data?.failure?.message ?? returnError.message
+      }
+
+      dispatch(setNotification({ message: returnError.message }))
+      dispatch(failure(returnError.message))
+    }
+  }
+}
+
 export function getOpinionsUser({
   userId
 }: GetOpinionsUserParametersServiceInterface) {
@@ -132,38 +222,6 @@ export function getOpinionsUser({
 
       dispatch(setNotification({ message: returnError.message }))
       dispatch(getOpinionsUserFailure(returnError))
-      dispatch(failure(returnError.message))
-    }
-  }
-}
-
-export function setOpinionAffirmation({
-  affirmationId,
-  opinionValue
-}: SetOpinionAffirmationParametersServiceInterface) {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(request())
-
-      const { data } = await opinionService.setOpinionAffirmation({
-        affirmationId,
-        opinionValue
-      })
-
-      dispatch(getOpinionsAffirmation({ affirmationId }))
-    } catch (err) {
-      const returnError = {
-        status: 500,
-        message: 'Error set opinion affirmation.'
-      }
-      if (axios.isAxiosError(err)) {
-        err as AxiosError
-        returnError.status = err.response?.status ?? returnError.status
-        returnError.message =
-          err.response?.data?.failure?.message ?? returnError.message
-      }
-
-      dispatch(setNotification({ message: returnError.message }))
       dispatch(failure(returnError.message))
     }
   }
