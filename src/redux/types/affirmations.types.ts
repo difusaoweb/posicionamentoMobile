@@ -77,18 +77,20 @@ export interface AffirmationSingleInterface {
   } | null
 }
 export interface GetAffirmationSingleSuccessReturnActionInterface {
-  affirmation: AffirmationHomeInterface
+  affirmation: AffirmationSingleInterface
 }
 
-export interface PostAffirmationSingleParametersServiceInterface {
+export interface PostAffirmationAddParametersServiceInterface {
   affirmationMessage: string
 }
 
 export const GET_AFFIRMATIONS_HOME = 'GET_AFFIRMATIONS_HOME'
 export const GET_AFFIRMATIONS_TRENDING = 'GET_AFFIRMATIONS_TRENDING'
 export const GET_AFFIRMATIONS_SEARCH = 'GET_AFFIRMATIONS_SEARCH'
+export const POST_AFFIRMATION_ADD = 'POST_AFFIRMATION_ADD'
 export const GET_AFFIRMATION_SINGLE = 'GET_AFFIRMATION_SINGLE'
-export const POST_AFFIRMATION_SINGLE = 'POST_AFFIRMATION_SINGLE'
+export const AFFIRMATION_PUT_OPINION_AFFIRMATION_LOCAL =
+  'AFFIRMATION_PUT_OPINION_AFFIRMATION_LOCAL'
 
 interface GetAffirmationsHomeAction {
   type: typeof GET_AFFIRMATIONS_HOME
@@ -111,6 +113,12 @@ interface GetAffirmationsSearchAction {
     failure: ReturnErrorInterface | null
   }
 }
+interface PostAffirmationAddAction {
+  type: typeof POST_AFFIRMATION_ADD
+  payload: {
+    failure: ReturnErrorInterface | null
+  }
+}
 interface GetAffirmationSingleAction {
   type: typeof GET_AFFIRMATION_SINGLE
   payload: {
@@ -118,11 +126,9 @@ interface GetAffirmationSingleAction {
     failure: ReturnErrorInterface | null
   }
 }
-interface PostAffirmationSingleAction {
-  type: typeof POST_AFFIRMATION_SINGLE
-  payload: {
-    failure: ReturnErrorInterface | null
-  }
+interface AffirmationPutOpinionAffirmationLocalAction {
+  type: typeof AFFIRMATION_PUT_OPINION_AFFIRMATION_LOCAL
+  payload: { id: number; value: number } | null
 }
 
 export interface AffirmationState {
@@ -135,12 +141,13 @@ export interface AffirmationState {
   getAffirmationsTrendingError: ReturnErrorInterface | null
   getAffirmationsSearchError: ReturnErrorInterface | null
   getAffirmationSingleError: ReturnErrorInterface | null
-  postAffirmationSingleError: ReturnErrorInterface | null
+  postAffirmationAddError: ReturnErrorInterface | null
 }
 
 export type AffirmationActionTypes =
   | GetAffirmationsHomeAction
   | GetAffirmationsTrendingAction
   | GetAffirmationsSearchAction
+  | PostAffirmationAddAction
   | GetAffirmationSingleAction
-  | PostAffirmationSingleAction
+  | AffirmationPutOpinionAffirmationLocalAction

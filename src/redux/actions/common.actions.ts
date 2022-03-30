@@ -1,5 +1,6 @@
-import { FETCH_REQUEST, FETCH_FAILURE, FetchActionTypes } from '../types'
 import { ActionCreator } from 'redux'
+
+import { FETCH_REQUEST, FETCH_FAILURE, FetchActionTypes } from '../types'
 
 export const request: ActionCreator<FetchActionTypes> = () => {
   return { type: FETCH_REQUEST }

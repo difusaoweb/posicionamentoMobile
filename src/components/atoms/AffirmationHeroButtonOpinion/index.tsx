@@ -1,20 +1,19 @@
 import * as React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Title } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
 import AffirmationHeroButtonOpinionContent from '../AffirmationHeroButtonOpinionContent'
 import {
+  RootState,
+  updateOpinionButtonPressedAffirmation,
   setOpinionAffirmation,
-  deleteOpinionAffirmation,
-  RootState
+  deleteOpinionAffirmation
 } from '../../../redux'
 import Loading from '../../atoms/Loading'
 import { styles } from './index.style'
 
 interface AffirmationHeroButtonOpinionProps {
-  active: boolean
   opinionValue: number
   opinionAmount: number
   navigation: StackNavigationProp<{}>
@@ -32,23 +31,28 @@ const AffirmationHeroButtonOpinion = ({
     (state: RootState) => state.affirmations
   )
   const {
+    affirmationButtonOpinionPressed,
     affirmationCurrentOpinionValue,
     affirmationBeforeCurrentOpinionValue,
     affirmationDeletedOpinionValue
   } = useSelector((state: RootState) => state.opinions)
 
   const [isLoading, setIsLoading] = React.useState(false)
-  const [currentActive, setCurrentActive] = React.useState(
-    opinionValue == affirmationCurrentOpinionValue
-  )
+  const [currentActive, setCurrentActive] = React.useState(false)
+  // const [currentActive, setCurrentActive] = React.useState(
+  //   opinionValue === affirmationCurrentOpinionValue
+  // )
   const [currentOpinionAmount, setCurrentOpinionAmount] =
     React.useState(opinionAmount)
+  const [buttonDisabled, setButtonDisabled] = React.useState(
+    affirmationButtonOpinionPressed
+  )
 
-  function onSetAvaliationOrSignIn() {
+  async function onButtonPress() {
     if (!isAuthenticated) {
       navigation.navigate('AccessRoutes', { screen: 'SignInPage' })
     } else if (currentActive) {
-      onDeleteOpinion()
+      onDeleteOpinionAffirmation()
     } else {
       onSetOpinionAffirmation()
     }
@@ -56,68 +60,74 @@ const AffirmationHeroButtonOpinion = ({
 
   async function onSetOpinionAffirmation() {
     setIsLoading(true)
+    await dispatch(updateOpinionButtonPressedAffirmation(true))
 
     await dispatch(setOpinionAffirmation({ affirmationId, opinionValue }))
 
+    await dispatch(updateOpinionButtonPressedAffirmation(false))
     setIsLoading(false)
   }
 
-  async function onDeleteOpinion() {
+  async function onDeleteOpinionAffirmation() {
     setIsLoading(true)
+    await dispatch(updateOpinionButtonPressedAffirmation(true))
 
     await dispatch(
       deleteOpinionAffirmation({
-        opinionId: affirmationSingle?.opinion?.id ?? 0,
-        opinionValue
+        opinionId: affirmationSingle?.opinion?.id ?? 0
       })
     )
 
+    await dispatch(updateOpinionButtonPressedAffirmation(false))
     setIsLoading(false)
   }
 
   React.useEffect(() => {
-    if (affirmationCurrentOpinionValue) {
-      if (opinionValue == affirmationCurrentOpinionValue) {
+    if (affirmationCurrentOpinionValue != null) {
+      if (opinionValue === affirmationCurrentOpinionValue) {
         setCurrentActive(true)
-        if (affirmationBeforeCurrentOpinionValue) {
+        if (affirmationBeforeCurrentOpinionValue != null) {
           if (
             affirmationCurrentOpinionValue !=
             affirmationBeforeCurrentOpinionValue
           ) {
-            setCurrentOpinionAmount(opinionAmount + 1)
+            setCurrentOpinionAmount(currentOpinionAmount + 1)
           }
+        } else {
+          setCurrentOpinionAmount(currentOpinionAmount + 1)
         }
       } else {
         setCurrentActive(false)
-        if (affirmationBeforeCurrentOpinionValue) {
+        if (affirmationBeforeCurrentOpinionValue != null) {
           if (opinionValue == affirmationBeforeCurrentOpinionValue) {
-            setCurrentOpinionAmount(opinionAmount - 1)
+            setCurrentOpinionAmount(currentOpinionAmount - 1)
           }
         }
       }
     }
   }, [affirmationCurrentOpinionValue])
 
+  // React.useEffect(() => {
+  //   if (affirmationDeletedOpinionValue) {
+  //     setCurrentActive(false)
+  //     if (opinionValue == affirmationDeletedOpinionValue) {
+  //       setCurrentOpinionAmount(opinionAmount - 1)
+  //     }
+  //   }
+  // }, [affirmationDeletedOpinionValue])
+
   React.useEffect(() => {
-    if (affirmationDeletedOpinionValue) {
-      setCurrentActive(false)
-      if (opinionValue == affirmationDeletedOpinionValue) {
-        setCurrentOpinionAmount(opinionAmount - 1)
-      }
-    }
-  }, [affirmationDeletedOpinionValue])
+    setButtonDisabled(affirmationButtonOpinionPressed)
+  }, [affirmationButtonOpinionPressed])
 
   if (isLoading) return <Loading />
 
   return (
     <TouchableOpacity
       style={styles.avaliationButton}
-      onPress={() => onSetAvaliationOrSignIn()}
-      disabled={isLoading}
+      onPress={() => onButtonPress()}
+      disabled={buttonDisabled}
     >
-      <Title style={{ fontSize: 10 }}>
-        {opinionValue}/{affirmationCurrentOpinionValue}
-      </Title>
       <AffirmationHeroButtonOpinionContent
         active={currentActive}
         opinionValue={opinionValue}

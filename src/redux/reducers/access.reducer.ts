@@ -25,8 +25,7 @@ export function accessReducer(
     case GET_CURRENT_TOKEN: {
       return {
         ...state,
-        currentToken: action.payload.success?.token ?? null,
-        isAuthenticated: true
+        currentToken: action.payload.success?.token ?? null
       }
     }
     case GET_IS_AUTHENTICATED: {

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { ActionCreator } from 'redux'
+import { ActionCreator, Dispatch } from 'redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import {
@@ -58,7 +58,7 @@ const deleteLogOutSuccess: ActionCreator<AccessActionTypes> = () => {
 }
 
 export function getCurrentToken() {
-  return async dispatch => {
+  return async (dispatch: Dispatch) => {
     try {
       let token: string | null = null
       const storageToken = await AsyncStorage.getItem(
@@ -73,7 +73,7 @@ export function getCurrentToken() {
     } catch (err) {
       const returnError = { status: 500, message: 'error get stored token' }
 
-      dispatch(setNotification({ message: returnError.message }))
+      dispatch(setNotification(returnError.message))
       dispatch(getCurrentTokenFailure(returnError))
     }
   }
@@ -188,7 +188,7 @@ export function postSignUp({
 }
 
 export function deleteLogOut() {
-  return async dispatch => {
+  return async (dispatch: Dispatch) => {
     try {
       dispatch(request())
 
@@ -200,7 +200,7 @@ export function deleteLogOut() {
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'error when log out'
+        message: 'Error when log out.'
       }
       if (axios.isAxiosError(err)) {
         err as AxiosError
@@ -209,7 +209,7 @@ export function deleteLogOut() {
           err.response?.data?.failure?.message ?? returnError.message
       }
 
-      dispatch(setNotification({ message: returnError.message }))
+      setNotification(returnError.message)
       dispatch(failure(returnError.message))
     }
   }

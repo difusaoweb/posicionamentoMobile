@@ -16,7 +16,7 @@ const AffirmationListOpinions = ({
 }: AffirmationListOpinionsProps) => {
   const dispatch = useDispatch()
   const { affirmationOpinions } = useSelector(
-    (state: RootState) => state.opinions
+    (state: ReturnType<RootState>) => state.opinions
   )
   const { colors } = useTheme()
 

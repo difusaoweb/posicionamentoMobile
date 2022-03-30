@@ -5,14 +5,14 @@ import {
   GetAffirmationsHomeParametersServiceInterface,
   GetAffirmationSingleParametersServiceInterface,
   GetAffirmationsSearchParametersServiceInterface,
-  PostAffirmationSingleParametersServiceInterface
+  PostAffirmationAddParametersServiceInterface
 } from '../redux/types'
 export const affirmationService = {
   getAffirmationsHome,
   getAffirmationsTrending,
   getAffirmationsSearch,
   getAffirmationSingle,
-  postAffirmationSingle
+  postAffirmationAdd
 }
 
 async function getAffirmationsHome({
@@ -41,9 +41,9 @@ async function getAffirmationSingle({
   })
 }
 
-async function postAffirmationSingle({
+async function postAffirmationAdd({
   affirmationMessage
-}: PostAffirmationSingleParametersServiceInterface): Promise<AxiosResponse> {
+}: PostAffirmationAddParametersServiceInterface): Promise<AxiosResponse> {
   return await api.get('affirmations/create', {
     params: { affirmation_message: affirmationMessage }
   })

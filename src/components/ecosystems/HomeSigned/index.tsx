@@ -14,12 +14,12 @@ interface HomeSignedProps {
   navigation: StackNavigationProp<{}>
 }
 const HomeSigned = ({ navigation }: HomeSignedProps) => {
-  const dispatch = useDispatch()
   const {
     homeAffirmations,
     homeAffirmationsLastPage,
     getAffirmationsHomeError
-  } = useSelector((state: RootState) => state.affirmations)
+  } = useSelector((state: ReturnType<RootState>) => state.affirmations)
+  const dispatch = useDispatch()
   const [t] = useTranslation('home')
 
   const [isLoading, setIsLoading] = React.useState(false)

@@ -11,7 +11,9 @@ interface HomePageProps {
   navigation: StackNavigationProp<{}>
 }
 const HomePage = ({ navigation }: HomePageProps) => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.access)
+  const { isAuthenticated } = useSelector(
+    (state: ReturnType<RootState>) => state.access
+  )
 
   return (
     <ScreenWrapper contentContainerStyle={{ flex: 1 }}>

@@ -40,7 +40,7 @@ const AffirmationPage = ({ navigation, route }: AffirmationProps) => {
         </View>
         <Divider style={[styles.divider, { borderBottomColor: colors.text }]} />
         <View style={styles.opinionsBox}>
-          <AffirmationListOpinions affirmationId={affirmationId} />
+          {/* <AffirmationListOpinions affirmationId={affirmationId} /> */}
         </View>
       </ScrollView>
     </ScreenWrapper>

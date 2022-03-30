@@ -7,7 +7,6 @@ import {
   AffirmationActionTypes,
   ReturnErrorInterface,
   GetAffirmationsHomeParametersServiceInterface,
-  // GetAffirmationsHomeReturnPromiseInterface,
   GetAffirmationsHomeSuccessReturnActionInterface,
   AffirmationHomeInterface,
   SearchAffirmationsInterface,
@@ -20,13 +19,13 @@ import {
   GET_AFFIRMATION_SINGLE,
   GetAffirmationSingleSuccessReturnActionInterface,
   AffirmationSingleInterface,
-  POST_AFFIRMATION_SINGLE,
-  PostAffirmationSingleParametersServiceInterface
+  POST_AFFIRMATION_ADD,
+  PostAffirmationAddParametersServiceInterface,
+  AFFIRMATION_PUT_OPINION_AFFIRMATION_LOCAL
 } from '../types'
 import { affirmationService } from '../../services'
 import { request, failure } from './common.actions'
 import { setNotification } from './notification.actions'
-import { getOpinionAffirmation } from './opinion.actions'
 
 const getAffirmationsHomeSuccess: ActionCreator<AffirmationActionTypes> = (
   success: GetAffirmationsHomeSuccessReturnActionInterface
@@ -67,6 +66,12 @@ const getAffirmationsSearchFailure: ActionCreator<AffirmationActionTypes> = (
   return { type: GET_AFFIRMATIONS_SEARCH, payload: { success: null, failure } }
 }
 
+const postAffirmationAddFailure: ActionCreator<AffirmationActionTypes> = (
+  failure: ReturnErrorInterface
+) => {
+  return { type: POST_AFFIRMATION_ADD, payload: { success: null, failure } }
+}
+
 const getAffirmationSingleSuccess: ActionCreator<AffirmationActionTypes> = (
   success: GetAffirmationSingleSuccessReturnActionInterface
 ) => {
@@ -78,10 +83,10 @@ const getAffirmationSingleFailure: ActionCreator<AffirmationActionTypes> = (
   return { type: GET_AFFIRMATION_SINGLE, payload: { success: null, failure } }
 }
 
-const postAffirmationSingleFailure: ActionCreator<AffirmationActionTypes> = (
-  failure: ReturnErrorInterface
-) => {
-  return { type: POST_AFFIRMATION_SINGLE, payload: { success: null, failure } }
+const AffirmationPutOpinionAffirmationLocalAction: ActionCreator<
+  AffirmationActionTypes
+> = (opinion: { id: number; value: number } | null) => {
+  return { type: AFFIRMATION_PUT_OPINION_AFFIRMATION_LOCAL, payload: opinion }
 }
 
 export function getAffirmationsHome({
@@ -203,6 +208,38 @@ export function getAffirmationsSearch({
   }
 }
 
+export function postAffirmationAdd({
+  affirmationMessage
+}: PostAffirmationAddParametersServiceInterface) {
+  const [t] = useTranslation('add')
+
+  return async dispatch => {
+    try {
+      dispatch(request())
+
+      await affirmationService.postAffirmationAdd({
+        affirmationMessage
+      })
+
+      dispatch(
+        setNotification({ message: t('affirmation_successfully_added') })
+      )
+    } catch (err) {
+      const returnError = { status: 500, message: 'error post affirmation' }
+      if (axios.isAxiosError(err)) {
+        err as AxiosError
+        returnError.status = err.response?.status ?? returnError.status
+        returnError.message =
+          err.response?.data?.failure?.message ?? returnError.message
+      }
+
+      dispatch(setNotification({ message: returnError.message }))
+      dispatch(postAffirmationAddFailure(returnError))
+      dispatch(failure(returnError.message))
+    }
+  }
+}
+
 export function getAffirmationSingle({
   affirmationId
 }: GetAffirmationSingleParametersServiceInterface) {
@@ -225,11 +262,6 @@ export function getAffirmationSingle({
         opinion: data?.success?.affirmation?.opinion
       }
 
-      dispatch(
-        getOpinionAffirmation({
-          opinionValue: affirmation.opinion?.value ?? null
-        })
-      )
       dispatch(getAffirmationSingleSuccess({ affirmation }))
     } catch (err) {
       const returnError = {
@@ -250,34 +282,10 @@ export function getAffirmationSingle({
   }
 }
 
-export function postAffirmationSingle({
-  affirmationMessage
-}: PostAffirmationSingleParametersServiceInterface) {
-  const [t] = useTranslation('add')
-
-  return async dispatch => {
-    try {
-      dispatch(request())
-
-      await affirmationService.postAffirmationSingle({
-        affirmationMessage
-      })
-
-      dispatch(
-        setNotification({ message: t('affirmation_successfully_added') })
-      )
-    } catch (err) {
-      const returnError = { status: 500, message: 'error post affirmation' }
-      if (axios.isAxiosError(err)) {
-        err as AxiosError
-        returnError.status = err.response?.status ?? returnError.status
-        returnError.message =
-          err.response?.data?.failure?.message ?? returnError.message
-      }
-
-      dispatch(setNotification({ message: returnError.message }))
-      dispatch(postAffirmationSingleFailure(returnError))
-      dispatch(failure(returnError.message))
-    }
+export function AffirmationPutOpinionAffirmationLocal(
+  opinion: { id: number; value: number } | null
+) {
+  return dispatch => {
+    dispatch(AffirmationPutOpinionAffirmationLocalAction(opinion))
   }
 }

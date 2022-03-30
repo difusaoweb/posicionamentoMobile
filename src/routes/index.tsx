@@ -21,7 +21,9 @@ const Stack = createStackNavigator()
 
 const Routes: React.FC = () => {
   const dispatch = useDispatch()
-  const { currentToken } = useSelector((state: RootState) => state.access)
+  const { currentToken } = useSelector(
+    (state: ReturnType<RootState>) => state.access
+  )
   const { colors } = useTheme()
 
   const [isLoading, setIsLoading] = React.useState(true)
@@ -37,10 +39,13 @@ const Routes: React.FC = () => {
 
   React.useEffect(() => {
     getLocalStorage()
+  }, [])
+
+  React.useEffect(() => {
     if (currentToken) {
       onGetIsAuthenticated()
     }
-  }, [])
+  }, [currentToken])
 
   if (isLoading) return <Loading />
 

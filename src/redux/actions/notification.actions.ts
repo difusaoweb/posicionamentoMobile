@@ -1,19 +1,17 @@
-import { ActionCreator } from 'redux'
+import { ActionCreator, Dispatch } from 'redux'
+import { useDispatch } from 'react-redux'
 
-import {
-  NotificationActionTypes,
-  SET_NOTIFICATION,
-  SetNotificationReturnActionInterface
-} from '../types'
+import { NotificationActionTypes, SET_NOTIFICATION } from '../types'
 
-const setNotificationSuccess: ActionCreator<NotificationActionTypes> = (
-  set: SetNotificationReturnActionInterface
+const setNotificationAction: ActionCreator<NotificationActionTypes> = (
+  message: string | null
 ) => {
-  return { type: SET_NOTIFICATION, payload: set }
+  return { type: SET_NOTIFICATION, payload: message }
 }
 
-export function setNotification(set: SetNotificationReturnActionInterface) {
-  return dispatch => {
-    dispatch(setNotificationSuccess(set))
-  }
+export const setNotification = (message: string | null) => {
+  // return (dispatch: Dispatch) => {
+  const dispatch = useDispatch()
+  dispatch(setNotificationAction(message))
+  // }
 }

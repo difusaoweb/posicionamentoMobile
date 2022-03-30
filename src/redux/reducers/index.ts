@@ -13,5 +13,3 @@ export const rootReducer = combineReducers({
   access: accessReducer,
   users: usersReducer
 })
-
-export type RootState = ReturnType<typeof rootReducer>

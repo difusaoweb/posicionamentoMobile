@@ -8,15 +8,17 @@ import { setNotification, RootState } from '../../../redux'
 import { styles } from './index.styles'
 
 const NotificationAlert: React.FC = () => {
+  const { message } = useSelector(
+    (state: ReturnType<RootState>) => state.notifications
+  )
   const dispatch = useDispatch()
-  const { message } = useSelector((state: RootState) => state.notifications)
   const { colors } = useTheme()
   const [t] = useTranslation('general')
 
   const [alertNotification, setAlertNotification] = React.useState(false)
 
   async function clearNotification() {
-    await dispatch(setNotification({ message: null }))
+    await dispatch(setNotification(null))
   }
 
   function onDismiss() {

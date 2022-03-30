@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
 import { styles } from './index.style'
-import { postAffirmationSingle } from '../../../redux'
+import { postAffirmationAdd } from '../../../redux'
 import Loading from '../../atoms/Loading'
 
 const AddSigned = () => {
@@ -15,9 +15,9 @@ const AddSigned = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [affirmationMessage, setAffirmationMessage] = React.useState<string>('')
 
-  async function onPostAffirmationSingle() {
+  async function onPostAffirmationAdd() {
     setIsLoading(true)
-    await dispatch(postAffirmationSingle({ affirmationMessage }))
+    await dispatch(postAffirmationAdd({ affirmationMessage }))
 
     setIsLoading(false)
   }
@@ -37,7 +37,7 @@ const AddSigned = () => {
       <Button
         mode="contained"
         style={styles.button}
-        onPress={onPostAffirmationSingle}
+        onPress={onPostAffirmationAdd}
         disabled={isLoading || !affirmationMessage}
       >
         {t('add')}

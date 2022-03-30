@@ -1,8 +1,9 @@
 import {
-  GET_OPINIONS_AFFIRMATION,
-  GET_OPINION_AFFIRMATION,
+  SET_CURRENT_OPINION_VALUE_AFFIRMATION,
+  UPDATE_OPINION_BUTTON_PRESSED_AFFIRMATION,
   SET_OPINION_AFFIRMATION,
   DELETE_OPINION_AFFIRMATION,
+  GET_OPINIONS_AFFIRMATION,
   GET_OPINIONS_USER,
   OpinionActionTypes,
   OpinionState
@@ -10,15 +11,16 @@ import {
 
 const initialState: OpinionState = {
   affirmationCurrentOpinionValue: null,
+  affirmationButtonOpinionPressed: false,
   affirmationBeforeCurrentOpinionValue: null,
   affirmationDeletedOpinionValue: null,
 
   affirmationOpinions: null,
   userOpinions: null,
 
-  getOpinionsAffirmationError: null,
-  setOpinionAffirmationError: null,
   deleteOpinionAffirmationError: null,
+  setOpinionAffirmationError: null,
+  getOpinionsAffirmationError: null,
   getOpinionsUserError: null
 }
 
@@ -27,27 +29,26 @@ export function opinionsReducer(
   action: OpinionActionTypes
 ): OpinionState {
   switch (action.type) {
-    case GET_OPINIONS_AFFIRMATION: {
+    case SET_CURRENT_OPINION_VALUE_AFFIRMATION: {
       return {
         ...state,
-        affirmationOpinions: action.payload.success?.opinions ?? null,
-        getOpinionsAffirmationError: action.payload.failure
+        affirmationBeforeCurrentOpinionValue: action.payload,
+        affirmationCurrentOpinionValue: action.payload
       }
     }
-    case GET_OPINION_AFFIRMATION: {
+    case UPDATE_OPINION_BUTTON_PRESSED_AFFIRMATION: {
       return {
         ...state,
-        affirmationCurrentOpinionValue:
-          action.payload.success?.opinionValue ?? null
+        affirmationButtonOpinionPressed: action.payload
       }
     }
     case SET_OPINION_AFFIRMATION: {
       return {
         ...state,
-        affirmationCurrentOpinionValue:
-          action.payload.success?.opinionValue ?? null,
         affirmationBeforeCurrentOpinionValue:
           state.affirmationCurrentOpinionValue,
+        affirmationCurrentOpinionValue:
+          action.payload.success?.opinionValue ?? null,
         setOpinionAffirmationError: action.payload.failure
       }
     }
@@ -59,6 +60,13 @@ export function opinionsReducer(
         affirmationCurrentOpinionValue: null,
         affirmationBeforeCurrentOpinionValue: null,
         deleteOpinionAffirmationError: action.payload.failure
+      }
+    }
+    case GET_OPINIONS_AFFIRMATION: {
+      return {
+        ...state,
+        affirmationOpinions: action.payload.success?.opinions ?? null,
+        getOpinionsAffirmationError: action.payload.failure
       }
     }
     case GET_OPINIONS_USER: {

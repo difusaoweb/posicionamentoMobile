@@ -1,8 +1,9 @@
-import { NotificationActionTypes, SET_NOTIFICATION } from '../types'
+import {
+  NotificationActionTypes,
+  SET_NOTIFICATION,
+  NotificationState
+} from '../types'
 
-interface NotificationState {
-  message: string | null
-}
 const initialState: NotificationState = {
   message: null
 }
@@ -15,7 +16,7 @@ export function notificationsReducer(
     case SET_NOTIFICATION: {
       return {
         ...state,
-        message: action.payload.message
+        message: action.payload
       }
     }
     default:

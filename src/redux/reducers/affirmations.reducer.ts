@@ -1,11 +1,12 @@
 import {
+  AffirmationActionTypes,
+  AffirmationState,
   GET_AFFIRMATIONS_HOME,
   GET_AFFIRMATIONS_TRENDING,
   GET_AFFIRMATIONS_SEARCH,
+  POST_AFFIRMATION_ADD,
   GET_AFFIRMATION_SINGLE,
-  POST_AFFIRMATION_SINGLE,
-  AffirmationActionTypes,
-  AffirmationState
+  AFFIRMATION_PUT_OPINION_AFFIRMATION_LOCAL
 } from '../types'
 
 const initialState: AffirmationState = {
@@ -18,7 +19,7 @@ const initialState: AffirmationState = {
   getAffirmationsTrendingError: null,
   getAffirmationsSearchError: null,
   getAffirmationSingleError: null,
-  postAffirmationSingleError: null
+  postAffirmationAddError: null
 }
 
 export function affirmationsReducer(
@@ -64,6 +65,12 @@ export function affirmationsReducer(
         getAffirmationsSearchError: action.payload.failure
       }
     }
+    case POST_AFFIRMATION_ADD: {
+      return {
+        ...state,
+        postAffirmationAddError: action.payload.failure
+      }
+    }
     case GET_AFFIRMATION_SINGLE: {
       return {
         ...state,
@@ -71,10 +78,15 @@ export function affirmationsReducer(
         getAffirmationSingleError: action.payload.failure
       }
     }
-    case POST_AFFIRMATION_SINGLE: {
+    case AFFIRMATION_PUT_OPINION_AFFIRMATION_LOCAL: {
+      const affirmationSingle = state.affirmationSingle
+      if (affirmationSingle) {
+        affirmationSingle.opinion = action.payload
+      }
+
       return {
         ...state,
-        postAffirmationSingleError: action.payload.failure
+        affirmationSingle: affirmationSingle
       }
     }
     default:

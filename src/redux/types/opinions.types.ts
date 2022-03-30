@@ -74,26 +74,23 @@ export interface GetOpinionsUserSuccessReturnActionInterface {
   opinions: OpinionUserInterface[]
 }
 
-export const GET_OPINIONS_AFFIRMATION = 'GET_OPINIONS_AFFIRMATION'
-export const GET_OPINION_AFFIRMATION = 'GET_OPINION_AFFIRMATION'
+export const SET_CURRENT_OPINION_VALUE_AFFIRMATION =
+  'SET_CURRENT_OPINION_VALUE_AFFIRMATION'
+export const UPDATE_OPINION_BUTTON_PRESSED_AFFIRMATION =
+  'UPDATE_OPINION_BUTTON_PRESSED_AFFIRMATION'
 export const SET_OPINION_AFFIRMATION = 'SET_OPINION_AFFIRMATION'
 export const DELETE_OPINION_AFFIRMATION = 'DELETE_OPINION_AFFIRMATION'
+export const GET_OPINIONS_AFFIRMATION = 'GET_OPINIONS_AFFIRMATION'
 export const GET_OPINIONS_USER = 'GET_OPINIONS_USER'
 
-interface GetOpinionsAffirmationAction {
-  type: typeof GET_OPINIONS_AFFIRMATION
-  payload: {
-    success: GetOpinionsAffirmationSuccessReturnActionInterface | null
-    failure: ReturnErrorInterface | null
-  }
+interface SetCurrentOpinionValueAffirmationAction {
+  type: typeof SET_CURRENT_OPINION_VALUE_AFFIRMATION
+  payload: number | null
 }
 
-interface GetOpinionAffirmationAction {
-  type: typeof GET_OPINION_AFFIRMATION
-  payload: {
-    success: GetOpinionAffirmationSuccessReturnActionInterface | null
-    failure: ReturnErrorInterface | null
-  }
+interface UpdateOpinionButtonPressedAffirmationAction {
+  type: typeof UPDATE_OPINION_BUTTON_PRESSED_AFFIRMATION
+  payload: boolean
 }
 
 interface SetOpinionAffirmationAction {
@@ -112,6 +109,14 @@ interface DeleteOpinionAffirmationAction {
   }
 }
 
+interface GetOpinionsAffirmationAction {
+  type: typeof GET_OPINIONS_AFFIRMATION
+  payload: {
+    success: GetOpinionsAffirmationSuccessReturnActionInterface | null
+    failure: ReturnErrorInterface | null
+  }
+}
+
 interface GetOpinionsUserAction {
   type: typeof GET_OPINIONS_USER
   payload: {
@@ -122,6 +127,7 @@ interface GetOpinionsUserAction {
 
 export interface OpinionState {
   affirmationCurrentOpinionValue: number | null
+  affirmationButtonOpinionPressed: boolean
   affirmationBeforeCurrentOpinionValue: number | null
   affirmationDeletedOpinionValue: number | null
 
@@ -135,8 +141,9 @@ export interface OpinionState {
 }
 
 export type OpinionActionTypes =
-  | GetOpinionsAffirmationAction
-  | GetOpinionAffirmationAction
+  | SetCurrentOpinionValueAffirmationAction
+  | UpdateOpinionButtonPressedAffirmationAction
   | SetOpinionAffirmationAction
   | DeleteOpinionAffirmationAction
+  | GetOpinionsAffirmationAction
   | GetOpinionsUserAction

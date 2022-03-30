@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { ActionCreator } from 'redux'
+import { ActionCreator, Dispatch } from 'redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import {
@@ -57,7 +57,7 @@ export function getCurrentUser() {
 export function getUserProfile({
   userId
 }: GetUserProfileParametersServiceInterface) {
-  return dispatch => {
+  return (dispatch: Dispatch) => {
     dispatch(request())
     return userService.getUserProfile({ userId }).then(
       response => {
@@ -77,7 +77,7 @@ export function getUserProfile({
             err.response?.data?.failure?.message ?? returnError.message
         }
 
-        dispatch(setNotification({ message: returnError.message }))
+        setNotification(returnError.message)
         dispatch(getUserProfileFailure(returnError))
         dispatch(failure(returnError.message))
       }
