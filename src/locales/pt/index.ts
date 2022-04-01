@@ -4,9 +4,10 @@ import Home from './home.json'
 import Search from './search.json'
 import Add from './add.json'
 import Affirmation from './affirmation.json'
-import SignIn from './signIn.json'
-import SignInUp from './signInUp.json'
+import LogIn from './logIn.json'
+import SignUp from './signUp.json'
 import Trending from './trending.json'
+import ForgotPassword from './forgotPassword.json'
 
 export default {
   general: General,
@@ -15,7 +16,8 @@ export default {
   search: Search,
   add: Add,
   affirmation: Affirmation,
-  signIn: SignIn,
-  signInUp: SignInUp,
-  trending: Trending
+  logIn: LogIn,
+  signUp: SignUp,
+  trending: Trending,
+  forgotPassword: ForgotPassword
 }

@@ -7,15 +7,15 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 30
   },
-  justifyContentCenter: {
-    justifyContent: 'center'
-  },
   row: {
     flexDirection: 'row',
     width: '100%'
   },
   rowJustifyEnd: {
     justifyContent: 'flex-end'
+  },
+  justifyContentCenter: {
+    justifyContent: 'center'
   },
   logo: {
     marginBottom: 16

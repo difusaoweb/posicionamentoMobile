@@ -1,5 +1,5 @@
 import {
-  GET_CURRENT_USER,
+  USERS_ACTION_GET_CURRENT_USER,
   GET_USER_PROFILE,
   UserActionTypes,
   UserState
@@ -17,11 +17,10 @@ export function usersReducer(
   action: UserActionTypes
 ): UserState {
   switch (action.type) {
-    case GET_CURRENT_USER: {
+    case USERS_ACTION_GET_CURRENT_USER: {
       return {
         ...state,
-        currentUser: action.payload.success?.user ?? null,
-        getCurrentUserError: action.payload.failure
+        currentUser: action.payload?.user ?? null
       }
     }
     case GET_USER_PROFILE: {

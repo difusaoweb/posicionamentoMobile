@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { ActionCreator } from 'redux'
+import { ActionCreator, Dispatch } from 'redux'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -178,7 +178,7 @@ export function getAffirmationsTrending() {
 export function getAffirmationsSearch({
   search
 }: GetAffirmationsSearchParametersServiceInterface) {
-  return async dispatch => {
+  return async (dispatch: Dispatch) => {
     try {
       dispatch(request())
       const { data } = await affirmationService.getAffirmationsSearch({
@@ -201,7 +201,7 @@ export function getAffirmationsSearch({
           err.response?.data?.failure?.message ?? returnError.message
       }
 
-      dispatch(setNotification({ message: returnError.message }))
+      dispatch(setNotification(returnError.message))
       dispatch(getAffirmationsSearchFailure(returnError))
       dispatch(failure(returnError.message))
     }

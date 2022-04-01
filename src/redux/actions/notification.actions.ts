@@ -10,8 +10,7 @@ const setNotificationAction: ActionCreator<NotificationActionTypes> = (
 }
 
 export const setNotification = (message: string | null) => {
-  // return (dispatch: Dispatch) => {
-  const dispatch = useDispatch()
-  dispatch(setNotificationAction(message))
-  // }
+  return dispatch => {
+    dispatch(setNotificationAction(message))
+  }
 }

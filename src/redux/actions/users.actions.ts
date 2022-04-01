@@ -6,20 +6,23 @@ import {
   GetUserProfileSuccessReturnActionInterface,
   GetUserProfileParametersServiceInterface,
   UserActionTypes,
-  GET_CURRENT_USER,
   GET_USER_PROFILE,
   ReturnErrorInterface,
   CurrentUserInterface,
-  GetCurrentUserSuccessReturnActionInterface
+  UsersActionGetCurrentUserParameters,
+  USERS_ACTION_GET_CURRENT_USER
 } from '../types'
 import { userService } from '../../services'
 import { request, failure } from './common.actions'
 import { setNotification } from './notification.actions'
 
-const getCurrentUserSuccess: ActionCreator<UserActionTypes> = (
-  success: GetCurrentUserSuccessReturnActionInterface
+const usersActionGetCurrentUser: ActionCreator<UserActionTypes> = (
+  payload: UsersActionGetCurrentUserParameters
 ) => {
-  return { type: GET_CURRENT_USER, payload: { success, failure: null } }
+  return {
+    type: USERS_ACTION_GET_CURRENT_USER,
+    payload
+  }
 }
 
 const getUserProfileSuccess: ActionCreator<UserActionTypes> = (
@@ -33,7 +36,7 @@ const getUserProfileFailure: ActionCreator<UserActionTypes> = (
   return { type: GET_USER_PROFILE, payload: { success: null, failure } }
 }
 
-export function getCurrentUser() {
+export function usersGetCurrentUser() {
   return async dispatch => {
     try {
       let user: CurrentUserInterface | null = null
@@ -42,14 +45,14 @@ export function getCurrentUser() {
         user = JSON.parse(storageUser)
       }
 
-      dispatch(getCurrentUserSuccess({ user }))
+      dispatch(usersActionGetCurrentUser({ user }))
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'Error get current user.'
+        message: 'Error users get current user.'
       }
 
-      dispatch(setNotification({ message: returnError.message }))
+      dispatch(setNotification(returnError.message))
     }
   }
 }

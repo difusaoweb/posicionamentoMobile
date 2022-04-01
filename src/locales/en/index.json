@@ -1,5 +1,6 @@
 {
-  "signIn": "Sign in",
+  "logIn": "Sign in",
   "close": "Close",
-  "add": "Add"
+  "add": "Add",
+  "emailOrUsername": "Email or username"
 }

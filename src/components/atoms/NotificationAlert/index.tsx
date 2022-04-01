@@ -17,12 +17,8 @@ const NotificationAlert: React.FC = () => {
 
   const [alertNotification, setAlertNotification] = React.useState(false)
 
-  async function clearNotification() {
+  async function onDismiss() {
     await dispatch(setNotification(null))
-  }
-
-  function onDismiss() {
-    clearNotification()
     setAlertNotification(false)
   }
 
@@ -39,7 +35,7 @@ const NotificationAlert: React.FC = () => {
         label: t('close'),
         onPress: onDismiss
       }}
-      duration={1000 * 60 * 60}
+      duration={2 * 60 * 1000}
     >
       <Text style={styles.text}>{message}</Text>
     </Snackbar>

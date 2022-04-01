@@ -2,12 +2,12 @@ import * as React from 'react'
 import { View } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { useSelector, useDispatch } from 'react-redux'
-import { useTheme } from 'react-native-paper'
+import { useTheme, Caption } from 'react-native-paper'
 
 import {
-  getIsAuthenticated,
-  getCurrentUser,
-  getCurrentToken,
+  accessGetIsAuthenticated,
+  accessGetCurrentToken,
+  usersGetCurrentUser,
   RootState
 } from '../redux'
 import AppRoutes from './App/index.routes'
@@ -21,31 +21,45 @@ const Stack = createStackNavigator()
 
 const Routes: React.FC = () => {
   const dispatch = useDispatch()
-  const { currentToken } = useSelector(
+  const { currentToken, isAuthenticated } = useSelector(
     (state: ReturnType<RootState>) => state.access
   )
   const { colors } = useTheme()
 
   const [isLoading, setIsLoading] = React.useState(true)
 
-  async function getLocalStorage() {
-    await dispatch(getCurrentToken())
-    await dispatch(getCurrentUser())
-    setIsLoading(false)
+  async function onAccessGetCurrentToken() {
+    console.log('onAccessGetCurrentToken')
+    await dispatch(accessGetCurrentToken())
   }
-  async function onGetIsAuthenticated() {
-    await dispatch(getIsAuthenticated())
+
+  async function onAccessGetIsAuthenticated() {
+    console.log('onAccessGetIsAuthenticated')
+    await dispatch(accessGetIsAuthenticated())
+  }
+
+  async function onUsersGetCurrentUser() {
+    console.log('onUsersGetCurrentUser')
+    await dispatch(usersGetCurrentUser())
   }
 
   React.useEffect(() => {
-    getLocalStorage()
+    onAccessGetCurrentToken()
   }, [])
 
   React.useEffect(() => {
     if (currentToken) {
-      onGetIsAuthenticated()
+      onAccessGetIsAuthenticated()
     }
+    setIsLoading(false)
   }, [currentToken])
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      onUsersGetCurrentUser()
+    }
+    setIsLoading(false)
+  }, [isAuthenticated])
 
   if (isLoading) return <Loading />
 

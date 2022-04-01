@@ -1,20 +1,22 @@
 import {
   AccessState,
   AccessActionTypes,
-  GET_CURRENT_TOKEN,
-  GET_IS_AUTHENTICATED,
+  ACCESS_GET_CURRENT_TOKEN,
+  ACCESS_GET_IS_AUTHENTICATED,
   GET_SIGN_IN,
   POST_SIGN_UP,
-  DELETE_LOG_OUT
+  DELETE_LOG_OUT,
+  ACCESS_RESET_PASSWORD
 } from '../types'
 
 const initialState: AccessState = {
   currentToken: null,
   isAuthenticated: null,
   getCurrentTokenError: null,
-  getSignInError: null,
+  getLogInError: null,
   postSignUpError: null,
-  deleteLogOutError: null
+  deleteLogOutError: null,
+  resetPassword: null
 }
 
 export function accessReducer(
@@ -22,23 +24,26 @@ export function accessReducer(
   action: AccessActionTypes
 ): AccessState {
   switch (action.type) {
-    case GET_CURRENT_TOKEN: {
+    case ACCESS_GET_CURRENT_TOKEN: {
       return {
         ...state,
-        currentToken: action.payload.success?.token ?? null
+        currentToken: action.payload?.token ?? null
       }
     }
-    case GET_IS_AUTHENTICATED: {
+    case ACCESS_GET_IS_AUTHENTICATED: {
       return {
         ...state,
-        isAuthenticated: action.payload.success?.isAuthenticated ?? null
+        isAuthenticated: action.payload?.isAuthenticated ?? null,
+        currentToken: action.payload?.isAuthenticated
+          ? state.currentToken
+          : null
       }
     }
     case GET_SIGN_IN: {
       return {
         ...state,
         currentToken: action.payload.success?.token ?? null,
-        getSignInError: action.payload.failure
+        getLogInError: action.payload.failure
       }
     }
     case POST_SIGN_UP: {
@@ -50,7 +55,15 @@ export function accessReducer(
     case DELETE_LOG_OUT: {
       return {
         ...state,
+        currentToken: null,
+        isAuthenticated: null,
         deleteLogOutError: action.payload.failure
+      }
+    }
+    case ACCESS_RESET_PASSWORD: {
+      return {
+        ...state,
+        resetPassword: action.payload ?? null
       }
     }
     default:

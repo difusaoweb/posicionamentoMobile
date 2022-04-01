@@ -1,18 +1,19 @@
 import * as Localization from 'expo-localization'
-import i18n from 'i18next'
-
-import en from './en'
+import i18next from 'i18next'
+import { initReactI18next } from 'react-i18next'
 import pt from './pt'
+import en from './en'
 
-i18n.init({
+i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
   lng: Localization.locale,
-  fallbackLng: ['en', 'pt'],
+  fallbackLng: ['pt', 'en'],
+  compatibilityJSON: 'v3',
   lowerCaseLng: true,
-  resources: {
-    pt: pt,
-    en: en
+  resources: { pt: pt, en: en },
+  react: {
+    useSuspense: false
   }
 })
 
-export default i18n
+export default i18next

@@ -1,5 +1,5 @@
 {
-  "signIn": "Sign In",
+  "logIn": "Sign In",
   "description": "Hi! Enter your email or username",
   "emailOrUsername": "E-mail or username",
   "password": "Password",

@@ -4,42 +4,44 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import {
   AccessActionTypes,
-  GET_CURRENT_TOKEN,
-  GetCurrentTokenSuccessReturnActionInterface,
-  GET_IS_AUTHENTICATED,
-  GetIsAuthenticatedSuccessReturnActionInterface,
   GET_SIGN_IN,
-  GetSignInParametersServiceInterface,
-  GetSignInSuccessReturnActionInterface,
+  GetLogInParametersServiceInterface,
+  GetLogInSuccessReturnActionInterface,
   POST_SIGN_UP,
   PostSignUpParametersServiceInterface,
   ReturnErrorInterface,
-  DELETE_LOG_OUT
+  DELETE_LOG_OUT,
+  AccessResetPasswordParameters,
+  ACCESS_RESET_PASSWORD,
+  AccessActionGetCurrentTokenParameters,
+  AccessActionIsAuthenticatedParameters,
+  ACCESS_GET_CURRENT_TOKEN,
+  ACCESS_GET_IS_AUTHENTICATED
 } from '../types'
 import { accessService } from '../../services'
 import { request, failure } from './common.actions'
 import { setNotification } from './notification.actions'
 import api from '../../services/api'
 
-const getCurrentTokenSuccess: ActionCreator<AccessActionTypes> = (
-  success: GetCurrentTokenSuccessReturnActionInterface
+const accessActionGetCurrentToken: ActionCreator<AccessActionTypes> = (
+  payload: AccessActionGetCurrentTokenParameters
 ) => {
-  return { type: GET_CURRENT_TOKEN, payload: { success, failure: null } }
-}
-const getCurrentTokenFailure: ActionCreator<AccessActionTypes> = (
-  failure: ReturnErrorInterface
-) => {
-  return { type: GET_CURRENT_TOKEN, payload: { success: null, failure } }
+  return { type: ACCESS_GET_CURRENT_TOKEN, payload }
 }
 
-const getIsAuthenticatedSuccess: ActionCreator<AccessActionTypes> = (
-  success: GetIsAuthenticatedSuccessReturnActionInterface
+const accessActionGetIsAuthenticated: ActionCreator<AccessActionTypes> = (
+  payload: AccessActionIsAuthenticatedParameters
 ) => {
-  return { type: GET_IS_AUTHENTICATED, payload: { success } }
+  return { type: ACCESS_GET_IS_AUTHENTICATED, payload }
+}
+const accessActionGetIsAuthenticatedFailure: ActionCreator<
+  AccessActionTypes
+> = () => {
+  return { type: ACCESS_GET_IS_AUTHENTICATED, payload: null }
 }
 
-const getSignInSuccess: ActionCreator<AccessActionTypes> = (
-  success: GetSignInSuccessReturnActionInterface
+const getLogInSuccess: ActionCreator<AccessActionTypes> = (
+  success: GetLogInSuccessReturnActionInterface
 ) => {
   return { type: GET_SIGN_IN, payload: { success, failure: null } }
 }
@@ -57,8 +59,15 @@ const deleteLogOutSuccess: ActionCreator<AccessActionTypes> = () => {
   return { type: DELETE_LOG_OUT, payload: { failure: null } }
 }
 
-export function getCurrentToken() {
-  return async (dispatch: Dispatch) => {
+const AccessActionResetPassword: ActionCreator<AccessActionTypes> = () => {
+  return {
+    type: ACCESS_RESET_PASSWORD,
+    payload: true
+  }
+}
+
+export function accessGetCurrentToken() {
+  return async dispatch => {
     try {
       let token: string | null = null
       const storageToken = await AsyncStorage.getItem(
@@ -69,52 +78,43 @@ export function getCurrentToken() {
         api.defaults.headers.Authorization = `Bearer ${token}`
       }
 
-      dispatch(getCurrentTokenSuccess({ token }))
-    } catch (err) {
-      const returnError = { status: 500, message: 'error get stored token' }
-
-      dispatch(setNotification(returnError.message))
-      dispatch(getCurrentTokenFailure(returnError))
-    }
-  }
-}
-
-export function getIsAuthenticated() {
-  return async dispatch => {
-    try {
-      dispatch(request())
-
-      const { data } = await accessService.getIsAuthenticated()
-      const isAuthenticated = data?.success?.isAuthenticated
-
-      dispatch(getIsAuthenticatedSuccess({ isAuthenticated }))
+      dispatch(accessActionGetCurrentToken({ token }))
     } catch (err) {
       const returnError = {
         status: 500,
-        message: 'Error checking authentication.'
-      }
-      if (axios.isAxiosError(err)) {
-        err as AxiosError
-        returnError.status = err.response?.status ?? returnError.status
-        returnError.message =
-          err.response?.data?.failure?.message ?? returnError.message
+        message: 'Error access get current token.'
       }
 
-      dispatch(setNotification({ message: returnError.message }))
-      dispatch(getCurrentTokenFailure(returnError))
+      dispatch(setNotification(returnError.message))
     }
   }
 }
 
-export function getSignIn({
+export function accessGetIsAuthenticated() {
+  return async dispatch => {
+    try {
+      console.log('accessGetIsAuthenticated')
+      await accessService.getIsAuthenticated()
+
+      dispatch(accessActionGetIsAuthenticated({ isAuthenticated: true }))
+    } catch (err) {
+      console.log('accessGetIsAuthenticatedFailure')
+      delete api.defaults.headers.Authorization
+      await AsyncStorage.clear()
+      dispatch(accessActionGetIsAuthenticatedFailure())
+    }
+  }
+}
+
+export function getLogIn({
   userLogin,
   userPass
-}: GetSignInParametersServiceInterface) {
+}: GetLogInParametersServiceInterface) {
   return async dispatch => {
     try {
       dispatch(request())
 
-      const { data } = await accessService.getSignIn({ userLogin, userPass })
+      const { data } = await accessService.getLogIn({ userLogin, userPass })
       const token = data?.success?.token
       const user = {
         id: data?.success?.user?.id,
@@ -130,7 +130,7 @@ export function getSignIn({
         ['@PosicionamentoAuth:user', JSON.stringify(user)]
       ])
 
-      dispatch(getSignInSuccess({ token }))
+      dispatch(getLogInSuccess({ token }))
     } catch (err) {
       const returnError = {
         status: 500,
@@ -211,6 +211,30 @@ export function deleteLogOut() {
 
       setNotification(returnError.message)
       dispatch(failure(returnError.message))
+    }
+  }
+}
+
+export function AccessResetPassword({
+  userLogin
+}: AccessResetPasswordParameters) {
+  return async dispatch => {
+    try {
+      await accessService.accessResetPassword({ userLogin })
+      dispatch(AccessActionResetPassword())
+    } catch (err) {
+      const returnError = {
+        status: 500,
+        message: 'Error access reset password.'
+      }
+      if (axios.isAxiosError(err)) {
+        err as AxiosError
+        returnError.status = err.response?.status ?? returnError.status
+        returnError.message =
+          err.response?.data?.failure?.message ?? returnError.message
+      }
+
+      dispatch(setNotification(returnError.message))
     }
   }
 }

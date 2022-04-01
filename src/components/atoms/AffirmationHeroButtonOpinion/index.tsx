@@ -50,7 +50,7 @@ const AffirmationHeroButtonOpinion = ({
 
   async function onButtonPress() {
     if (!isAuthenticated) {
-      navigation.navigate('AccessRoutes', { screen: 'SignInPage' })
+      navigation.navigate('AccessRoutes', { screen: 'LogInPage' })
     } else if (currentActive) {
       onDeleteOpinionAffirmation()
     } else {

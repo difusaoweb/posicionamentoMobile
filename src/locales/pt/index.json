@@ -1,5 +1,6 @@
 {
-  "signIn": "Entrar",
+  "logIn": "Entrar",
   "close": "Fechar",
-  "add": "Adicionar"
+  "add": "Adicionar",
+  "emailOrUsername": "Email ou nome de usuário"
 }

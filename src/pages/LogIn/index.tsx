@@ -7,16 +7,18 @@ import type { StackNavigationProp } from '@react-navigation/stack'
 
 import ScreenWrapper from '../../ScreenWrapper'
 import { styles } from './index.style'
-import { getSignIn, RootState } from '../../redux'
-import Logo from '../../assets/images/sign-in/logo.svg'
+import { getLogIn, RootState } from '../../redux'
+import Logo from '../../assets/images/logo.svg'
 
-interface SignInPageProps {
+interface LogInPageProps {
   navigation: StackNavigationProp<{}>
 }
-const SignInPage = ({ navigation }: SignInPageProps) => {
-  const { currentToken } = useSelector((state: RootState) => state.access)
+const LogInPage = ({ navigation }: LogInPageProps) => {
+  const { isAuthenticated } = useSelector(
+    (state: ReturnType<RootState>) => state.access
+  )
   const dispatch = useDispatch()
-  const [t] = useTranslation('signIn')
+  const [t] = useTranslation('logIn')
   const { colors } = useTheme()
 
   const [isLoading, setIsLoading] = React.useState(false)
@@ -24,14 +26,14 @@ const SignInPage = ({ navigation }: SignInPageProps) => {
   const [userPass, setUserPass] = React.useState('')
   const [displayPasswordText, setDisplayPasswordText] = React.useState(true)
 
-  async function onSignIn() {
+  async function onLogIn() {
     setIsLoading(true)
-    await dispatch(getSignIn({ userLogin, userPass }))
+    await dispatch(getLogIn({ userLogin, userPass }))
 
     setIsLoading(false)
   }
 
-  if (currentToken) {
+  if (isAuthenticated) {
     navigation.navigate('AppRoutes', { screen: 'TabRoutes' })
   }
 
@@ -47,7 +49,7 @@ const SignInPage = ({ navigation }: SignInPageProps) => {
     <>
       <Appbar style={{ backgroundColor: colors.background }}>
         <Appbar.Action icon="arrow-left" onPress={() => navigation.goBack()} />
-        <Appbar.Content title={t('signIn')} />
+        <Appbar.Content title={t('logIn')} />
       </Appbar>
       <ScreenWrapper>
         <View style={styles.container}>
@@ -85,11 +87,11 @@ const SignInPage = ({ navigation }: SignInPageProps) => {
             <Button
               mode="contained"
               style={[styles.button, styles.buttonWidht100]}
-              onPress={onSignIn}
+              onPress={onLogIn}
               disabled={isLoading || !userLogin || !userPass}
               loading={isLoading}
             >
-              {t('signIn')}
+              {t('logIn')}
             </Button>
           </View>
           <View style={[styles.row, styles.rowJustifyEnd]}>
@@ -116,4 +118,4 @@ const SignInPage = ({ navigation }: SignInPageProps) => {
   )
 }
 
-export default SignInPage
+export default LogInPage

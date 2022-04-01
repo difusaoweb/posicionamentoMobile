@@ -2,25 +2,27 @@ import { AxiosResponse } from 'axios'
 
 import api from './api'
 import {
-  GetSignInParametersServiceInterface,
-  PostSignUpParametersServiceInterface
+  GetLogInParametersServiceInterface,
+  PostSignUpParametersServiceInterface,
+  AccessResetPasswordParameters
 } from '../redux/types'
 
 export const accessService = {
   getIsAuthenticated,
-  getSignIn,
+  getLogIn,
   postSignUp,
-  deleteLogOut
+  deleteLogOut,
+  accessResetPassword
 }
 
 async function getIsAuthenticated(): Promise<AxiosResponse> {
   return await api.get('access/authenticated')
 }
 
-async function getSignIn({
+async function getLogIn({
   userLogin,
   userPass
-}: GetSignInParametersServiceInterface): Promise<AxiosResponse> {
+}: GetLogInParametersServiceInterface): Promise<AxiosResponse> {
   return await api.get('access', {
     params: {
       user_login: userLogin,
@@ -47,4 +49,14 @@ async function postSignUp({
 
 async function deleteLogOut(): Promise<AxiosResponse> {
   return await api.get('access/delete')
+}
+
+async function accessResetPassword({
+  userLogin
+}: AccessResetPasswordParameters): Promise<AxiosResponse> {
+  return await api.get('access/reset-password', {
+    params: {
+      user_login: userLogin
+    }
+  })
 }

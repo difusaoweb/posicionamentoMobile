@@ -13,6 +13,10 @@ export interface CurrentUserInterface {
   // }
 }
 
+export interface UsersActionGetCurrentUserParameters {
+  user: CurrentUserInterface
+}
+
 export interface ProfileUserInterface {
   id: number
   userLogin: string
@@ -29,23 +33,16 @@ export interface GetUserProfileParametersServiceInterface {
   userId: number
 }
 
-export interface GetCurrentUserSuccessReturnActionInterface {
-  user: CurrentUserInterface
-}
-
 export interface GetUserProfileSuccessReturnActionInterface {
   profile: ProfileUserInterface
 }
 
-export const GET_CURRENT_USER = 'GET_CURRENT_USER'
+export const USERS_ACTION_GET_CURRENT_USER = 'USERS_ACTION_GET_CURRENT_USER'
 export const GET_USER_PROFILE = 'GET_USER_PROFILE'
 
-interface GetCurrentUserAction {
-  type: typeof GET_CURRENT_USER
-  payload: {
-    success: GetCurrentUserSuccessReturnActionInterface | null
-    failure: ReturnErrorInterface | null
-  }
+interface UsersActionGetCurrentUser {
+  type: typeof USERS_ACTION_GET_CURRENT_USER
+  payload: UsersActionGetCurrentUserParameters | null
 }
 
 interface GetUserProfileAction {
@@ -63,4 +60,4 @@ export interface UserState {
   getUserProfileError: ReturnErrorInterface | null
 }
 
-export type UserActionTypes = GetCurrentUserAction | GetUserProfileAction
+export type UserActionTypes = UsersActionGetCurrentUser | GetUserProfileAction

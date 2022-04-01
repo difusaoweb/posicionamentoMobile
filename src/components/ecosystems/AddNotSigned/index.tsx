@@ -14,8 +14,8 @@ const AddNotSigned = ({ navigation }: AddNotSignedProps) => {
   const [tGeneral] = useTranslation('general')
   const [t] = useTranslation('home')
 
-  function onGoSignIn() {
-    navigation.navigate('AccessRoutes', { screen: 'SignInPage' })
+  function onGoLogIn() {
+    navigation.navigate('AccessRoutes', { screen: 'LogInPage' })
   }
 
   return (
@@ -29,9 +29,9 @@ const AddNotSigned = ({ navigation }: AddNotSignedProps) => {
         dark={true}
         mode="contained"
         style={styles.button}
-        onPress={onGoSignIn}
+        onPress={onGoLogIn}
       >
-        {tGeneral('signIn')}
+        {tGeneral('logIn')}
       </Button>
     </View>
   )
