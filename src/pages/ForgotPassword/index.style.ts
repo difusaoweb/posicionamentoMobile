@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   justifyContentCenter: {
     justifyContent: 'center'
   },
-  logo: {
+  mB16: {
     marginBottom: 16
   }
 })

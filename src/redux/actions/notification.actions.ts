@@ -1,5 +1,4 @@
-import { ActionCreator, Dispatch } from 'redux'
-import { useDispatch } from 'react-redux'
+import { ActionCreator } from 'redux'
 
 import { NotificationActionTypes, SET_NOTIFICATION } from '../types'
 

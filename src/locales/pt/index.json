@@ -1,6 +1,11 @@
 {
+  "error": {
+    "0": "Erro desconhecido."
+  },
   "logIn": "Entrar",
+  "signUp": "Cadastrar",
   "close": "Fechar",
   "add": "Adicionar",
-  "emailOrUsername": "Email ou nome de usuário"
+  "emailOrUsername": "Email ou nome de usuário",
+  "password": "Senha"
 }

@@ -16,12 +16,18 @@ import {
   AccessActionGetCurrentTokenParameters,
   AccessActionIsAuthenticatedParameters,
   ACCESS_GET_CURRENT_TOKEN,
-  ACCESS_GET_IS_AUTHENTICATED
+  ACCESS_GET_IS_AUTHENTICATED,
+  AccessResetPasswordVerifyCodeParameters,
+  ACCESS_RESET_PASSWORD_VERIFY_CODE,
+  AccessResetPasswordChangePasswordParameters,
+  ACCESS_RESET_PASSWORD_CHANGE_PASSWORD,
+  ACCESS_RESET_PASSWORD_CHANGE_PASSWORD_FINISHED
 } from '../types'
 import { accessService } from '../../services'
 import { request, failure } from './common.actions'
 import { setNotification } from './notification.actions'
 import api from '../../services/api'
+import { RootState } from '../store'
 
 const accessActionGetCurrentToken: ActionCreator<AccessActionTypes> = (
   payload: AccessActionGetCurrentTokenParameters
@@ -59,11 +65,35 @@ const deleteLogOutSuccess: ActionCreator<AccessActionTypes> = () => {
   return { type: DELETE_LOG_OUT, payload: { failure: null } }
 }
 
-const AccessActionResetPassword: ActionCreator<AccessActionTypes> = () => {
+const accessActionResetPassword: ActionCreator<AccessActionTypes> = () => {
   return {
     type: ACCESS_RESET_PASSWORD,
     payload: true
   }
+}
+
+const accessActionResetPasswordVerifyCode: ActionCreator<AccessActionTypes> = (
+  token: string
+) => {
+  return {
+    type: ACCESS_RESET_PASSWORD_VERIFY_CODE,
+    payload: token
+  }
+}
+
+const accessActionResetPasswordChangePassword: ActionCreator<
+  AccessActionTypes
+> = () => {
+  return {
+    type: ACCESS_RESET_PASSWORD_CHANGE_PASSWORD,
+    payload: true
+  }
+}
+
+const accessActionResetPasswordFinished: ActionCreator<
+  AccessActionTypes
+> = () => {
+  return { type: ACCESS_RESET_PASSWORD_CHANGE_PASSWORD_FINISHED }
 }
 
 export function accessGetCurrentToken() {
@@ -215,26 +245,97 @@ export function deleteLogOut() {
   }
 }
 
-export function AccessResetPassword({
+export function accessResetPassword({
   userLogin
 }: AccessResetPasswordParameters) {
   return async dispatch => {
     try {
       await accessService.accessResetPassword({ userLogin })
-      dispatch(AccessActionResetPassword())
+      dispatch(accessActionResetPassword())
     } catch (err) {
-      const returnError = {
-        status: 500,
-        message: 'Error access reset password.'
-      }
+      console.log(err)
+      let status: number | null = null
+
       if (axios.isAxiosError(err)) {
         err as AxiosError
-        returnError.status = err.response?.status ?? returnError.status
-        returnError.message =
-          err.response?.data?.failure?.message ?? returnError.message
+        status = err.response?.status ?? null
       }
 
-      dispatch(setNotification(returnError.message))
+      switch (status) {
+        case 404:
+          console.log('404')
+          dispatch(
+            setNotification('forgotPassword.forgotPasswordEmail.error.404')
+          )
+          break
+        default:
+          dispatch(setNotification('index.error.0'))
+          break
+      }
     }
+  }
+}
+
+export function accessResetPasswordVerifyCode({
+  token
+}: AccessResetPasswordVerifyCodeParameters) {
+  return async dispatch => {
+    try {
+      await accessService.accessResetPasswordVerifyCode({ token })
+      dispatch(accessActionResetPasswordVerifyCode(token))
+    } catch (err) {
+      let status: number | null = null
+
+      if (axios.isAxiosError(err)) {
+        err as AxiosError
+        status = err.response?.status ?? null
+      }
+
+      switch (status) {
+        case 404:
+          dispatch(
+            setNotification('forgotPassword.forgotPasswordVerifyCode.error.404')
+          )
+          break
+        default:
+          dispatch(setNotification('index.error.0'))
+          break
+      }
+    }
+  }
+}
+
+export function accessResetPasswordChangePassword({
+  password
+}: AccessResetPasswordChangePasswordParameters) {
+  return async (dispatch, getState: RootState) => {
+    try {
+      const { resetPasswordToken } = getState().access
+
+      await accessService.accessResetPasswordChangePassword({
+        token: resetPasswordToken ?? '',
+        password
+      })
+      dispatch(accessActionResetPasswordChangePassword())
+    } catch (err) {
+      let status: number | null = null
+
+      if (axios.isAxiosError(err)) {
+        err as AxiosError
+        status = err.response?.status ?? null
+      }
+
+      switch (status) {
+        default:
+          dispatch(setNotification('index.error.0'))
+          break
+      }
+    }
+  }
+}
+
+export const accessResetPasswordFinished = () => {
+  return dispatch => {
+    dispatch(accessActionResetPasswordFinished())
   }
 }

@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { View } from 'react-native'
-import { TextInput, Title, Button } from 'react-native-paper'
+import { TextInput, Title, Button, Subheading } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
 import { styles } from './index.style'
-import { AccessResetPassword } from '../../../redux'
+import { accessResetPassword } from '../../../redux'
 
 interface ForgotPasswordEmailProps {
   navigation: StackNavigationProp<{}>
@@ -19,9 +19,9 @@ const ForgotPasswordEmail = ({ navigation }: ForgotPasswordEmailProps) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [userLogin, setUserLogin] = React.useState('')
 
-  async function onForgotPassword() {
+  async function handleForgotPassword() {
     setIsLoading(true)
-    await dispatch(AccessResetPassword({ userLogin }))
+    await dispatch(accessResetPassword({ userLogin }))
     setIsLoading(false)
   }
 
@@ -35,7 +35,10 @@ const ForgotPasswordEmail = ({ navigation }: ForgotPasswordEmailProps) => {
   return (
     <>
       <View style={[styles.row, styles.justifyContentCenter]}>
-        <Title style={styles.description}>{t('description')}</Title>
+        <Title>{t('forgotPasswordEmail.title')}</Title>
+      </View>
+      <View style={[styles.row, styles.justifyContentCenter, styles.mB16]}>
+        <Subheading>{t('forgotPasswordEmail.subTitle')}</Subheading>
       </View>
       <View style={styles.row}>
         <TextInput
@@ -49,11 +52,11 @@ const ForgotPasswordEmail = ({ navigation }: ForgotPasswordEmailProps) => {
         <Button
           mode="contained"
           style={styles.button}
-          onPress={onForgotPassword}
+          onPress={handleForgotPassword}
           disabled={isLoading || !userLogin}
           loading={isLoading}
         >
-          {t('sendLoginLink')}
+          {t('forgotPasswordEmail.sendCode')}
         </Button>
       </View>
       <View style={[styles.row, styles.justifyContentSpaceBetween]}>

@@ -10,15 +10,20 @@ import { styles } from './index.style'
 import { RootState } from '../../redux'
 import Logo from '../../assets/images/logo.svg'
 import ForgotPasswordEmail from '../../components/ecosystems/ForgotPasswordEmail'
-import ForgotPasswordToken from '../../components/ecosystems/ForgotPasswordToken'
+import ForgotPasswordVerifyCode from '../../components/ecosystems/ForgotPasswordVerifyCode'
+import ForgotPasswordChangePassword from '../../components/ecosystems/ForgotPasswordChangePassword'
+import ForgotPasswordFinished from '../../components/ecosystems/ForgotPasswordFinished'
 
 interface ForgotPasswordPageProps {
   navigation: StackNavigationProp<{}>
 }
 const ForgotPasswordPage = ({ navigation }: ForgotPasswordPageProps) => {
-  const { isAuthenticated, resetPassword } = useSelector(
-    (state: ReturnType<RootState>) => state.access
-  )
+  const {
+    isAuthenticated,
+    resetPasswordVerifyCodeActived,
+    resetPasswordChangePasswordActived,
+    resetPasswordFinishedActived
+  } = useSelector((state: ReturnType<RootState>) => state.access)
   const [t] = useTranslation('forgotPassword')
   const { colors } = useTheme()
 
@@ -30,17 +35,21 @@ const ForgotPasswordPage = ({ navigation }: ForgotPasswordPageProps) => {
     <>
       <Appbar style={{ backgroundColor: colors.background }}>
         <Appbar.Action icon="arrow-left" onPress={() => navigation.goBack()} />
-        <Appbar.Content title={t('title')} />
+        <Appbar.Content title={t('barTitle')} />
       </Appbar>
       <ScreenWrapper>
         <View style={styles.container}>
-          <View style={[styles.row, styles.justifyContentCenter]}>
-            <Logo style={styles.logo} width={120} height={40} />
+          <View style={[styles.row, styles.justifyContentCenter, styles.mB16]}>
+            <Logo width={120} height={40} />
           </View>
-          {!resetPassword ? (
-            <ForgotPasswordEmail navigation={navigation} />
+          {resetPasswordFinishedActived ? (
+            <ForgotPasswordFinished navigation={navigation} />
+          ) : resetPasswordChangePasswordActived ? (
+            <ForgotPasswordChangePassword />
+          ) : resetPasswordVerifyCodeActived ? (
+            <ForgotPasswordVerifyCode navigation={navigation} />
           ) : (
-            <ForgotPasswordToken />
+            <ForgotPasswordEmail navigation={navigation} />
           )}
         </View>
       </ScreenWrapper>

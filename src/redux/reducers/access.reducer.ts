@@ -6,7 +6,10 @@ import {
   GET_SIGN_IN,
   POST_SIGN_UP,
   DELETE_LOG_OUT,
-  ACCESS_RESET_PASSWORD
+  ACCESS_RESET_PASSWORD,
+  ACCESS_RESET_PASSWORD_VERIFY_CODE,
+  ACCESS_RESET_PASSWORD_CHANGE_PASSWORD,
+  ACCESS_RESET_PASSWORD_FINISHED
 } from '../types'
 
 const initialState: AccessState = {
@@ -16,7 +19,10 @@ const initialState: AccessState = {
   getLogInError: null,
   postSignUpError: null,
   deleteLogOutError: null,
-  resetPassword: null
+  resetPasswordVerifyCodeActived: null,
+  resetPasswordToken: null,
+  resetPasswordChangePasswordActived: null,
+  resetPasswordFinishedActived: null
 }
 
 export function accessReducer(
@@ -63,7 +69,29 @@ export function accessReducer(
     case ACCESS_RESET_PASSWORD: {
       return {
         ...state,
-        resetPassword: action.payload ?? null
+        resetPasswordVerifyCodeActived: true
+      }
+    }
+    case ACCESS_RESET_PASSWORD_VERIFY_CODE: {
+      return {
+        ...state,
+        resetPasswordChangePasswordActived: true,
+        resetPasswordToken: action.payload
+      }
+    }
+    case ACCESS_RESET_PASSWORD_CHANGE_PASSWORD: {
+      return {
+        ...state,
+        resetPasswordFinishedActived: true
+      }
+    }
+    case ACCESS_RESET_PASSWORD_FINISHED: {
+      return {
+        ...state,
+        resetPasswordVerifyCodeActived: null,
+        resetPasswordToken: null,
+        resetPasswordChangePasswordActived: null,
+        resetPasswordFinishedActived: null
       }
     }
     default:

@@ -4,7 +4,9 @@ import api from './api'
 import {
   GetLogInParametersServiceInterface,
   PostSignUpParametersServiceInterface,
-  AccessResetPasswordParameters
+  AccessResetPasswordParameters,
+  AccessResetPasswordVerifyCodeParameters,
+  AccessServiceResetPasswordChangePasswordParameters
 } from '../redux/types'
 
 export const accessService = {
@@ -12,7 +14,9 @@ export const accessService = {
   getLogIn,
   postSignUp,
   deleteLogOut,
-  accessResetPassword
+  accessResetPassword,
+  accessResetPasswordVerifyCode,
+  accessResetPasswordChangePassword
 }
 
 async function getIsAuthenticated(): Promise<AxiosResponse> {
@@ -58,5 +62,22 @@ async function accessResetPassword({
     params: {
       user_login: userLogin
     }
+  })
+}
+
+async function accessResetPasswordVerifyCode({
+  token
+}: AccessResetPasswordVerifyCodeParameters): Promise<AxiosResponse> {
+  return await api.get('access/reset-password/verify-code', {
+    params: { token }
+  })
+}
+
+async function accessResetPasswordChangePassword({
+  token,
+  password
+}: AccessServiceResetPasswordChangePasswordParameters): Promise<AxiosResponse> {
+  return await api.get('access/reset-password/change-password', {
+    params: { token, user_pass: password }
   })
 }

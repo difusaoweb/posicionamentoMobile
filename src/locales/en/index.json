@@ -1,6 +1,11 @@
 {
-  "logIn": "Sign in",
+  "error": {
+    "0": "Unknown error."
+  },
+  "logIn": "Log in",
+  "signUp": "Sign up",
   "close": "Close",
   "add": "Add",
-  "emailOrUsername": "Email or username"
+  "emailOrUsername": "Email or username",
+  "password": "Password"
 }

@@ -1,7 +1,6 @@
 {
-  "logIn": "Sign In",
+  "title": "Log in",
   "description": "Hi! Enter your email or username",
   "emailOrUsername": "E-mail or username",
-  "password": "Password",
-  "forgotPassword": "Forgot password?"
+  "forgotPassword?": "Forgot password?"
 }

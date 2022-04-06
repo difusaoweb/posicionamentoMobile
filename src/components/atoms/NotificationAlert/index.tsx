@@ -14,6 +14,7 @@ const NotificationAlert: React.FC = () => {
   const dispatch = useDispatch()
   const { colors } = useTheme()
   const [t] = useTranslation('general')
+  const [tForgotPassword] = useTranslation('forgotPassword')
 
   const [alertNotification, setAlertNotification] = React.useState(false)
 
@@ -23,23 +24,42 @@ const NotificationAlert: React.FC = () => {
   }
 
   React.useEffect(() => {
-    setAlertNotification(!!message)
+    if (message) {
+      setAlertNotification(true)
+    }
   }, [message])
 
-  return (
-    <Snackbar
-      style={[styles.alert, { backgroundColor: colors.primary }]}
-      visible={alertNotification}
-      onDismiss={onDismiss}
-      action={{
-        label: t('close'),
-        onPress: onDismiss
-      }}
-      duration={2 * 60 * 1000}
-    >
-      <Text style={styles.text}>{message}</Text>
-    </Snackbar>
-  )
+  if (message) {
+    const translationFile = message.substring(message.indexOf('.'), 0)
+    const translationString = message.substring(message.indexOf('.') + 1)
+
+    let theMessage = message
+    switch (translationFile) {
+      case 'index':
+        theMessage = t(translationString)
+        break
+      case 'forgotPassword':
+        theMessage = tForgotPassword(translationString)
+        break
+    }
+
+    return (
+      <Snackbar
+        style={[styles.alert, { backgroundColor: colors.primary }]}
+        visible={alertNotification}
+        onDismiss={onDismiss}
+        action={{
+          label: t('close'),
+          onPress: onDismiss
+        }}
+        duration={2 * 60 * 1000}
+      >
+        <Text style={styles.text}>{theMessage}</Text>
+      </Snackbar>
+    )
+  }
+
+  return <></>
 }
 
 export default NotificationAlert

@@ -18,13 +18,14 @@ const LogInPage = ({ navigation }: LogInPageProps) => {
     (state: ReturnType<RootState>) => state.access
   )
   const dispatch = useDispatch()
+  const [tGeneral] = useTranslation('general')
   const [t] = useTranslation('logIn')
   const { colors } = useTheme()
 
   const [isLoading, setIsLoading] = React.useState(false)
   const [userLogin, setUserLogin] = React.useState('')
   const [userPass, setUserPass] = React.useState('')
-  const [displayPasswordText, setDisplayPasswordText] = React.useState(true)
+  const [displayPasswordText, setDisplayPasswordText] = React.useState(false)
 
   async function onLogIn() {
     setIsLoading(true)
@@ -49,15 +50,18 @@ const LogInPage = ({ navigation }: LogInPageProps) => {
     <>
       <Appbar style={{ backgroundColor: colors.background }}>
         <Appbar.Action icon="arrow-left" onPress={() => navigation.goBack()} />
-        <Appbar.Content title={t('logIn')} />
+        <Appbar.Content title={tGeneral('logIn')} />
       </Appbar>
       <ScreenWrapper>
         <View style={styles.container}>
-          <View style={[styles.row, styles.justifyContentCenter]}>
-            <Logo style={styles.logo} width={120} height={40} />
+          <View style={[styles.row, styles.justifyContentCenter, styles.mB16]}>
+            <Logo width={120} height={40} />
           </View>
           <View style={[styles.row, styles.justifyContentCenter]}>
-            <Title style={styles.description}>{t('description')}</Title>
+            <Title>{t('title')}</Title>
+          </View>
+          <View style={[styles.row, styles.justifyContentCenter, styles.mB16]}>
+            <Title>{t('description')}</Title>
           </View>
           <View style={styles.row}>
             <TextInput
@@ -73,10 +77,10 @@ const LogInPage = ({ navigation }: LogInPageProps) => {
               label={t('password')}
               value={userPass}
               onChangeText={text => setUserPass(text)}
-              secureTextEntry={displayPasswordText}
+              secureTextEntry={!displayPasswordText}
               right={
                 <TextInput.Icon
-                  name={displayPasswordText ? 'eye' : 'eye-off'}
+                  name={displayPasswordText ? 'eye-off' : 'eye'}
                   onPress={() => setDisplayPasswordText(!displayPasswordText)}
                   forceTextInputFocus={false}
                 />
@@ -100,7 +104,7 @@ const LogInPage = ({ navigation }: LogInPageProps) => {
               onPress={onForgotPassword}
               style={styles.button}
             >
-              {t('forgotPassword')}
+              {t('forgotPassword?')}
             </Button>
           </View>
           <View style={styles.row}>

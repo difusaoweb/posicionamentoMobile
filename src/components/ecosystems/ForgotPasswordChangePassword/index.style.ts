@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   justifyContentSpaceBetween: {
     justifyContent: 'space-between'
   },
-  description: {
+  mB16: {
     marginBottom: 16
   },
   input: {

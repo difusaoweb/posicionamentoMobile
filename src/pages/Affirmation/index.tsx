@@ -26,12 +26,12 @@ const AffirmationPage = ({ navigation, route }: AffirmationProps) => {
   const { colors } = useTheme()
 
   return (
-    <ScreenWrapper contentContainerStyle={{ flex: 1 }}>
+    <>
       <Appbar style={{ backgroundColor: colors.background }}>
         <Appbar.Action icon="arrow-left" onPress={() => navigation.goBack()} />
         <Appbar.Content title={t('affirmation')} />
       </Appbar>
-      <ScrollView>
+      <ScreenWrapper contentContainerStyle={{ flex: 1 }}>
         <View style={styles.affirmationBox}>
           <AffirmationHero
             navigation={navigation}
@@ -40,10 +40,10 @@ const AffirmationPage = ({ navigation, route }: AffirmationProps) => {
         </View>
         <Divider style={[styles.divider, { borderBottomColor: colors.text }]} />
         <View style={styles.opinionsBox}>
-          {/* <AffirmationListOpinions affirmationId={affirmationId} /> */}
+          <AffirmationListOpinions affirmationId={affirmationId} />
         </View>
-      </ScrollView>
-    </ScreenWrapper>
+      </ScreenWrapper>
+    </>
   )
 }
 

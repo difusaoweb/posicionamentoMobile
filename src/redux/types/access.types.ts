@@ -43,12 +43,29 @@ export interface AccessResetPasswordParameters {
   userLogin: string
 }
 
+export interface AccessResetPasswordVerifyCodeParameters {
+  token: string
+}
+
+export interface AccessResetPasswordChangePasswordParameters {
+  password: string
+}
+export interface AccessServiceResetPasswordChangePasswordParameters {
+  token: string
+  password: string
+}
+
 export const ACCESS_GET_CURRENT_TOKEN = 'ACCESS_GET_CURRENT_TOKEN'
 export const ACCESS_GET_IS_AUTHENTICATED = 'ACCESS_GET_IS_AUTHENTICATED'
 export const GET_SIGN_IN = 'GET_SIGN_IN'
 export const POST_SIGN_UP = 'POST_SIGN_UP'
 export const DELETE_LOG_OUT = 'DELETE_LOG_OUT'
 export const ACCESS_RESET_PASSWORD = 'ACCESS_RESET_PASSWORD'
+export const ACCESS_RESET_PASSWORD_VERIFY_CODE =
+  'ACCESS_RESET_PASSWORD_VERIFY_CODE'
+export const ACCESS_RESET_PASSWORD_CHANGE_PASSWORD =
+  'ACCESS_RESET_PASSWORD_CHANGE_PASSWORD'
+export const ACCESS_RESET_PASSWORD_FINISHED = 'ACCESS_RESET_PASSWORD_FINISHED'
 
 interface AccessActionGetCurrentToken {
   type: typeof ACCESS_GET_CURRENT_TOKEN
@@ -83,6 +100,20 @@ interface AccessResetPassword {
   payload: boolean | null
 }
 
+interface AccessResetPasswordVerifyCode {
+  type: typeof ACCESS_RESET_PASSWORD_VERIFY_CODE
+  payload: string | null
+}
+
+interface AccessResetPasswordChangePassword {
+  type: typeof ACCESS_RESET_PASSWORD_CHANGE_PASSWORD
+  payload: boolean | null
+}
+
+interface AccessResetPasswordFinished {
+  type: typeof ACCESS_RESET_PASSWORD_FINISHED
+}
+
 export interface AccessState {
   currentToken: string | null
   isAuthenticated: boolean | null
@@ -90,7 +121,11 @@ export interface AccessState {
   getLogInError: ReturnErrorInterface | null
   postSignUpError: ReturnErrorInterface | null
   deleteLogOutError: ReturnErrorInterface | null
-  resetPassword: boolean | null
+
+  resetPasswordVerifyCodeActived: boolean | null
+  resetPasswordChangePasswordActived: boolean | null
+  resetPasswordFinishedActived: boolean | null
+  resetPasswordToken: string | null
 }
 
 export type AccessActionTypes =
@@ -101,3 +136,6 @@ export type AccessActionTypes =
   | DeleteLogOutAction
   | DeleteLogOutAction
   | AccessResetPassword
+  | AccessResetPasswordVerifyCode
+  | AccessResetPasswordChangePassword
+  | AccessResetPasswordFinished

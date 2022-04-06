@@ -16,7 +16,7 @@ interface SearchPageProps {
 const SearchPage = ({ navigation }: SearchPageProps) => {
   const dispatch = useDispatch()
   const { searchAffirmations, getAffirmationsSearchError } = useSelector(
-    (state: RootState) => state.affirmations
+    (state: ReturnType<RootState>) => state.affirmations
   )
   const [t] = useTranslation('search')
   const { colors } = useTheme()
@@ -38,10 +38,8 @@ const SearchPage = ({ navigation }: SearchPageProps) => {
     }
   }, [isOnSearch])
 
-  if (isLoading) return <Loading />
-
   return (
-    <ScreenWrapper contentContainerStyle={{ flex: 1 }}>
+    <>
       <Searchbar
         icon={{ source: 'arrow-left', direction: 'auto' }}
         onIconPress={() => navigation.goBack()}
@@ -51,30 +49,33 @@ const SearchPage = ({ navigation }: SearchPageProps) => {
         style={styles.searchbar}
         onSubmitEditing={() => setIsOnSearch(true)}
       />
-      {!!searchAffirmations && (
-        <List.Section>
-          <FlatList
-            style={{ backgroundColor: colors.background }}
-            renderItem={item => (
-              <List.Item
-                title={item.item.message}
-                onPress={() => {
-                  navigation.navigate('AppRoutes', {
-                    screen: 'AffirmationPage',
-                    params: { affirmationId: item.item.id }
-                  })
-                }}
-              />
-            )}
-            keyExtractor={item => `${item.id}`}
-            data={searchAffirmations}
-          />
-        </List.Section>
-      )}
-      {getAffirmationsSearchError?.status === 404 && (
-        <Text style={styles.caption}>{t('noResultsFound')}</Text>
-      )}
-    </ScreenWrapper>
+      <ScreenWrapper contentContainerStyle={{ flex: 1 }}>
+        {isLoading && <Loading />}
+        {!!searchAffirmations && (
+          <List.Section>
+            <FlatList
+              style={{ backgroundColor: colors.background }}
+              renderItem={item => (
+                <List.Item
+                  title={item.item.message}
+                  onPress={() => {
+                    navigation.navigate('AppRoutes', {
+                      screen: 'AffirmationPage',
+                      params: { affirmationId: item.item.id }
+                    })
+                  }}
+                />
+              )}
+              keyExtractor={item => `${item.id}`}
+              data={searchAffirmations}
+            />
+          </List.Section>
+        )}
+        {getAffirmationsSearchError?.status === 404 && (
+          <Text style={styles.caption}>{t('noResultsFound')}</Text>
+        )}
+      </ScreenWrapper>
+    </>
   )
 }
 
