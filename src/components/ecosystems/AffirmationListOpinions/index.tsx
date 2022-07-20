@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useTheme } from 'react-native-paper'
 
 import { getOpinionsAffirmation, RootState } from '../../../redux'
-import AffirmationOpinionItem from '../../organims/AffirmationOpinionItem'
-import ErrorHome from '../../organims/ErrorHome'
-import Loading from '../../atoms/Loading'
+import { AffirmationOpinionItem } from '../../organims/AffirmationOpinionItem'
+import { ErrorHome } from '../../organims/ErrorHome'
+import { Loading } from '../../atoms/Loading'
 
 interface AffirmationListOpinionsProps {
   affirmationId: number
 }
-const AffirmationListOpinions = ({
+export const AffirmationListOpinions = ({
   affirmationId
 }: AffirmationListOpinionsProps) => {
   const dispatch = useDispatch()
@@ -42,5 +42,3 @@ const AffirmationListOpinions = ({
     />
   )
 }
-
-export default AffirmationListOpinions

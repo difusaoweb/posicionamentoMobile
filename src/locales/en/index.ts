@@ -9,7 +9,7 @@ import SignUp from './signUp.json'
 import Trending from './trending.json'
 import ForgotPassword from './forgotPassword.json'
 
-export default {
+export const en = {
   general: General,
   tabRoutes: TabRoutes,
   home: Home,

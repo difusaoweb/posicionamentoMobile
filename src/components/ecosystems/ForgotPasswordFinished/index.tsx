@@ -6,12 +6,12 @@ import { useTranslation } from 'react-i18next'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
 import { styles } from './index.style'
-import { accessResetPasswordFinished } from '../../../redux'
+// import { accessResetPasswordFinished } from '../../../redux'
 
 interface ForgotPasswordFinishedProps {
   navigation: StackNavigationProp<{}>
 }
-const ForgotPasswordFinished = ({
+export const ForgotPasswordFinished = ({
   navigation
 }: ForgotPasswordFinishedProps) => {
   const dispatch = useDispatch()
@@ -19,7 +19,7 @@ const ForgotPasswordFinished = ({
   const [t] = useTranslation('forgotPassword')
 
   async function handleGoLogIn() {
-    await dispatch(accessResetPasswordFinished())
+    // await dispatch(accessResetPasswordFinished())
     navigation.navigate('AccessRoutes', { screen: 'LogInPage' })
   }
 
@@ -39,5 +39,3 @@ const ForgotPasswordFinished = ({
     </>
   )
 }
-
-export default ForgotPasswordFinished

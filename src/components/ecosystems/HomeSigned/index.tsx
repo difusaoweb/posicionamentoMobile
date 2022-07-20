@@ -6,14 +6,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
 import { getAffirmationsHome, RootState } from '../../../redux'
-import HomeAffirmationListItem from '../../organims/HomeAffirmationListItem'
-import ErrorHome from '../../organims/ErrorHome'
-import Loading from '../../atoms/Loading'
+import { HomeAffirmationListItem } from '../../organims/HomeAffirmationListItem'
+import { ErrorHome } from '../../organims/ErrorHome'
+import { Loading } from '../../atoms/Loading'
 
 interface HomeSignedProps {
   navigation: StackNavigationProp<{}>
 }
-const HomeSigned = ({ navigation }: HomeSignedProps) => {
+export const HomeSigned = ({ navigation }: HomeSignedProps) => {
   const {
     homeAffirmations,
     homeAffirmationsLastPage,
@@ -67,5 +67,3 @@ const HomeSigned = ({ navigation }: HomeSignedProps) => {
     />
   )
 }
-
-export default HomeSigned

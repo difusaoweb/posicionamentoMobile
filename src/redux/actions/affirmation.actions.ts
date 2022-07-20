@@ -134,12 +134,10 @@ export function getAffirmationsHome({
   }
 }
 
-export function getAffirmationsTrending() {
+export function getAffirmationsTrending(page: number) {
   return async dispatch => {
     try {
-      dispatch(request())
-
-      const { data } = await affirmationService.getAffirmationsTrending()
+      const { data } = await affirmationService.getAffirmationsTrending(page)
       const affirmations: AffirmationHomeInterface[] =
         data?.success?.affirmations?.map(affirmation => {
           return {
@@ -153,8 +151,8 @@ export function getAffirmationsTrending() {
             currentUserAvaliation: affirmation?.opinion_avaliation
           }
         })
-
-      dispatch(getAffirmationsTrendingSuccess({ affirmations }))
+      const lastPage = data?.success?.last_page
+      dispatch(getAffirmationsTrendingSuccess({ affirmations, lastPage }))
     } catch (err) {
       const returnError = {
         status: 500,
@@ -167,28 +165,24 @@ export function getAffirmationsTrending() {
           err.response?.data?.failure?.message ?? returnError.message
       }
       if (returnError.status != 404) {
-        dispatch(setNotification({ message: returnError.message }))
+        dispatch(setNotification(returnError.message))
       }
       dispatch(getAffirmationsTrendingFailure(returnError))
-      dispatch(failure(returnError.message))
     }
   }
 }
 
 export function getAffirmationsSearch({
-  search
+  search, page
 }: GetAffirmationsSearchParametersServiceInterface) {
-  return async (dispatch: Dispatch) => {
+  return async dispatch => {
     try {
-      dispatch(request())
-      const { data } = await affirmationService.getAffirmationsSearch({
-        search
-      })
+      const { data } = await affirmationService.getAffirmationsSearch({ search, page })
 
-      const affirmations: SearchAffirmationsInterface[] =
-        data?.success?.affirmations
+      const affirmations: SearchAffirmationsInterface[] = data?.success?.affirmations
+      const lastPage = data?.success?.last_page
 
-      dispatch(getAffirmationsSearchSuccess({ affirmations }))
+      dispatch(getAffirmationsSearchSuccess({ affirmations, lastPage }))
     } catch (err) {
       const returnError = {
         status: 500,
@@ -201,9 +195,10 @@ export function getAffirmationsSearch({
           err.response?.data?.failure?.message ?? returnError.message
       }
 
-      dispatch(setNotification(returnError.message))
+      if(returnError.status != 404) {
+        dispatch(setNotification(returnError.message))
+      }
       dispatch(getAffirmationsSearchFailure(returnError))
-      dispatch(failure(returnError.message))
     }
   }
 }

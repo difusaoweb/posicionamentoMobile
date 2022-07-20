@@ -10,7 +10,10 @@ import {
   ReturnErrorInterface,
   CurrentUserInterface,
   UsersActionGetCurrentUserParameters,
-  USERS_ACTION_GET_CURRENT_USER
+  USERS_ACTION_GET_CURRENT_USER,
+  ReduxUsersCreateUserServiceParameters,
+  REDUX_USERS_CREATE_USER,
+  ReduxUsersCreateUserReducerPayload
 } from '../types'
 import { userService } from '../../services'
 import { request, failure } from './common.actions'
@@ -35,6 +38,7 @@ const getUserProfileFailure: ActionCreator<UserActionTypes> = (
 ) => {
   return { type: GET_USER_PROFILE, payload: { success: null, failure } }
 }
+
 
 export function usersGetCurrentUser() {
   return async dispatch => {
@@ -86,4 +90,39 @@ export function getUserProfile({
       }
     )
   }
+}
+
+export function reduxUsersCreateUserFunction(parameters: ReduxUsersCreateUserServiceParameters) {
+  return async dispatch => {
+    try {
+      const { data } = await userService.createUser(parameters)
+      const userId: number = data?.success?.user_id
+
+      dispatch(reduxUsersCreateUserAction({ success: { userId }, failure: null }))
+    } catch (err) {
+      console.log(err)
+      let status: number | null = null
+
+      if (axios.isAxiosError(err)) {
+        err as AxiosError
+        status = err.response?.status ?? null
+      }
+
+      switch (status) {
+        case 409:
+          dispatch(setNotification('signUp.error.409'))
+          dispatch(reduxUsersCreateUserAction({ success: null, failure: { status } }))
+          break
+        default:
+          dispatch(setNotification('index.error.0'))
+          break
+      }
+    }
+  }
+}
+
+const reduxUsersCreateUserAction: ActionCreator<UserActionTypes> = (
+  payload: ReduxUsersCreateUserReducerPayload
+) => {
+  return { type: REDUX_USERS_CREATE_USER, payload }
 }

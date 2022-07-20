@@ -5,12 +5,12 @@ import type { StackNavigationProp } from '@react-navigation/stack'
 import { useTranslation } from 'react-i18next'
 
 import { styles } from './index.style'
-import HomeNotSignedInfoBoxImage from '../../atoms/HomeNotSignedInfoBoxImage'
+import { HomeNotSignedInfoBoxImage } from '../../atoms/HomeNotSignedInfoBoxImage'
 
 interface AddNotSignedProps {
   navigation: StackNavigationProp<{}>
 }
-const AddNotSigned = ({ navigation }: AddNotSignedProps) => {
+export const AddNotSigned = ({ navigation }: AddNotSignedProps) => {
   const [tGeneral] = useTranslation('general')
   const [t] = useTranslation('home')
 
@@ -36,5 +36,3 @@ const AddNotSigned = ({ navigation }: AddNotSignedProps) => {
     </View>
   )
 }
-
-export default AddNotSigned

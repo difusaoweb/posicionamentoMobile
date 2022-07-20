@@ -3,13 +3,13 @@ import { View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 
 import { styles } from './index.style'
-import ErrorBox from '../../molecules/ErrorBox'
+import { ErrorBox } from '../../molecules/ErrorBox'
 
 interface ErrorHomeProps {
   type: string
   message: string
 }
-const ErrorHome = ({ type, message }: ErrorHomeProps) => {
+export const ErrorHome = ({ type, message }: ErrorHomeProps) => {
   const { colors } = useTheme()
 
   let icon = ''
@@ -31,5 +31,3 @@ const ErrorHome = ({ type, message }: ErrorHomeProps) => {
     </View>
   )
 }
-
-export default ErrorHome

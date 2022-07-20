@@ -9,7 +9,7 @@ import { avaliationMessage } from '../../../utils'
 interface AffirmationOpinionItemProps {
   opinion: OpinionAffirmationInterface
 }
-const AffirmationOpinionItem = ({ opinion }: AffirmationOpinionItemProps) => {
+export const AffirmationOpinionItem = ({ opinion }: AffirmationOpinionItemProps) => {
   const { colors } = useTheme()
   const avatarSource = opinion?.avatar ? { uri: opinion.avatar } : avatarDefault
 
@@ -57,5 +57,3 @@ const styles = StyleSheet.create({
     // whiteSpace: 'nowrap'
   }
 })
-
-export default AffirmationOpinionItem

@@ -12,8 +12,10 @@ import {
 const initialState: AffirmationState = {
   homeAffirmations: null,
   homeAffirmationsLastPage: null,
-  trendingAffirmations: null,
-  searchAffirmations: null,
+  trending: null,
+  trendingLastPage: null,
+  search: null,
+  searchLastPage: null,
   affirmationSingle: null,
   getAffirmationsHomeError: null,
   getAffirmationsTrendingError: null,
@@ -52,16 +54,37 @@ export function affirmationsReducer(
       }
     }
     case GET_AFFIRMATIONS_TRENDING: {
+      let newTreding = state.trending
+      if (action.payload.success?.affirmations) {
+        if (newTreding) {
+          newTreding = [...newTreding, ...action.payload.success?.affirmations]
+        }
+        else {
+          newTreding = action.payload.success?.affirmations
+        }
+      }
+
       return {
         ...state,
-        trendingAffirmations: action.payload.success?.affirmations ?? null,
+        trending: newTreding,
+        trendingLastPage: action.payload.success?.lastPage ?? null,
         getAffirmationsTrendingError: action.payload.failure
       }
     }
     case GET_AFFIRMATIONS_SEARCH: {
+      let newSearch = state.search
+      if (action.payload.success?.affirmations) {
+        if (newSearch) {
+          newSearch = [...newSearch, ...action.payload.success?.affirmations]
+        }
+        else {
+          newSearch = action.payload.success?.affirmations
+        }
+      }
       return {
         ...state,
-        searchAffirmations: action.payload.success?.affirmations ?? null,
+        search: newSearch,
+        searchLastPage: action.payload.success?.lastPage ?? null,
         getAffirmationsSearchError: action.payload.failure
       }
     }

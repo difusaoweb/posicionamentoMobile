@@ -2,15 +2,15 @@ import * as React from 'react'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { useSelector } from 'react-redux'
 
-import ScreenWrapper from '../../ScreenWrapper'
+import { ScreenWrapper } from '../../ScreenWrapper'
 import { RootState } from '../../redux'
-import HomeSigned from '../../components/ecosystems/HomeSigned'
-import HomeNotSigned from '../../components/ecosystems/HomeNotSigned'
+import { HomeSigned } from '../../components/ecosystems/HomeSigned'
+import { HomeNotSigned } from '../../components/ecosystems/HomeNotSigned'
 
 interface HomePageProps {
   navigation: StackNavigationProp<{}>
 }
-const HomePage = ({ navigation }: HomePageProps) => {
+export const HomePage = ({ navigation }: HomePageProps) => {
   const { isAuthenticated } = useSelector(
     (state: ReturnType<RootState>) => state.access
   )
@@ -25,5 +25,3 @@ const HomePage = ({ navigation }: HomePageProps) => {
     </ScreenWrapper>
   )
 }
-
-export default HomePage

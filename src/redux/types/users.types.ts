@@ -37,8 +37,22 @@ export interface GetUserProfileSuccessReturnActionInterface {
   profile: ProfileUserInterface
 }
 
+export interface ReduxUsersCreateUserServiceParameters {
+  username: string
+  password: string
+  email: string
+  displayName: string
+}
+export interface ReduxUsersCreateUserReducerPayload {
+  success: {
+    userId: number
+  } | null
+  failure: ReturnErrorInterface | null
+}
+
 export const USERS_ACTION_GET_CURRENT_USER = 'USERS_ACTION_GET_CURRENT_USER'
 export const GET_USER_PROFILE = 'GET_USER_PROFILE'
+export const REDUX_USERS_CREATE_USER = 'REDUX_USERS_CREATE_USER'
 
 interface UsersActionGetCurrentUser {
   type: typeof USERS_ACTION_GET_CURRENT_USER
@@ -53,11 +67,18 @@ interface GetUserProfileAction {
   }
 }
 
+interface ReduxUsersCreateUserReducer {
+  type: typeof REDUX_USERS_CREATE_USER
+  payload: ReduxUsersCreateUserReducerPayload
+}
+
 export interface UserState {
   currentUser: CurrentUserInterface | null
   profile: ProfileUserInterface | null
   getCurrentUserError: ReturnErrorInterface | null
   getUserProfileError: ReturnErrorInterface | null
+  createUserUserId: number | null
+  createUserError: ReturnErrorInterface | null
 }
 
-export type UserActionTypes = UsersActionGetCurrentUser | GetUserProfileAction
+export type UserActionTypes = UsersActionGetCurrentUser | GetUserProfileAction | ReduxUsersCreateUserReducer

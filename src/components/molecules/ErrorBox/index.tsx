@@ -10,7 +10,7 @@ interface ErrorBoxProps {
   color: string
   message: string
 }
-const ErrorBox = ({ icon, color, message }: ErrorBoxProps) => {
+export const ErrorBox = ({ icon, color, message }: ErrorBoxProps) => {
   return (
     <View style={styles.row}>
       <MaterialCommunityIcons
@@ -22,5 +22,3 @@ const ErrorBox = ({ icon, color, message }: ErrorBoxProps) => {
     </View>
   )
 }
-
-export default ErrorBox

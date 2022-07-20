@@ -17,13 +17,13 @@ type Props = ScrollViewProps & {
   contentContainerStyle?: StyleProp<ViewStyle>
 }
 
-export default function ScreenWrapper({
+export const ScreenWrapper = ({
   children,
   withScrollView = true,
   style,
   contentContainerStyle,
   ...rest
-}: Props) {
+}: Props) => {
   const {
     colors: { background },
   } = useTheme()

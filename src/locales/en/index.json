@@ -7,5 +7,8 @@
   "close": "Close",
   "add": "Add",
   "emailOrUsername": "Email or username",
-  "password": "Password"
+  "password": "Password",
+  "email": "E-mail",
+  "displayName": "Full name",
+  "userName": "Username"
 }

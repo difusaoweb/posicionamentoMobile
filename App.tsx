@@ -9,7 +9,7 @@ import AppLoading from 'expo-app-loading'
 // import * as SplashScreen from 'expo-splash-screen'
 
 import i18n from './src/locales/index'
-import Routes from './src/routes'
+import { Routes } from './src/routes'
 import { store } from './src/redux'
 
 import { StatusBar } from 'expo-status-bar'
@@ -48,13 +48,13 @@ const theme = {
 }
 
 const App: React.FC = () => {
-  const [isLoading, setIsLoading] = React.useState(true)
+  // const [isLoading, setIsLoading] = React.useState(true)
 
-  React.useEffect(() => {
-    setIsLoading(false)
-  }, [])
+  // React.useEffect(() => {
+  //   setIsLoading(false)
+  // }, [])
 
-  if (isLoading) return <AppLoading />
+  // if (isLoading) return <AppLoading />
 
   return (
     <>

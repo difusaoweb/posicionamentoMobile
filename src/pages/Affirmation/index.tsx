@@ -5,9 +5,9 @@ import type { StackNavigationProp } from '@react-navigation/stack'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useTranslation } from 'react-i18next'
 
-import ScreenWrapper from '../../ScreenWrapper'
-import AffirmationHero from '../../components/ecosystems/AffirmationHero'
-import AffirmationListOpinions from '../../components/ecosystems/AffirmationListOpinions'
+import { ScreenWrapper } from '../../ScreenWrapper'
+import { AffirmationHero } from '../../components/ecosystems/AffirmationHero'
+import { AffirmationListOpinions } from '../../components/ecosystems/AffirmationListOpinions'
 import { styles } from './index.style'
 
 type RootStackParamList = {
@@ -20,7 +20,7 @@ interface AffirmationProps {
   navigation: StackNavigationProp<{}>
   route: RouteProps['route']
 }
-const AffirmationPage = ({ navigation, route }: AffirmationProps) => {
+export const AffirmationPage = ({ navigation, route }: AffirmationProps) => {
   const { affirmationId } = route.params
   const [t] = useTranslation('affirmation')
   const { colors } = useTheme()
@@ -46,5 +46,3 @@ const AffirmationPage = ({ navigation, route }: AffirmationProps) => {
     </>
   )
 }
-
-export default AffirmationPage

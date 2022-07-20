@@ -6,10 +6,11 @@ import { useTheme } from 'react-native-paper'
 
 import { styles } from './index.styles'
 
-const BannerHeader = () => {
-  const devAdUnitID = 'ca-app-pub-3940256099942544/6300978111'
-  const androidAdUnitID = 'ca-app-pub-8947654147770289/2160324592'
-  const iosAdUnitID = 'ca-app-pub-8947654147770289/2876695804'
+export const BannerHeader = () => {
+  const devAdUnitID = process.env.ADS_DEV_UNIT_ID
+  const androidAdUnitID = process.env.ADS_ANDROID_UNIT_ID
+  const iosAdUnitID = process.env.ADS_IOS_UNIT_ID
+
   const adUnitID =
     Device.isDevice && !__DEV__
       ? Device.osName === 'Android'
@@ -37,5 +38,3 @@ const BannerHeader = () => {
     </View>
   )
 }
-
-export default BannerHeader

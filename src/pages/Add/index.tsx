@@ -2,16 +2,16 @@ import * as React from 'react'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { useSelector } from 'react-redux'
 
-import ScreenWrapper from '../../ScreenWrapper'
+import { ScreenWrapper } from '../../ScreenWrapper'
 import { RootState } from '../../redux'
-import AddSigned from '../../components/ecosystems/AddSigned'
-import AddNotSigned from '../../components/ecosystems/AddNotSigned'
+import { AddSigned } from '../../components/ecosystems/AddSigned'
+import { AddNotSigned } from '../../components/ecosystems/AddNotSigned'
 
 interface AddPageProps {
   navigation: StackNavigationProp<{}>
 }
-const AddPage = ({ navigation }: AddPageProps) => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.access)
+export const AddPage = ({ navigation }: AddPageProps) => {
+  const { isAuthenticated } = useSelector((state: ReturnType<RootState>) => state.access)
 
   return (
     <ScreenWrapper contentContainerStyle={{ flex: 1 }}>
@@ -23,5 +23,3 @@ const AddPage = ({ navigation }: AddPageProps) => {
     </ScreenWrapper>
   )
 }
-
-export default AddPage

@@ -18,7 +18,7 @@ export const opinionService = {
 async function getOpinionsAffirmation({
   affirmationId
 }: GetOpinionsAffirmationParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('opinions/affirmation', {
+  return await api.get('/opinions/affirmation', {
     params: { affirmation_id: affirmationId }
   })
 }
@@ -38,11 +38,11 @@ async function setOpinionAffirmation({
 async function deleteOpinionAffirmation({
   opinionId
 }: DeleteOpinionAffirmationParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('opinions/delete', { params: { opinion_id: opinionId } })
+  return await api.get('/opinions/delete', { params: { opinion_id: opinionId } })
 }
 
 async function getOpinionsUser({
   userId
 }: GetOpinionsUserParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('opinions/user', { params: { user_id: userId } })
+  return await api.get('/opinions/user', { params: { user_id: userId } })
 }

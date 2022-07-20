@@ -34,10 +34,12 @@ export interface GetAffirmationsHomeSuccessReturnActionInterface {
 
 export interface GetAffirmationsTrendingSuccessReturnActionInterface {
   affirmations: AffirmationHomeInterface[]
+  lastPage: number
 }
 
 export interface GetAffirmationsSearchParametersServiceInterface {
   search: string
+  page: number
 }
 export interface SearchAffirmationsInterface {
   id: number
@@ -45,6 +47,7 @@ export interface SearchAffirmationsInterface {
 }
 export interface GetAffirmationsSearchSuccessReturnActionInterface {
   affirmations: SearchAffirmationsInterface[]
+  lastPage: number
 }
 
 export interface GetAffirmationSingleParametersServiceInterface {
@@ -134,8 +137,10 @@ interface AffirmationPutOpinionAffirmationLocalAction {
 export interface AffirmationState {
   homeAffirmations: AffirmationHomeInterface[] | null
   homeAffirmationsLastPage: number | null
-  trendingAffirmations: AffirmationHomeInterface[] | null
-  searchAffirmations: SearchAffirmationsInterface[] | null
+  trending: AffirmationHomeInterface[] | null
+  trendingLastPage: number | null
+  search: SearchAffirmationsInterface[] | null
+  searchLastPage: number | null
   affirmationSingle: AffirmationSingleInterface | null
   getAffirmationsHomeError: ReturnErrorInterface | null
   getAffirmationsTrendingError: ReturnErrorInterface | null

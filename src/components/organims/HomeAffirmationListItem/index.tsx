@@ -4,14 +4,14 @@ import { useTheme, Paragraph, Card } from 'react-native-paper'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
 import styles from './index.style'
-import HomeAffirmationListItemFooterOpnion from '../../atoms/HomeAffirmationListItemFooterOpnion'
+import { HomeAffirmationListItemFooterOpnion } from '../../atoms/HomeAffirmationListItemFooterOpnion'
 import { AffirmationHomeInterface } from '../../../redux/types'
 
 interface HomeAffirmationListItemProps {
   navigation: StackNavigationProp<{}>
   affirmation: AffirmationHomeInterface
 }
-const HomeAffirmationListItem = ({
+export const HomeAffirmationListItem = ({
   navigation,
   affirmation
 }: HomeAffirmationListItemProps) => {
@@ -72,5 +72,3 @@ const HomeAffirmationListItem = ({
     </Card>
   )
 }
-
-export default HomeAffirmationListItem

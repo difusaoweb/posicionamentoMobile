@@ -10,16 +10,16 @@ import {
   usersGetCurrentUser,
   RootState
 } from '../redux'
-import AppRoutes from './App/index.routes'
-import AccessRoutes from './Access/index.routes'
-import NotificationAlert from '../components/atoms/NotificationAlert'
-import Loading from '../components/atoms/Loading'
-import BannerHeader from '../components/atoms/BannerHeader'
+import { AppRoutes } from './App/index.routes'
+import { AccessRoutes } from './Access/index.routes'
+import { NotificationAlert } from '../components/atoms/NotificationAlert'
+import { Loading } from '../components/atoms/Loading'
+import { BannerHeader } from '../components/atoms/BannerHeader'
 import { styles } from './index.style'
 
 const Stack = createStackNavigator()
 
-const Routes: React.FC = () => {
+export const Routes: React.FC = () => {
   const dispatch = useDispatch()
   const { currentToken, isAuthenticated } = useSelector(
     (state: ReturnType<RootState>) => state.access
@@ -75,5 +75,3 @@ const Routes: React.FC = () => {
     </View>
   )
 }
-
-export default Routes

@@ -4,11 +4,11 @@ import { useTheme } from 'react-native-paper'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useTranslation } from 'react-i18next'
 
-import HomePage from '../../pages/Home'
-import TrendingPage from '../../pages/Trending'
-import SearchPage from '../../pages/Search'
-import AddPage from '../../pages/Add'
-import ProfilePage from '../../pages/Profile'
+import { HomePage } from '../../pages/Home'
+import { TrendingPage } from '../../pages/Trending'
+import { SearchPage } from '../../pages/Search'
+import { AddPage } from '../../pages/Add'
+import { ProfilePage } from '../../pages/Profile'
 
 const TabStack = createMaterialBottomTabNavigator()
 
@@ -20,7 +20,7 @@ interface TabInterface {
     icon: string
   }
 }
-const TabRoutes: React.FC = () => {
+export const TabRoutes: React.FC = () => {
   const [t] = useTranslation('tabRoutes')
 
   const tabsItens: TabInterface[] = [
@@ -94,5 +94,3 @@ const TabRoutes: React.FC = () => {
     </TabStack.Navigator>
   )
 }
-
-export default TabRoutes

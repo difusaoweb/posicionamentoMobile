@@ -2,18 +2,18 @@ import * as React from 'react'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { useSelector } from 'react-redux'
 
-import ScreenWrapper from '../../ScreenWrapper'
+import { ScreenWrapper } from '../../ScreenWrapper'
 import { RootState } from '../../redux'
-import ProfileSigned from '../../components/ecosystems/ProfileSigned'
-import ProfileNotSigned from '../../components/ecosystems/ProfileNotSigned'
+import { ProfileSigned } from '../../components/ecosystems/ProfileSigned'
+import { ProfileNotSigned } from '../../components/ecosystems/ProfileNotSigned'
 
 interface ProfilePageProps {
   navigation: StackNavigationProp<{}>
   userId: number | null
 }
-const ProfilePage = ({ navigation, userId }: ProfilePageProps) => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.access)
-  const { currentUser } = useSelector((state: RootState) => state.users)
+export const ProfilePage = ({ navigation, userId }: ProfilePageProps) => {
+  const { isAuthenticated } = useSelector((state: ReturnType<RootState>) => state.access)
+  const { currentUser } = useSelector((state: ReturnType<RootState>) => state.users)
 
   const theUserId = userId ?? !!isAuthenticated ? currentUser?.id ?? 0 : 0
 
@@ -27,5 +27,3 @@ const ProfilePage = ({ navigation, userId }: ProfilePageProps) => {
     </ScreenWrapper>
   )
 }
-
-export default ProfilePage

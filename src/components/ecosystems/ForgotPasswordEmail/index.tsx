@@ -11,7 +11,7 @@ import { accessResetPassword } from '../../../redux'
 interface ForgotPasswordEmailProps {
   navigation: StackNavigationProp<{}>
 }
-const ForgotPasswordEmail = ({ navigation }: ForgotPasswordEmailProps) => {
+export const ForgotPasswordEmail = ({ navigation }: ForgotPasswordEmailProps) => {
   const dispatch = useDispatch()
   const [tGeneral] = useTranslation('general')
   const [t] = useTranslation('forgotPassword')
@@ -70,5 +70,3 @@ const ForgotPasswordEmail = ({ navigation }: ForgotPasswordEmailProps) => {
     </>
   )
 }
-
-export default ForgotPasswordEmail

@@ -11,7 +11,7 @@ interface HomeAffirmationListItemFooterOpnionProps {
   opinionValue: number | null
   opinionAmount: number
 }
-const HomeAffirmationListItemFooterOpnion = ({
+export const HomeAffirmationListItemFooterOpnion = ({
   active,
   opinionValue,
   opinionAmount
@@ -64,5 +64,3 @@ const HomeAffirmationListItemFooterOpnion = ({
     </>
   )
 }
-
-export default HomeAffirmationListItemFooterOpnion

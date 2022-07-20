@@ -18,25 +18,27 @@ export const affirmationService = {
 async function getAffirmationsHome({
   page
 }: GetAffirmationsHomeParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('affirmations/home', {
+  return await api.get('/affirmations/home', {
     params: { page, per_page: 10 }
   })
 }
 
-async function getAffirmationsTrending(): Promise<AxiosResponse> {
-  return await api.get('affirmations/trending')
+async function getAffirmationsTrending(page: number): Promise<AxiosResponse> {
+  return await api.get('/affirmations/trending', {
+    params: { page, per_page: 10 }
+  })
 }
 
 async function getAffirmationsSearch({
-  search
+  search, page
 }: GetAffirmationsSearchParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('affirmations/search', { params: { search } })
+  return await api.get('/affirmations/search', { params: { search, page, per_page: 10 } })
 }
 
 async function getAffirmationSingle({
   affirmationId
 }: GetAffirmationSingleParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('affirmations/affirmation', {
+  return await api.get('/affirmations/affirmation', {
     params: { affirmation_id: affirmationId }
   })
 }
@@ -44,7 +46,7 @@ async function getAffirmationSingle({
 async function postAffirmationAdd({
   affirmationMessage
 }: PostAffirmationAddParametersServiceInterface): Promise<AxiosResponse> {
-  return await api.get('affirmations/create', {
+  return await api.get('/affirmations/create', {
     params: { affirmation_message: affirmationMessage }
   })
 }

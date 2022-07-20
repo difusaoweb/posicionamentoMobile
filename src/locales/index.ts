@@ -1,8 +1,9 @@
 import * as Localization from 'expo-localization'
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import pt from './pt'
-import en from './en'
+
+import { pt } from './pt'
+import { en } from './en'
 
 i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },

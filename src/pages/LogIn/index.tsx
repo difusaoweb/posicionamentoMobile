@@ -1,19 +1,19 @@
 import * as React from 'react'
-import { View } from 'react-native'
+import { View, Image } from 'react-native'
 import { Appbar, TextInput, Title, Button, useTheme } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
-import ScreenWrapper from '../../ScreenWrapper'
+import { ScreenWrapper } from '../../ScreenWrapper'
 import { styles } from './index.style'
 import { getLogIn, RootState } from '../../redux'
-import Logo from '../../assets/images/logo.svg'
+import LogoImage from '../../assets/images/logo.png'
 
 interface LogInPageProps {
   navigation: StackNavigationProp<{}>
 }
-const LogInPage = ({ navigation }: LogInPageProps) => {
+export const LogInPage = ({ navigation }: LogInPageProps) => {
   const { isAuthenticated } = useSelector(
     (state: ReturnType<RootState>) => state.access
   )
@@ -55,7 +55,7 @@ const LogInPage = ({ navigation }: LogInPageProps) => {
       <ScreenWrapper>
         <View style={styles.container}>
           <View style={[styles.row, styles.justifyContentCenter, styles.mB16]}>
-            <Logo width={120} height={40} />
+            <Image source={LogoImage} width={120} height={40} style={{ width: 120, height: 40, resizeMode: 'contain' }} />
           </View>
           <View style={[styles.row, styles.justifyContentCenter]}>
             <Title>{t('title')}</Title>
@@ -121,5 +121,3 @@ const LogInPage = ({ navigation }: LogInPageProps) => {
     </>
   )
 }
-
-export default LogInPage

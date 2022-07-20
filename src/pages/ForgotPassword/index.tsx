@@ -5,19 +5,19 @@ import { useSelector } from 'react-redux'
 import type { StackNavigationProp } from '@react-navigation/stack'
 import { useTranslation } from 'react-i18next'
 
-import ScreenWrapper from '../../ScreenWrapper'
+import { ScreenWrapper } from '../../ScreenWrapper'
 import { styles } from './index.style'
 import { RootState } from '../../redux'
 import Logo from '../../assets/images/logo.svg'
-import ForgotPasswordEmail from '../../components/ecosystems/ForgotPasswordEmail'
-import ForgotPasswordVerifyCode from '../../components/ecosystems/ForgotPasswordVerifyCode'
-import ForgotPasswordChangePassword from '../../components/ecosystems/ForgotPasswordChangePassword'
-import ForgotPasswordFinished from '../../components/ecosystems/ForgotPasswordFinished'
+import { ForgotPasswordEmail } from '../../components/ecosystems/ForgotPasswordEmail'
+import { ForgotPasswordVerifyCode } from '../../components/ecosystems/ForgotPasswordVerifyCode'
+import { ForgotPasswordChangePassword } from '../../components/ecosystems/ForgotPasswordChangePassword'
+import { ForgotPasswordFinished } from '../../components/ecosystems/ForgotPasswordFinished'
 
 interface ForgotPasswordPageProps {
   navigation: StackNavigationProp<{}>
 }
-const ForgotPasswordPage = ({ navigation }: ForgotPasswordPageProps) => {
+export const ForgotPasswordPage = ({ navigation }: ForgotPasswordPageProps) => {
   const {
     isAuthenticated,
     resetPasswordVerifyCodeActived,
@@ -56,5 +56,3 @@ const ForgotPasswordPage = ({ navigation }: ForgotPasswordPageProps) => {
     </>
   )
 }
-
-export default ForgotPasswordPage

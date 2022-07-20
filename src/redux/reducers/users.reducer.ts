@@ -2,14 +2,17 @@ import {
   USERS_ACTION_GET_CURRENT_USER,
   GET_USER_PROFILE,
   UserActionTypes,
-  UserState
+  UserState,
+  REDUX_USERS_CREATE_USER
 } from '../types'
 
 const initialState: UserState = {
   currentUser: null,
   profile: null,
   getCurrentUserError: null,
-  getUserProfileError: null
+  getUserProfileError: null,
+  createUserUserId: null,
+  createUserError: null
 }
 
 export function usersReducer(
@@ -28,6 +31,13 @@ export function usersReducer(
         ...state,
         profile: action.payload.success?.profile ?? null,
         getUserProfileError: action.payload.failure
+      }
+    }
+    case REDUX_USERS_CREATE_USER: {
+      return {
+        ...state,
+        createUserUserId: action.payload.success?.userId ?? null,
+        createUserError: action.payload.failure ?? null
       }
     }
     default:

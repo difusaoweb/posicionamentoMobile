@@ -11,7 +11,7 @@ import { accessResetPasswordVerifyCode } from '../../../redux'
 interface ForgotPasswordVerifyCodeProps {
   navigation: StackNavigationProp<{}>
 }
-const ForgotPasswordVerifyCode = ({
+export const ForgotPasswordVerifyCode = ({
   navigation
 }: ForgotPasswordVerifyCodeProps) => {
   const dispatch = useDispatch()
@@ -72,5 +72,3 @@ const ForgotPasswordVerifyCode = ({
     </>
   )
 }
-
-export default ForgotPasswordVerifyCode

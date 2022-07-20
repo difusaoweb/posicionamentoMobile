@@ -3,14 +3,14 @@ import { TouchableOpacity } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import type { StackNavigationProp } from '@react-navigation/stack'
 
-import AffirmationHeroButtonOpinionContent from '../AffirmationHeroButtonOpinionContent'
+import { AffirmationHeroButtonOpinionContent } from '../AffirmationHeroButtonOpinionContent'
 import {
   RootState,
   updateOpinionButtonPressedAffirmation,
   setOpinionAffirmation,
   deleteOpinionAffirmation
 } from '../../../redux'
-import Loading from '../../atoms/Loading'
+import { Loading } from '../../atoms/Loading'
 import { styles } from './index.style'
 
 interface AffirmationHeroButtonOpinionProps {
@@ -19,23 +19,23 @@ interface AffirmationHeroButtonOpinionProps {
   navigation: StackNavigationProp<{}>
   affirmationId: number
 }
-const AffirmationHeroButtonOpinion = ({
+export const AffirmationHeroButtonOpinion = ({
   opinionValue,
   opinionAmount,
   navigation,
   affirmationId
 }: AffirmationHeroButtonOpinionProps) => {
   const dispatch = useDispatch()
-  const { isAuthenticated } = useSelector((state: RootState) => state.access)
+  const { isAuthenticated } = useSelector((state: ReturnType<RootState>) => state.access)
   const { affirmationSingle } = useSelector(
-    (state: RootState) => state.affirmations
+    (state: ReturnType<RootState>) => state.affirmations
   )
   const {
     affirmationButtonOpinionPressed,
     affirmationCurrentOpinionValue,
     affirmationBeforeCurrentOpinionValue,
     affirmationDeletedOpinionValue
-  } = useSelector((state: RootState) => state.opinions)
+  } = useSelector((state: ReturnType<RootState>) => state.opinions)
 
   const [isLoading, setIsLoading] = React.useState(false)
   const [currentActive, setCurrentActive] = React.useState(false)
@@ -69,17 +69,17 @@ const AffirmationHeroButtonOpinion = ({
   }
 
   async function onDeleteOpinionAffirmation() {
-    setIsLoading(true)
-    await dispatch(updateOpinionButtonPressedAffirmation(true))
+    // setIsLoading(true)
+    // await dispatch(updateOpinionButtonPressedAffirmation(true))
 
-    await dispatch(
-      deleteOpinionAffirmation({
-        opinionId: affirmationSingle?.opinion?.id ?? 0
-      })
-    )
+    // await dispatch(
+    //   deleteOpinionAffirmation({
+    //     opinionId: affirmationSingle?.opinion?.id ?? 0
+    //   })
+    // )
 
-    await dispatch(updateOpinionButtonPressedAffirmation(false))
-    setIsLoading(false)
+    // await dispatch(updateOpinionButtonPressedAffirmation(false))
+    // setIsLoading(false)
   }
 
   React.useEffect(() => {
@@ -136,5 +136,3 @@ const AffirmationHeroButtonOpinion = ({
     </TouchableOpacity>
   )
 }
-
-export default AffirmationHeroButtonOpinion

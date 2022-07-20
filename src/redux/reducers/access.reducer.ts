@@ -4,7 +4,6 @@ import {
   ACCESS_GET_CURRENT_TOKEN,
   ACCESS_GET_IS_AUTHENTICATED,
   GET_SIGN_IN,
-  POST_SIGN_UP,
   DELETE_LOG_OUT,
   ACCESS_RESET_PASSWORD,
   ACCESS_RESET_PASSWORD_VERIFY_CODE,
@@ -17,7 +16,6 @@ const initialState: AccessState = {
   isAuthenticated: null,
   getCurrentTokenError: null,
   getLogInError: null,
-  postSignUpError: null,
   deleteLogOutError: null,
   resetPasswordVerifyCodeActived: null,
   resetPasswordToken: null,
@@ -50,12 +48,6 @@ export function accessReducer(
         ...state,
         currentToken: action.payload.success?.token ?? null,
         getLogInError: action.payload.failure
-      }
-    }
-    case POST_SIGN_UP: {
-      return {
-        ...state,
-        postSignUpError: action.payload.failure
       }
     }
     case DELETE_LOG_OUT: {

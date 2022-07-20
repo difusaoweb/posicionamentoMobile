@@ -10,7 +10,7 @@ interface AffirmationHeroButtonOpinionContentProps {
   opinionValue: number
   opinionAmount: number
 }
-const AffirmationHeroButtonOpinionContent = ({
+export const AffirmationHeroButtonOpinionContent = ({
   active,
   opinionValue,
   opinionAmount
@@ -58,5 +58,3 @@ const AffirmationHeroButtonOpinionContent = ({
     </>
   )
 }
-
-export default AffirmationHeroButtonOpinionContent

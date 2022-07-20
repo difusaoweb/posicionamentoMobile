@@ -1,4 +1,10 @@
 {
+  "error": {
+    "409": "Usuário já existe."
+  },
   "logIn": "Entrar",
-  "signUp": "Registrar"
+  "signUp": "Registrar",
+  "title": "Cadastrar",
+  "description": "Inscreva-se para ver fotos e vídeos de seus amigos.",
+  "emailAlreadyUsed": "E-mail already used."
 }

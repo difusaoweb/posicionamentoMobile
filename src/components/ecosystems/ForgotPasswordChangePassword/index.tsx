@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { styles } from './index.style'
 import { accessResetPasswordChangePassword } from '../../../redux'
 
-const ForgotPasswordChangePassword = () => {
+export const ForgotPasswordChangePassword = () => {
   const dispatch = useDispatch()
   const [tGeneral] = useTranslation('general')
   const [t] = useTranslation('forgotPassword')
@@ -80,5 +80,3 @@ const ForgotPasswordChangePassword = () => {
     </>
   )
 }
-
-export default ForgotPasswordChangePassword

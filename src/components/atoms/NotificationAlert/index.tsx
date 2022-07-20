@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { setNotification, RootState } from '../../../redux'
 import { styles } from './index.styles'
 
-const NotificationAlert: React.FC = () => {
+export const NotificationAlert: React.FC = () => {
   const { message } = useSelector(
     (state: ReturnType<RootState>) => state.notifications
   )
@@ -61,5 +61,3 @@ const NotificationAlert: React.FC = () => {
 
   return <></>
 }
-
-export default NotificationAlert

@@ -4,7 +4,7 @@ import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 import styles from './index.style'
 
-const Loading: React.FC = () => {
+export const Loading: React.FC = () => {
   const { colors } = useTheme()
 
   return (
@@ -13,5 +13,3 @@ const Loading: React.FC = () => {
     </View>
   )
 }
-
-export default Loading

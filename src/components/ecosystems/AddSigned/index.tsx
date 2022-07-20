@@ -6,9 +6,9 @@ import { useTranslation } from 'react-i18next'
 
 import { styles } from './index.style'
 import { postAffirmationAdd } from '../../../redux'
-import Loading from '../../atoms/Loading'
+import { Loading } from '../../atoms/Loading'
 
-const AddSigned = () => {
+export const AddSigned = () => {
   const dispatch = useDispatch()
   const [t] = useTranslation('general')
 
@@ -45,5 +45,3 @@ const AddSigned = () => {
     </View>
   )
 }
-
-export default AddSigned

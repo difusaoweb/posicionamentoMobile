@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   avaliationRow: {
-    flex: 5,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },

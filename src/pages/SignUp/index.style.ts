@@ -1,15 +1,33 @@
 import { StyleSheet } from 'react-native'
+
 export const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
-    paddingTop: 24,
-    paddingHorizontal: 12
+    alignContent: 'flex-start',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 20,
+    paddingTop: 30
   },
-  inputContainerStyle: {
-    margin: 8
+  row: {
+    flexDirection: 'row',
+    width: '100%'
+  },
+  rowJustifyEnd: {
+    justifyContent: 'flex-end'
+  },
+  justifyContentCenter: {
+    justifyContent: 'center'
+  },
+  mB16: {
+    marginBottom: 16
+  },
+  input: {
+    width: '100%',
+    marginBottom: 18
   },
   button: {
-    margin: 4
+    marginBottom: 8
+  },
+  buttonWidht100: {
+    width: '100%'
   }
 })

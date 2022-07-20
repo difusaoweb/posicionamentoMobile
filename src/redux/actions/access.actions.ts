@@ -21,7 +21,7 @@ import {
   ACCESS_RESET_PASSWORD_VERIFY_CODE,
   AccessResetPasswordChangePasswordParameters,
   ACCESS_RESET_PASSWORD_CHANGE_PASSWORD,
-  ACCESS_RESET_PASSWORD_CHANGE_PASSWORD_FINISHED
+  // ACCESS_RESET_PASSWORD_CHANGE_PASSWORD_FINISHED
 } from '../types'
 import { accessService } from '../../services'
 import { request, failure } from './common.actions'
@@ -90,11 +90,11 @@ const accessActionResetPasswordChangePassword: ActionCreator<
   }
 }
 
-const accessActionResetPasswordFinished: ActionCreator<
-  AccessActionTypes
-> = () => {
-  return { type: ACCESS_RESET_PASSWORD_CHANGE_PASSWORD_FINISHED }
-}
+// const accessActionResetPasswordFinished: ActionCreator<
+//   AccessActionTypes
+// > = () => {
+//   return { type: ACCESS_RESET_PASSWORD_CHANGE_PASSWORD_FINISHED, payload: null }
+// }
 
 export function accessGetCurrentToken() {
   return async dispatch => {
@@ -173,45 +173,7 @@ export function getLogIn({
           err.response?.data?.failure?.message ?? returnError.message
       }
 
-      dispatch(setNotification({ message: returnError.message }))
-      dispatch(failure(returnError.message))
-    }
-  }
-}
-
-export function postSignUp({
-  userLogin,
-  userPass,
-  userEmail,
-  displayName
-}: PostSignUpParametersServiceInterface) {
-  return async dispatch => {
-    try {
-      dispatch(request())
-
-      const { data } = await accessService.postSignUp({
-        userLogin,
-        userPass,
-        userEmail,
-        displayName
-      })
-      const userId = data?.success?.user_id
-
-      dispatch(postSignUpSuccess({ userId }))
-    } catch (err) {
-      const returnError = {
-        status: 500,
-        message: 'error when sign up'
-      }
-      if (axios.isAxiosError(err)) {
-        err as AxiosError
-        returnError.status = err.response?.status ?? returnError.status
-        returnError.message =
-          err.response?.data?.failure?.message ?? returnError.message
-      }
-
-      dispatch(setNotification({ message: returnError.message }))
-      dispatch(postSignUpFailure(returnError))
+      dispatch(setNotification(returnError.message))
       dispatch(failure(returnError.message))
     }
   }
@@ -334,8 +296,8 @@ export function accessResetPasswordChangePassword({
   }
 }
 
-export const accessResetPasswordFinished = () => {
-  return dispatch => {
-    dispatch(accessActionResetPasswordFinished())
-  }
-}
+// export const accessResetPasswordFinished = () => {
+//   return dispatch => {
+//     dispatch(accessActionResetPasswordFinished())
+//   }
+// }
